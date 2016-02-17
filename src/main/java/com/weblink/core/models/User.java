@@ -24,7 +24,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Size(min=3, max=64)
+    @Size(min=3, max=128)
     @Column(name = "password", nullable = false)
     private String password;
 

@@ -38,7 +38,6 @@ public class LoginMenuController {
         int day_birth, month_birth, year_birth;
         Date birth;
         Set<UserProfile> userProfiles;
-        UserProfile userProfile;
 
         Map<String, String[]> parameters = request.getParameterMap();
 
