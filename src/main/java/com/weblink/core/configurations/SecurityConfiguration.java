@@ -47,10 +47,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         return authenticationProvider;
     }
 
+    /*Creates the session Registry Bean to keep tabs on Users*/
     @Bean(name = "sessionRegistry")
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
+
+    /*Configuration
+        CSRF: Protected
+        Fixation Attack: Protected
+     */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -58,9 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 .antMatchers("/", "/loginMenu/").permitAll()
                 .antMatchers("/admin/**").access("hasRole('Admin')")
-                .and().formLogin().loginPage("/loginForm").successHandler(customSuccessHandler)
-                    .usernameParameter("email")
-                    .passwordParameter("password")
+                .and().formLogin().loginPage("/loginForm").successHandler(customSuccessHandler).usernameParameter("email").passwordParameter("password")
                 .and().csrf()
                 .and().exceptionHandling().accessDeniedPage("/accessDenied")
                 .and().sessionManagement().maximumSessions(1).expiredUrl("/loginMenu?expired=true").sessionRegistry(sessionRegistry());
