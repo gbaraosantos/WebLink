@@ -1,5 +1,6 @@
 package com.weblink.core.controllers;
 
+import com.weblink.core.common.Logger;
 import com.weblink.core.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,26 +21,15 @@ import java.util.List;
 
 @Controller
 public class HomepageController {
-    @RequestMapping(value = "/loginMenu" , method = RequestMethod.GET)
-    public String redirectLogin(){
-        return "Login";
-    }
 
-
+    /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/accessDenied" , method = RequestMethod.GET)
     public String accessDeniedPage(Model model){
         model.addAttribute("user", getUserName());
-
+        new Logger().log(getUserName() + ": Tried to access a page to which he has no access");
         return "403";
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
-        return "redirect:/loginMenu?logout";
-    }
 
     private String getUserName() {
         String userName;

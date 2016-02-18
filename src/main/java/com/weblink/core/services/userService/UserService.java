@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserService {
     boolean register(User user);
     List<User> getOnlineUsers();
+    User getSingleUser(String email);
 }

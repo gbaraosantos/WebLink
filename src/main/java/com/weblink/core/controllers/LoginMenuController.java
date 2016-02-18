@@ -8,26 +8,68 @@ import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.userProfileService.UserProfileService;
 import com.weblink.core.services.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @Controller
 public class LoginMenuController {
 
-    @Autowired
-    UserService userService;
+    @Autowired UserService userService;
     @Autowired UserProfileService userProfileService;
 
-    @RequestMapping(value="/loginForm", method = RequestMethod.GET)
-    public String loginRequest(Model model) {
+
+    /* /loginMenu Request to change to the login Menu*/
+    @RequestMapping(value = "/loginMenu" , method = RequestMethod.GET)
+    public String redirectLogin(){
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/");
+        return "Login";
+    }
+
+    /* /logout Receives a Logout Request*/
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+        new Logger().log(getEmail() + ": Logged out out");
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
+        return "redirect:/loginMenu?logout=true";
+    }
+
+    /* /loginMenu?logout = 1 Logout was Successful */
+    @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"logout"})
+    public String logoutSuccessful(@RequestParam("logout") String val, Model model) {
+        return "Login";
+    }
+
+    /* /loginMenu?logout = 1 Logout was Successful */
+    @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"expired"})
+    public String sessionExpires(@RequestParam("expired") String val, Model model) {
+        if(val.equals("true")) new Logger().log("A user session expired");
+        model.addAttribute("errorMessage" , "A sua sessão expirou");
+        return "Login";
+    }
+
+    /* /loginForm?error Someone failed Login */
+    @RequestMapping(value="/loginForm", method = RequestMethod.GET, params = {"error"})
+    public String loginError(@RequestParam("error") String val, Model model) {
+        new Logger().log(val + "Someone Failed to Login");
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
         return "Login";
     }
+
+    /* /registerForm Someone is Trying to Register */
     @RequestMapping(value="/registerForm", method = RequestMethod.POST)
     public String registerRequest(HttpServletRequest request) {
         String email, password, name, address, nationality;
@@ -66,7 +108,7 @@ public class LoginMenuController {
             year_birth = Integer.parseInt(request.getParameter("ano_reg"));
 
             birth = dateConversion(year_birth,month_birth,day_birth);
-            userProfiles = new HashSet<UserProfile>();
+            userProfiles = new HashSet<>();
             userProfiles.add(userProfileService.getUserProfileByType(UserProfileType.USER));
 
             User user = new User()
@@ -84,8 +126,6 @@ public class LoginMenuController {
                     .setUserProfiles(userProfiles);
 
             userService.register(user);
-            for(User a : userService.getOnlineUsers()) System.out.println(a.getName());
-
 
         }catch (NumberFormatException exception){   new Logger().err_log("Number Format Exception: LoginMenuController.Java Line 63");  }
 
@@ -101,6 +141,16 @@ public class LoginMenuController {
         cal.set(Calendar.DAY_OF_MONTH, day);
 
         return cal.getTime();
+    }
+
+    private String getEmail() {
+        String userName;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) userName = ((UserDetails)principal).getUsername();
+        else userName = principal.toString();
+
+        return userName;
     }
 
 

@@ -20,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Autowired
+    CustomSuccessHandler customSuccessHandler;
+
+    @Autowired
     @Qualifier("customUserDetailsService")
     UserDetailsService userDetailsService;
 
@@ -55,12 +58,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 .antMatchers("/", "/loginMenu/").permitAll()
                 .antMatchers("/admin/**").access("hasRole('Admin')")
-                .and().formLogin().loginPage("/loginForm")
+                .and().formLogin().loginPage("/loginForm").successHandler(customSuccessHandler)
                     .usernameParameter("email")
                     .passwordParameter("password")
                 .and().csrf()
                 .and().exceptionHandling().accessDeniedPage("/accessDenied")
-                .and().sessionManagement().maximumSessions(1).expiredUrl("/login?expired").sessionRegistry(sessionRegistry());
+                .and().sessionManagement().maximumSessions(1).expiredUrl("/loginMenu?expired=true").sessionRegistry(sessionRegistry());
+
 
     }
 

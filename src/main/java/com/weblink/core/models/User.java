@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="Users")
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
@@ -110,20 +110,16 @@ public class User {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof User))
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (!(obj instanceof User)) return false;
+
         User other = (User) obj;
-        if (this.id != other.getId())
-            return false;
-        if (this.email == null) {
-            if (other.getEmail() != null)
-                return false;
-        } else if (!this.email.equals(other.getEmail()))
-            return false;
+
+        if (this.id != other.getId()) return false;
+        if (this.email == null) return false;
+        if (this.email.equals(other.getEmail())) return true;
+
         return true;
     }
 
@@ -136,6 +132,5 @@ public class User {
                 ", state=" + this.state +
                 ", userProfiles=" + userProfiles +"]";
     }
-
 }
 

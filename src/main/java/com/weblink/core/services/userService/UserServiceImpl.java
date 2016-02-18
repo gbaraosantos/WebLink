@@ -51,7 +51,8 @@ public class UserServiceImpl implements UserService{
         return userList;
     }
 
-    private User getSingleUser(String email){
+    @Override
+    public User getSingleUser(String email){
         List<User> userList = dao.getUserByEmail(email);
         if(userList==null || userList.size() <= 0) throw new UsernameNotFoundException(email + ": User does not exist");
         return userList.get(0);
