@@ -1,6 +1,5 @@
-package com.weblink.core.services.UserProfileService;
+package com.weblink.core.services.userProfileService;
 
-import com.weblink.core.dao.userManagementDao.UserManagementDao;
 import com.weblink.core.dao.userProfileDao.UserProfileDao;
 import com.weblink.core.models.UserProfile;
 import com.weblink.core.models.enums.UserProfileType;

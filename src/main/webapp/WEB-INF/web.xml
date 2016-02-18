@@ -4,9 +4,14 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
+    <!-- Maps 404 not found error to the 404.jsp -->
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/views/404.jsp</location>
     </error-page>
 
+    <!-- Sets up timeout for a session -->
+    <session-config>
+        <session-timeout>20</session-timeout>
+    </session-config>
 </web-app>

@@ -5,8 +5,8 @@ import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
 import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
-import com.weblink.core.services.UserProfileService.UserProfileService;
-import com.weblink.core.services.registerService.RegisterService;
+import com.weblink.core.services.userProfileService.UserProfileService;
+import com.weblink.core.services.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +20,7 @@ import java.util.*;
 public class LoginMenuController {
 
     @Autowired
-    RegisterService registerService;
-
+    UserService userService;
     @Autowired
     UserProfileService userProfileService;
 
@@ -30,7 +29,6 @@ public class LoginMenuController {
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
         return "Login";
     }
-
     @RequestMapping(value="/registerForm", method = RequestMethod.POST)
     public String registerRequest(HttpServletRequest request) {
         String email, password, name, address, nationality;
@@ -38,6 +36,7 @@ public class LoginMenuController {
         int day_birth, month_birth, year_birth;
         Date birth;
         Set<UserProfile> userProfiles;
+
 
         Map<String, String[]> parameters = request.getParameterMap();
 
@@ -84,7 +83,9 @@ public class LoginMenuController {
                     .setState(State.ACTIVE.getState())
                     .setUserProfiles(userProfiles);
 
-            registerService.registration(user);
+            userService.register(user);
+            for (User a : userService.getOnlineUsers()) System.out.println(a.getName());
+
 
         }catch (NumberFormatException exception){   new Logger().err_log("Number Format Exception: LoginMenuController.Java Line 63");  }
 

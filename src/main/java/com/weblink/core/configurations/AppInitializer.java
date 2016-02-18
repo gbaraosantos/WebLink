@@ -3,11 +3,16 @@ package com.weblink.core.configurations;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import javax.servlet.SessionTrackingMode;
 
+import org.springframework.context.ApplicationListener;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+
+import java.util.HashSet;
 
 public class AppInitializer implements WebApplicationInitializer {
 
@@ -21,8 +26,15 @@ public class AppInitializer implements WebApplicationInitializer {
         container.addListener(new ContextLoaderListener(ctx));
         container.setInitParameter("defaultHtmlEscape", "true");
 
+        container.addListener(new HttpSessionEventPublisher());
+
         ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
+
+        /* <!-- Disables URL-based sessions --> */
+        HashSet<SessionTrackingMode> set = new HashSet<SessionTrackingMode>();
+        set.add(SessionTrackingMode.COOKIE);
+        container.setSessionTrackingModes(set);
     }
 }
