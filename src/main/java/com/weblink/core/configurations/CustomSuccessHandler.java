@@ -3,8 +3,11 @@ package com.weblink.core.configurations;
 
 import com.weblink.core.common.Logger;
 import com.weblink.core.models.User;
+import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.userService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,10 +24,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@PropertySource(value = { "classpath:loginRedirect.properties" })
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
-    @Autowired
-    UserService userService;
+    @Autowired UserService userService;
+    @Autowired private Environment environment;
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -42,33 +46,34 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         List<String> roles = new ArrayList<>();
         for (GrantedAuthority a : authorities) {    roles.add(a.getAuthority());    }
 
-        if (isCoordinator(roles))           url = "/admin";
-        else if (isTeach(roles))            url = "/admin";
-        else if (isAdmin(roles))            url = "/admin";
-        else if (isUser(roles))             url = "/admin";
-        else                                url = "/accessDenied";
+        System.out.println(environment.getRequiredProperty("Admin.redirect"));
 
+        if (isCoordinator(roles))           url = environment.getRequiredProperty("Coordinator.redirect");
+        else if (isTeach(roles))            url = environment.getRequiredProperty("Teacher.redirect");
+        else if (isAdmin(roles))            url = environment.getRequiredProperty("Admin.redirect");
+        else if (isUser(roles))             url = environment.getRequiredProperty("User.redirect");
+        else                                url = environment.getRequiredProperty("Other.redirect");
 
         return url;
     }
 
     private boolean isCoordinator(List<String> roles) {
-        if (roles.contains("ROLE_Coordinator")) return true;
+        if (roles.contains(UserProfileType.COORD.getUserProfileType())) return true;
         return false;
     }
 
     private boolean isUser(List<String> roles) {
-        if (roles.contains("ROLE_User")) return true;
+        if (roles.contains(UserProfileType.USER.getUserProfileType())) return true;
         return false;
     }
 
     private boolean isAdmin(List<String> roles) {
-        if (roles.contains("ROLE_Admin")) return true;
+        if (roles.contains(UserProfileType.ADMIN.getUserProfileType())) return true;
         return false;
     }
 
     private boolean isTeach(List<String> roles) {
-        if (roles.contains("ROLE_Teacher")) return true;
+        if (roles.contains(UserProfileType.TEACHER.getUserProfileType())) return true;
         return false;
     }
 
