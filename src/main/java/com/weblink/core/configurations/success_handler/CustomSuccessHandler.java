@@ -1,10 +1,9 @@
-package com.weblink.core.configurations;
+package com.weblink.core.configurations.success_handler;
 
 
 import com.weblink.core.common.Logger;
-import com.weblink.core.models.User;
 import com.weblink.core.models.enums.UserProfileType;
-import com.weblink.core.services.userService.UserService;
+import com.weblink.core.services.user_service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;

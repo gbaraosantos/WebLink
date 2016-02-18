@@ -1,4 +1,4 @@
-package com.weblink.core.services.userProfileService;
+package com.weblink.core.services.user_profile_service;
 
 
 import com.weblink.core.models.UserProfile;

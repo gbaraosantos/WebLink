@@ -1,4 +1,4 @@
-package com.weblink.core.dao.userProfileDao;
+package com.weblink.core.dao.user_profile_dao;
 
 import com.weblink.core.models.UserProfile;
 import com.weblink.core.models.enums.UserProfileType;

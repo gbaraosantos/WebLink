@@ -1,4 +1,4 @@
-package com.weblink.core.configurations;
+package com.weblink.core.configurations.security_configuration;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

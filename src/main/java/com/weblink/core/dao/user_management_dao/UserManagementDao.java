@@ -1,4 +1,4 @@
-package com.weblink.core.dao.userManagementDao;
+package com.weblink.core.dao.user_management_dao;
 
 
 import com.weblink.core.models.User;

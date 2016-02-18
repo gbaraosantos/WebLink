@@ -1,6 +1,6 @@
-package com.weblink.core.services.userService;
+package com.weblink.core.services.user_service;
 
-import com.weblink.core.dao.userManagementDao.UserManagementDao;
+import com.weblink.core.dao.user_management_dao.UserManagementDao;
 import com.weblink.core.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;

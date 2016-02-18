@@ -1,4 +1,4 @@
-package com.weblink.core.configurations;
+package com.weblink.core.configurations.hibernate_configuration;
 
 import java.util.Properties;
 import javax.sql.DataSource;

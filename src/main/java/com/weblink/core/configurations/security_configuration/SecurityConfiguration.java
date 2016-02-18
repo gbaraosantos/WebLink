@@ -1,5 +1,6 @@
-package com.weblink.core.configurations;
+package com.weblink.core.configurations.security_configuration;
 
+import com.weblink.core.configurations.success_handler.CustomSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -56,20 +57,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     /*Configuration
         CSRF: Protected
         Fixation Attack: Protected
+        X-XSS Attack: Protected
      */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        /*Page permissions and Role attribution*/
         http.authorizeRequests()
                 .antMatchers("/", "/loginMenu/").permitAll()
-                .antMatchers("/admin/**").access("hasRole('Admin')")
-                .and().formLogin().loginPage("/loginForm").successHandler(customSuccessHandler).usernameParameter("email").passwordParameter("password")
-                .and().csrf()
-                .and().exceptionHandling().accessDeniedPage("/accessDenied")
-                .and().sessionManagement().maximumSessions(1).expiredUrl("/loginMenu?expired=true").sessionRegistry(sessionRegistry());
+                .antMatchers("/admin/**").access("hasRole('Admin')");
 
+        http.exceptionHandling()
+                .accessDeniedPage("/accessDenied");
 
+        /*Session Management*/
+        http.sessionManagement()
+                .maximumSessions(1)
+                .expiredUrl("/loginMenu?expired=true")
+                .sessionRegistry(sessionRegistry());
+
+        /*Login, Logout configuration and csrf protection*/
+        http.formLogin()
+                .loginPage("/loginForm")
+                .successHandler(customSuccessHandler)
+                .usernameParameter("email")
+                .passwordParameter("password");
+
+        http.csrf();
+
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/index")
+                .invalidateHttpSession(true)
+                .deleteCookies();
     }
 
 

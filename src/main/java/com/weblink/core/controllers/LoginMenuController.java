@@ -5,8 +5,8 @@ import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
 import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
-import com.weblink.core.services.userProfileService.UserProfileService;
-import com.weblink.core.services.userService.UserService;
+import com.weblink.core.services.user_profile_service.UserProfileService;
+import com.weblink.core.services.user_service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,7 +40,8 @@ public class LoginMenuController {
     /* /logout Receives a Logout Request*/
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-        new Logger().log(getEmail() + ": Logged out out");
+        if ((SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/");
+        new Logger().log(getEmail() + ": Logged out");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);

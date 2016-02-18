@@ -1,4 +1,4 @@
-package com.weblink.core.services.userService;
+package com.weblink.core.services.user_service;
 
 import com.weblink.core.models.User;
 
