@@ -21,8 +21,7 @@ public class LoginMenuController {
 
     @Autowired
     UserService userService;
-    @Autowired
-    UserProfileService userProfileService;
+    @Autowired UserProfileService userProfileService;
 
     @RequestMapping(value="/loginForm", method = RequestMethod.GET)
     public String loginRequest(Model model) {
@@ -36,6 +35,7 @@ public class LoginMenuController {
         int day_birth, month_birth, year_birth;
         Date birth;
         Set<UserProfile> userProfiles;
+
 
 
         Map<String, String[]> parameters = request.getParameterMap();
@@ -84,7 +84,7 @@ public class LoginMenuController {
                     .setUserProfiles(userProfiles);
 
             userService.register(user);
-            for (User a : userService.getOnlineUsers()) System.out.println(a.getName());
+            for(User a : userService.getOnlineUsers()) System.out.println(a.getName());
 
 
         }catch (NumberFormatException exception){   new Logger().err_log("Number Format Exception: LoginMenuController.Java Line 63");  }

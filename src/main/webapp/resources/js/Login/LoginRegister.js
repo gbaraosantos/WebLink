@@ -49,7 +49,7 @@ function verify_registry(){
 	setDefaultBorder(postal2, defaultBorders );
 	setDefaultBorder(city, defaultBorders );
 
-	if (!verifyNull(name) ||
+	if(		!verifyNull(name) 								||
 			!verifyNull(email) 								||
 			!verifyNull(email_again)						||
 			!verifyNull(password)							||
@@ -63,9 +63,12 @@ function verify_registry(){
 			!verify_selected(year_birth) 					||
 			!verify_selected(nacionality) 					||
 			!verifyNull(address) 							||
-			!check_minSize(address, 3) 						|| !check_minSize(email, 3) || !check_minSize(name, 3) ||
+			!check_minSize(address, 3) 						||
+			!check_minSize(email, 3) 						||
+			!check_minSize(name, 3) 						||
 			!verifyNull(postal1) 							||
-			!verifyNull(postal2)							|| !verifyNull(city))return false
+			!verifyNull(postal2)							||
+			!verifyNull(city)								)return false
 
 	return true;
 }
@@ -73,7 +76,7 @@ function verify_registry(){
 function check_minSize(field, size){
 	if(field.value.length >= size)	return true
 
-	alerts("Campo tem de ter pelo menos" + size + " digitos");
+	alerts("Campo tem de ter pelo menos"+size+" digitos");
 	setInputBorderRed (field);
 
 	return false
