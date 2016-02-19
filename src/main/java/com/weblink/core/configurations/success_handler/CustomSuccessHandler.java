@@ -57,23 +57,19 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
     }
 
     private boolean isCoordinator(List<String> roles) {
-        if (roles.contains(UserProfileType.COORD.getUserProfileType())) return true;
-        return false;
+        return roles.contains(UserProfileType.COORD.getUserProfileType());
     }
 
     private boolean isUser(List<String> roles) {
-        if (roles.contains(UserProfileType.USER.getUserProfileType())) return true;
-        return false;
+        return roles.contains(UserProfileType.USER.getUserProfileType());
     }
 
     private boolean isAdmin(List<String> roles) {
-        if (roles.contains(UserProfileType.ADMIN.getUserProfileType())) return true;
-        return false;
+        return roles.contains(UserProfileType.ADMIN.getUserProfileType());
     }
 
     private boolean isTeach(List<String> roles) {
-        if (roles.contains(UserProfileType.TEACHER.getUserProfileType())) return true;
-        return false;
+        return roles.contains(UserProfileType.TEACHER.getUserProfileType());
     }
 
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

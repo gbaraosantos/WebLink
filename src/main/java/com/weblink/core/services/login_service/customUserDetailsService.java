@@ -33,7 +33,6 @@ public class customUserDetailsService implements UserDetailsService{
                 user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));
     }
 
-
     private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<>();
 

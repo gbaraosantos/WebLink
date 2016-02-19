@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.nio.channels.Channel;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
@@ -66,6 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 .antMatchers("/", "/loginMenu/").permitAll()
                 .antMatchers("/admin/**").access("hasRole('Admin')");
+        http.requiresChannel().anyRequest().requiresSecure();
 
         http.exceptionHandling()
                 .accessDeniedPage("/accessDenied");
@@ -89,7 +92,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/index")
                 .invalidateHttpSession(true)
-                .deleteCookies();
+                .deleteCookies("JSESSIONID");
     }
 
 

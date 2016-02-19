@@ -7,6 +7,7 @@ import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.user_profile_service.UserProfileService;
 import com.weblink.core.services.user_service.UserService;
+import com.weblink.core.configurations.application_configuration.AppConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

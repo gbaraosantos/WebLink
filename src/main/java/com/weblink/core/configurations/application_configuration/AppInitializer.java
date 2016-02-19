@@ -35,6 +35,7 @@ public class AppInitializer implements WebApplicationInitializer {
         servlet.setLoadOnStartup(1);
         servlet.addMapping("/");
 
+
         /* <!-- Disables URL-based sessions --> */
         HashSet<SessionTrackingMode> set = new HashSet<>();
         set.add(SessionTrackingMode.COOKIE);

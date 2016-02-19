@@ -1,0 +1,14 @@
+Attacks
+--------------------------------------
+XSS
+CSRF
+FIXATION ATTACK
+HQL Injection
+
+
+Measures
+-------------------------------------
+Verifies Input in both Client side and Server Side for Type, Length, Format and Range
+Password Encryption using Salt
+Platform does not accept file paths from the user to avoid canonicalization issues
+

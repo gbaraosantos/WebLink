@@ -9,7 +9,9 @@ public class Logger {
 
     public Logger(){}
 
-    public Logger(String message){ this.message = getDate() + ": [" + message + "]"; }
+    public Logger(String message){
+        this.message = getDate() + ": [" + message + "]";
+    }
 
     private String getDate(){
         return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date());
