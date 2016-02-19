@@ -15,7 +15,7 @@ public class VerificationTokenDaoImpl extends AbstractDao<Integer, VerificationT
     @SuppressWarnings("unchecked")
     @Override
     public List<VerificationToken> getVerificationToken(User user) {
-        Query query = getSession().createQuery("FROM VerificationTokens AS v WHERE v.user = :user");
+        Query query = getSession().createQuery("FROM VerificationToken AS v WHERE v.user = :user");
         query.setParameter("user", user);
         return (List<VerificationToken>)query.list();
     }
@@ -23,7 +23,7 @@ public class VerificationTokenDaoImpl extends AbstractDao<Integer, VerificationT
     @SuppressWarnings("unchecked")
     @Override
     public List<VerificationToken> getVerificationToken(String string) {
-        Query query = getSession().createQuery("FROM VerificationTokens AS v WHERE v.token = :token");
+        Query query = getSession().createQuery("FROM VerificationToken AS v WHERE v.token = :token");
         query.setParameter("token", string);
         return (List<VerificationToken>)query.list();
     }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface UserManagementDao {
     List<User> getUserByEmail(String email);
     void register(User user);
+
+    void activateUser(User user);
 }

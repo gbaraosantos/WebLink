@@ -56,6 +56,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User getUser(String verificationToken) {
+        List<VerificationToken> tokenList = verificationTokenDao.getVerificationToken(verificationToken);
+        if(tokenList==null || tokenList.size() <= 0) throw new UsernameNotFoundException(verificationToken + ": Token does not exist");
+        return tokenList.get(0).getUser();
+    }
+
+    @Override
+    public void activateAccount(User user) {
+        dao.activateUser(user);
+    }
+
+    @Override
     public User getSingleUser(String email){
         List<User> userList = dao.getUserByEmail(email);
         if(userList==null || userList.size() <= 0) throw new UsernameNotFoundException(email + ": User does not exist");

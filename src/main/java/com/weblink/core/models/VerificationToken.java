@@ -6,13 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Entity
-@Table(name="VerificationTokens")
+@Table(name="VerificationToken")
 public class VerificationToken {
     private static final int Expiration = 60 * 24;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
 
     private String token;
 
@@ -56,11 +56,11 @@ public class VerificationToken {
         return user;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public VerificationToken setId(Long id) {
+    public VerificationToken setId(int id) {
         this.id = id;
         return this;
     }

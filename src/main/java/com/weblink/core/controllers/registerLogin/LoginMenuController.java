@@ -4,6 +4,7 @@ import com.weblink.core.common.Logger;
 import com.weblink.core.controllers.registerLogin.registerValidator;
 import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
+import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.email_service.EmailService;
 import com.weblink.core.services.user_profile_service.UserProfileService;
@@ -98,6 +99,26 @@ public class LoginMenuController {
 
         new Logger().log("Account Created: " + user );
         return "redirect:/loginMenu?register=true";
+    }
+
+    /* /loginMenu?logout = 1 Logout was Successful */
+    @RequestMapping(value="/regitrationConfirm", method = RequestMethod.GET, params = {"token"})
+    public String registrationConfirmation(@RequestParam("token") String token, Model model) {
+        if (token == null){
+            model.addAttribute("errorMessage", "Token invalida");
+            return "Login";
+        }
+
+        User user = userService.getUser(token);
+
+        if (user == null){
+            model.addAttribute("errorMessage", "Token invalida");
+            return "Login";
+        }
+
+        userService.activateAccount(user.setState(State.ACTIVE.getState()));
+        model.addAttribute("successRegister","Account confirmada");
+        return "Login";
     }
 
     private String getEmail() {

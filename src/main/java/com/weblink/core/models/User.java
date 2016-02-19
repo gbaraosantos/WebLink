@@ -63,7 +63,7 @@ public class User{
 
 
     @Column(name="state", nullable=false)
-    private String state= State.ACTIVE.getState();
+    private String state;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "UserPermissions",
