@@ -1,7 +1,9 @@
 package com.weblink.core.services.user_service;
 
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
+import com.weblink.core.dao.verification_token_dao.VerificationTokenDao;
 import com.weblink.core.models.User;
+import com.weblink.core.models.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service("userService")
 @Transactional
@@ -21,6 +24,7 @@ public class UserServiceImpl implements UserService{
     @Autowired private SessionRegistry sessionRegistry;
     @Autowired private UserManagementDao dao;
     @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired private VerificationTokenDao verificationTokenDao;
 
     public boolean checkAvailabiliy(String email) {
         return dao.getUserByEmail(email).size() <= 0;
@@ -56,5 +60,20 @@ public class UserServiceImpl implements UserService{
         List<User> userList = dao.getUserByEmail(email);
         if(userList==null || userList.size() <= 0) throw new UsernameNotFoundException(email + ": User does not exist");
         return userList.get(0);
+    }
+
+    @Override
+    public String createVerificationToken(User user) {
+        String token = UUID.randomUUID().toString();
+        VerificationToken myToken = new VerificationToken(token, user);
+        verificationTokenDao.addVerificationToken(myToken);
+        return token;
+    }
+
+    @Override
+    public VerificationToken getToken(String token) {
+        List<VerificationToken> verificationTokens = verificationTokenDao.getVerificationToken(token);
+        if(verificationTokens==null || verificationTokens.size() <= 0) throw new UsernameNotFoundException(token + ": Token Does not Exist");
+        return verificationTokens.get(0);
     }
 }

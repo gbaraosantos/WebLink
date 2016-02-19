@@ -1,4 +1,4 @@
-package com.weblink.core.controllers;
+package com.weblink.core.controllers.homepage;
 
 import com.weblink.core.common.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;

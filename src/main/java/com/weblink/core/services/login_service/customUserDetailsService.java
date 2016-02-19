@@ -4,6 +4,7 @@ package com.weblink.core.services.login_service;
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
 import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
+import com.weblink.core.models.enums.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,7 +31,7 @@ public class customUserDetailsService implements UserDetailsService{
         User user = users.get(0);
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                user.getState().equals("Active"), true, true, true, getGrantedAuthorities(user));
+                user.getState().equals(State.ACTIVE.getName()), true, true, true, getGrantedAuthorities(user));
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(User user){

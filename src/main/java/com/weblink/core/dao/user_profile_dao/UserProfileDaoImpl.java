@@ -15,14 +15,14 @@ public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implem
     @SuppressWarnings("unchecked")
     public List<UserProfile> getUserProfileById(Integer id) {
         Query query = getSession().createQuery("FROM UserProfile AS u WHERE u.id = :id");
-        query.setString("id", id.toString());
+        query.setParameter("id", id.toString());
         return (List<UserProfile>)query.list();
     }
 
     @SuppressWarnings("unchecked")
     public List<UserProfile> getUserProfileByType(UserProfileType type) {
         Query query = getSession().createQuery("FROM UserProfile AS u WHERE u.type = :type");
-        query.setString("type", type.getUserProfileType());
+        query.setParameter("type", type.getUserProfileType());
         return (List<UserProfile>)query.list();
     }
 

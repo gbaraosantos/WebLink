@@ -13,7 +13,7 @@ public class UserManagementDaoImpl extends AbstractDao<Integer, User> implements
     @SuppressWarnings("unchecked")
     public List<User> getUserByEmail(String email) {
         Query query = getSession().createQuery("FROM User AS u WHERE u.email = :email");
-        query.setString("email", email);
+        query.setParameter("email", email);
         return (List<User>)query.list();
     }
 

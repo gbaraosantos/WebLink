@@ -1,4 +1,4 @@
-package com.weblink.core.controllers.validators;
+package com.weblink.core.controllers.registerLogin;
 
 import com.weblink.core.common.Logger;
 import com.weblink.core.models.User;
@@ -64,7 +64,7 @@ public class registerValidator {
                     .setPostal2(postal2)
                     .setRegDate(new Date())
                     .setLastChangeDate(new Date())
-                    .setState(State.ACTIVE.getState())
+                    .setState(State.INACTIVE.getState())
                     .setUserProfiles(userProfiles);
         }catch (NumberFormatException exception){
             new Logger().err_log("Number Format Exception: LoginMenuController.Java Line 63");

@@ -28,6 +28,10 @@ public class User{
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Size(min=3, max=256)
+    @Column(name = "verificationToken")
+    private String verificationToken;
+
     @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
     @Column(name = "dateBirth", nullable = false)
     private Date dateBirth;
@@ -57,6 +61,7 @@ public class User{
     @Column(name = "lastChangeDate", nullable = false)
     private Date lastChangeDate;
 
+
     @Column(name="state", nullable=false)
     private String state= State.ACTIVE.getState();
 
@@ -64,7 +69,7 @@ public class User{
     @JoinTable(name = "UserPermissions",
             joinColumns = { @JoinColumn(name = "UserID") },
             inverseJoinColumns = { @JoinColumn(name = "ProfileID") })
-    private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+    private Set<UserProfile> userProfiles = new HashSet<>();
 
 
     /*Setters*/
@@ -81,6 +86,7 @@ public class User{
     public User setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
     public User setState(String state) { this.state = state; return this; }
     public User setUserProfiles(Set<UserProfile> userProfiles) { this.userProfiles = userProfiles; return this; }
+    public User setVerificationToken(String verificationToken) { this.verificationToken = verificationToken; return this; }
 
     /*Getters*/
     public int getId() { return id; }
@@ -97,6 +103,7 @@ public class User{
     public Date getLastChangeDate() { return lastChangeDate; }
     public Set<UserProfile> getUserProfiles() { return userProfiles; }
     public String getState() { return state; }
+    public String getVerificationToken() { return verificationToken; }
 
     @Override
     public int hashCode() {

@@ -1,14 +1,13 @@
-package com.weblink.core.controllers;
+package com.weblink.core.controllers.registerLogin;
 
 import com.weblink.core.common.Logger;
-import com.weblink.core.controllers.validators.registerValidator;
+import com.weblink.core.controllers.registerLogin.registerValidator;
 import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
-import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
+import com.weblink.core.services.email_service.EmailService;
 import com.weblink.core.services.user_profile_service.UserProfileService;
 import com.weblink.core.services.user_service.UserService;
-import com.weblink.core.configurations.application_configuration.AppConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,6 +29,7 @@ public class LoginMenuController {
 
     @Autowired UserService userService;
     @Autowired UserProfileService userProfileService;
+    @Autowired EmailService emailService;
 
 
     /* /loginMenu Request to change to the login Menu*/
@@ -84,17 +84,20 @@ public class LoginMenuController {
     @RequestMapping(value="/registerForm", method = RequestMethod.POST)
     public String registerRequest(HttpServletRequest request) {
         Set<UserProfile> userProfiles = new HashSet<>();
-        userProfiles.add(userProfileService.getUserProfileByType(UserProfileType.USER));
+        String token;
 
+        userProfiles.add(userProfileService.getUserProfileByType(UserProfileType.USER));
         User user = new registerValidator().validateInput(request,userProfiles);
+
         if(user == null) return "redirect:/loginMenu?register=false";
 
-        if (userService.register(user)){
-            new Logger().log("Account Created: " + user );
-            return "redirect:/loginMenu?register=true";
-        }
+        if (!userService.register(user)) return "redirect:/loginMenu?register=false";
 
-        return "redirect:/loginMenu?register=false";
+        token = userService.createVerificationToken(user);
+        emailService.sendRegistrationEmail(user,token);
+
+        new Logger().log("Account Created: " + user );
+        return "redirect:/loginMenu?register=true";
     }
 
     private String getEmail() {
