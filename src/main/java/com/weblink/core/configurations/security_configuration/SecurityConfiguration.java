@@ -81,7 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
         /*Login, Logout configuration and csrf protection*/
         http.formLogin()
-                .loginPage("/loginForm")
+                .loginPage("/loginMenu").loginProcessingUrl("/loginForm")
                 .successHandler(customSuccessHandler)
                 .usernameParameter("email")
                 .passwordParameter("password");

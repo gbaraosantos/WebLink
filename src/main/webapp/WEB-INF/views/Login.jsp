@@ -67,6 +67,7 @@
 
                                         		<div class="form-top-left">
                                                     <p style="color: #d43f3a;">${errorMessage}</p>
+                                                    <p style="color: #34AD34;">${successRegister}</p>
                                         			<h3>Login na plataforma</h3>
                                             		<p>Preencha com o seu email e password:</p>
                                         		</div>

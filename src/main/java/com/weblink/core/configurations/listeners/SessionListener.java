@@ -13,7 +13,7 @@ public class SessionListener implements HttpSessionListener{
         synchronized (this) {   sessionCount++; }
 
         new Logger().log("Session #" + sessionCount + " Created - ID: " + event.getSession().getId());
-        event.getSession().setMaxInactiveInterval(15 * 60);
+        event.getSession().setMaxInactiveInterval(30 * 60);
     }
 
     @Override

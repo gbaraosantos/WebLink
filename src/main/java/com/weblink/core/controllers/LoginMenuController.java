@@ -40,7 +40,7 @@ public class LoginMenuController {
 
     /* /logout Receives a Logout Request*/
     @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    public String logoutRequest (HttpServletRequest request, HttpServletResponse response) {
         if ((SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/");
         new Logger().log(getEmail() + ": Logged out");
 
@@ -68,6 +68,14 @@ public class LoginMenuController {
     public String loginError(@RequestParam("error") String val, Model model) {
         new Logger().log(val + "Someone Failed to Login");
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
+        return "Login";
+    }
+
+    /* /loginMenu?logout = 1 Logout was Successful */
+    @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"register"})
+    public String registerSuccess(@RequestParam("register") Boolean val, Model model) {
+        if (val) model.addAttribute("successRegister","Registo bem sucedido, confirme o seu email");
+        else model.addAttribute("errorMessage", "Erro no Registo, email já utilizado");
         return "Login";
     }
 
@@ -127,7 +135,13 @@ public class LoginMenuController {
                     .setState(State.ACTIVE.getState())
                     .setUserProfiles(userProfiles);
 
-            userService.register(user);
+
+            if (userService.register(user)){
+                new Logger().log("Account Created: " + user );
+                return "redirect:/loginMenu?register=true";
+            }
+
+            return "redirect:/loginMenu?register=false";
 
         }catch (NumberFormatException exception){   new Logger().err_log("Number Format Exception: LoginMenuController.Java Line 63");  }
 
