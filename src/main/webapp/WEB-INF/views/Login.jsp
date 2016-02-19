@@ -113,7 +113,7 @@
 
                                                 <hr>
 
-                                                <div class= "input-group" style="margin-bottom: 7px;">          
+                                                <div class= "input-group" style="margin-bottom: 7px;">
                                                         <input class="form-control" placeholder="E-mail" name="email" type="text" id = "email">
                                                         <span class="input-group-addon glyphicon glyphicon-envelope" id="basic-addon4"></span>
                                                 </div>
