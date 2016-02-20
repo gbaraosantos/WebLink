@@ -24,9 +24,6 @@ public class UserManagementDaoImpl extends AbstractDao<Integer, User> implements
 
     @Override
     public void activateUser(User user) {
-        System.out.println(user.getId());
-        Query query = getSession().createQuery("Update User u set u.state = :state WHERE u.id = :id ");
-        query.setParameter("state", State.ACTIVE.getState());
-        query.setParameter("id", user.getId());
+        update(user);
     }
 }

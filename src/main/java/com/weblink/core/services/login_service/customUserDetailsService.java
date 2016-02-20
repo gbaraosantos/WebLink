@@ -29,9 +29,8 @@ public class customUserDetailsService implements UserDetailsService{
         if(users==null || users.size() <= 0) throw new UsernameNotFoundException("User does not exist");
 
         User user = users.get(0);
-
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                user.getState().equals(State.ACTIVE.getName()), true, true, true, getGrantedAuthorities(user));
+                user.getState().equals(State.ACTIVE.getState()), true, true, true, getGrantedAuthorities(user));
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(User user){

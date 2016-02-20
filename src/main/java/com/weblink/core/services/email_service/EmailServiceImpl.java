@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService{
             mailMsg.setSubject(environment.getProperty("email.subject"));
             mailMsg.setText("Caro/a " + user.getName()
                     + ", obrigado por se registar em WebLink clique no seguinte link para activar a sua conta: "
-                    + "<p href = '" +confirmationUrl + "' />");
+                    + "<p href = " +confirmationUrl + " />");
             mailSender.send(mimeMessage);
 
             new Logger().log("Registration email sent to " + user.getEmail());
