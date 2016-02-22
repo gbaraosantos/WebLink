@@ -4,6 +4,7 @@ package com.weblink.core.configurations.success_handler;
 import com.weblink.core.common.Logger;
 import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.user_service.UserService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -40,7 +41,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
     protected String determineTargetUrl(Authentication authentication) {
         String url;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        new Logger().log("Login: " + userService.getSingleUser(getEmail()));
+        JSONObject log = new JSONObject();
+
+        log     .append("email" ,  userService.getSingleUser(getEmail()))
+                .append("type", "Login");
+
+        new Logger().log(log);
 
         List<String> roles = new ArrayList<>();
         for (GrantedAuthority a : authorities) {    roles.add(a.getAuthority());    }

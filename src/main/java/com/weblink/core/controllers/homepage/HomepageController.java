@@ -1,6 +1,7 @@
 package com.weblink.core.controllers.homepage;
 
 import com.weblink.core.common.Logger;
+import org.json.JSONObject;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -14,13 +15,19 @@ public class HomepageController {
     /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/accessDenied" , method = RequestMethod.GET)
     public String accessDeniedPage(Model model){
-        model.addAttribute("user", getUserName());
-        new Logger().log(getUserName() + ": Tried to access a page to which he has no access");
+        JSONObject log = new JSONObject();
+        model.addAttribute("user", getEmail());
+
+        log     .append("email" , getEmail())
+                .append("accessDenied", "Registration");
+
+
+        new Logger().log(log);
         return "403";
     }
 
 
-    private String getUserName() {
+    private String getEmail() {
         String userName;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

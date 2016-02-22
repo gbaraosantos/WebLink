@@ -11,7 +11,8 @@ import com.weblink.core.services.user_profile_service.UserProfileService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.EmailInputValidator;
 import com.weblink.core.validators.PasswordResetValidator;
-import com.weblink.core.validators.registerValidator;
+import com.weblink.core.validators.RegisterValidator;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,8 +49,15 @@ public class LoginMenuController {
     /* /logout Receives a Logout Request*/
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutRequest (HttpServletRequest request, HttpServletResponse response) {
+        JSONObject log = new JSONObject();
         if ((SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/");
-        new Logger().log(getEmail() + ": Logged out");
+
+        log     .append("ip" , request.getRemoteAddr())
+                .append("email" , getEmail())
+                .append("type", "Logout")
+                .append("activeTime", (request.getSession().getLastAccessedTime() - request.getSession().getCreationTime()) / 1000 );
+
+        new Logger().log(log);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -65,15 +73,22 @@ public class LoginMenuController {
     /* /loginMenu?logout = 1 Logout was Successful */
     @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"expired"})
     public String sessionExpires(@RequestParam("expired") String val, Model model) {
-        if(val.equals("true")) new Logger().log("A user session expired");
+        JSONObject log = new JSONObject();
+        log     .append("type" , "Expired")
+                .append("email" , getEmail());
+
+        if(val.equals("true")) new Logger().log(log);
         model.addAttribute("errorMessage" , "A sua sessão expirou");
         return "Login";
     }
 
     /* /loginForm?error Someone failed Login */
-    @RequestMapping(value="/loginForm", method = RequestMethod.GET, params = {"error"})
+    @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"error"})
     public String loginError(@RequestParam("error") String val, Model model) {
-        new Logger().log(val + "Someone Failed to Login");
+        JSONObject log = new JSONObject();
+        log     .append("type" , "loginFailed");
+
+        new Logger().log(log);
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
         return "Login";
     }
@@ -91,9 +106,10 @@ public class LoginMenuController {
     public String registerRequest(HttpServletRequest request) {
         Set<UserProfile> userProfiles = new HashSet<>();
         String token;
+        JSONObject log = new JSONObject();
 
         userProfiles.add(userProfileService.getUserProfileByType(UserProfileType.USER));
-        User user = new registerValidator().validateInput(request,userProfiles);
+        User user = new RegisterValidator().validateInput(request,userProfiles);
 
         if(user == null) return "redirect:/loginMenu?register=false";
         if (!userService.register(user)) return "redirect:/loginMenu?register=false";
@@ -102,12 +118,16 @@ public class LoginMenuController {
         String confirmationUrl = "https://localhost:8443/regitrationConfirm?token=" + token;
         String subject = "Registration Confirmation Email";
 
-
         emailService.emailLoader();
         MimeMessage regEmail = emailService.prepareEmail(user.getEmail(),"RegistrationTemplate",user.getName(),confirmationUrl,subject);
         emailService.sendEmail(regEmail,user);
 
-        new Logger().log("Account Created: " + user );
+
+        log     .append("ip" , request.getRemoteAddr())
+                .append("email" , getEmail())
+                .append("type", "Registration");
+
+        new Logger().log(log);
         return "redirect:/loginMenu?register=true";
     }
 
@@ -182,24 +202,28 @@ public class LoginMenuController {
 
     @RequestMapping(value="/passwordResetConfirmation", method = RequestMethod.POST, params = {"token"})
     public String passwordResetConfirmation(@RequestParam("token") String token, Model model, HttpServletRequest request) {
+        JSONObject log = new JSONObject();
+
         if (token == null){
             model.addAttribute("errorMessage", "Request Inválido");
             return "Login";
         }
 
         User user = userService.getUser(token);
-
         if (user == null){
             model.addAttribute("errorMessage", "Token invalida");
             return "Login";
         }
 
         String password = new PasswordResetValidator().passwordResetValidator(request);
-
         if (password == null){
             model.addAttribute("errorMessage", "Passwords did not Match");
             return "Login";
         }
+
+        log     .append("ip" , request.getRemoteAddr())
+                .append("email" , getEmail())
+                .append("type", "PasswordReset");
 
         userService.updatePassword(user.setPassword(password));
         model.addAttribute("successRegister","Password Reset Successful");

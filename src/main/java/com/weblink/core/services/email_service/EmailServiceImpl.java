@@ -6,6 +6,7 @@ import com.weblink.core.models.User;
 import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.PropertySource;
@@ -74,7 +75,12 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public void sendEmail(MimeMessage mimeMessage, User user) {
+        JSONObject log = new JSONObject();
+
+        log     .append("email" , user.getEmail())
+                .append("type", "Email");
+
         mailSender.send(mimeMessage);
-        new Logger().log("New email sent to " + user.getEmail());
+        new Logger().log(log);
     }
 }

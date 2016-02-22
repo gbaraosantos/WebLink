@@ -76,7 +76,7 @@ function verify_registry(){
 function check_minSize(field, size){
 	if(field.value.length >= size)	return true
 
-	alerts("Campo tem de ter pelo menos"+size+" digitos");
+	alerts("Campo tem de ter pelo menos "+size+" digitos");
 	setInputBorderRed (field);
 
 	return false

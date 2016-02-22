@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
-public class registerValidator {
+public class RegisterValidator {
 
     public User validateInput(HttpServletRequest request , Set<UserProfile> userProfiles) {
 
