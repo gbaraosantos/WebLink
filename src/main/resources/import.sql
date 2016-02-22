@@ -7,4 +7,4 @@ INSERT INTO UserProfile(type) VALUES ("Admin");
 /* Populate User Table */
 INSERT INTO Users(name, password,address , Nationality, email, state, dateBirth,postal1,postal2,avatarLocation,regDate,lastChangeDate) VALUES ("Konkrets","$2a$10$fH1P.ZgzBvvgA3imet1rYeuHCTRMsgtMnPRFe/xjzVCjBerlDLteO", "Lousa","Portuguese","konkrets@konkrets.com", "Active", DATE(now()),1991,234,null,DATE(now()),DATE(now()));
 
-INSERT INTO UserPermissions (userID, ProfileID) SELECT user.id, profile.id FROM Users user, UserProfile profile where user.id=1 and profile.type="User"
+INSERT INTO UserPermissions (userID, ProfileID) SELECT user.id, profile.id FROM Users user, UserProfile profile where user.id=1 and profile.type="Admin"

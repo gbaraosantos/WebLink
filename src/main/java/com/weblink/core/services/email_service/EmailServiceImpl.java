@@ -35,6 +35,7 @@ public class EmailServiceImpl implements EmailService{
     private JavaMailSenderImpl mailSender;
 
 
+
     public void emailLoader(){
         AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
         ctx.register(EmailConfiguration.class);
@@ -43,8 +44,9 @@ public class EmailServiceImpl implements EmailService{
 
     }
 
-    public MimeMessage prepareRegistrationEmail(String email, String username, String regLink, String subject){
 
+    @Override
+    public MimeMessage prepareEmail(String email,String templateName, String name, String confirmationUrl, String subject) {
         try{
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper mailMsg = new MimeMessageHelper(mimeMessage);
@@ -53,20 +55,21 @@ public class EmailServiceImpl implements EmailService{
             mailMsg.setSubject(subject);
 
             Map<String, Object> model = new HashMap<>();
-            model.put("user", username);
-            model.put("token" , regLink);
+            model.put("user", name);
+            model.put("token" , confirmationUrl);
 
             String content = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocityEngine, "./email_templates/RegistrationTemplate.vm", "UTF-8", model);
+                    velocityEngine, "./email_templates/"+templateName+".vm", "UTF-8", model);
             mailMsg.setText(content, true);
 
 
             return mimeMessage;
 
-        } catch (MessagingException ex) { new Logger().err_log("Error sending verification Email");}
+        } catch (MessagingException ex) { new Logger().err_log("Error sending PassRecovery Email");}
 
         return null;
     }
+
 
 
     @Override

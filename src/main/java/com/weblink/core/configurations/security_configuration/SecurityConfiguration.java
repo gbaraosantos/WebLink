@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
-import java.nio.channels.Channel;
 
 @Configuration
 @EnableWebSecurity

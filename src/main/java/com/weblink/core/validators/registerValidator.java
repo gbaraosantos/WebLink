@@ -1,4 +1,4 @@
-package com.weblink.core.controllers.registerLogin;
+package com.weblink.core.validators;
 
 import com.weblink.core.common.Logger;
 import com.weblink.core.models.User;

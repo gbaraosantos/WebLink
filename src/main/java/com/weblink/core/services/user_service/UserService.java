@@ -13,5 +13,7 @@ public interface UserService {
     String createVerificationToken(User user);
     VerificationToken getToken(String token);
     User getUser(String verificationToken);
-    void activateAccount(User user);
+    VerificationToken getToken(User user);
+    boolean updatePassword(User user);
+    void updateUser(User user);
 }

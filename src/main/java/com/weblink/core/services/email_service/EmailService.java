@@ -9,6 +9,6 @@ import javax.mail.internet.MimeMessage;
 
 public interface EmailService {
     void sendEmail(MimeMessage mimeMessage,User user);
-    MimeMessage prepareRegistrationEmail(String email, String username, String regLink, String subject);
     void emailLoader();
+    MimeMessage prepareEmail(String email,String templateName, String name, String confirmationUrl, String subject);
 }

@@ -3,11 +3,15 @@ package com.weblink.core.controllers.registerLogin;
 import com.weblink.core.common.Logger;
 import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
+import com.weblink.core.models.VerificationToken;
 import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.email_service.EmailService;
 import com.weblink.core.services.user_profile_service.UserProfileService;
 import com.weblink.core.services.user_service.UserService;
+import com.weblink.core.validators.EmailInputValidator;
+import com.weblink.core.validators.PasswordResetValidator;
+import com.weblink.core.validators.registerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -100,7 +104,7 @@ public class LoginMenuController {
 
 
         emailService.emailLoader();
-        MimeMessage regEmail = emailService.prepareRegistrationEmail(user.getEmail(),user.getName(),confirmationUrl,subject);
+        MimeMessage regEmail = emailService.prepareEmail(user.getEmail(),"RegistrationTemplate",user.getName(),confirmationUrl,subject);
         emailService.sendEmail(regEmail,user);
 
         new Logger().log("Account Created: " + user );
@@ -122,10 +126,86 @@ public class LoginMenuController {
             return "Login";
         }
 
-        userService.activateAccount(user.setState(State.ACTIVE.getState()));
+        userService.updateUser(user.setState(State.ACTIVE.getState()));
         model.addAttribute("successRegister","Account confirmada");
         return "Login";
     }
+
+    @RequestMapping(value="/passRecovery", method = RequestMethod.GET)
+    public String passwordRecovery() {
+        return "PasswordRecovery";
+    }
+
+    @RequestMapping(value="/emailRecovery", method = RequestMethod.POST)
+    public String sendPasswordRecoveryEmail(HttpServletRequest request, Model model) {
+        User user = userService.getSingleUser(new EmailInputValidator().EmailValidator(request));
+
+        if(user == null) {
+            model.addAttribute("errorMessage", "Email Inválido");
+            return "PasswordRecovery";
+        }
+
+        VerificationToken token = userService.getToken(user);
+
+        if(token == null) {
+            model.addAttribute("errorMessage", "Não tem uma token associada a esta conta");
+            return "PasswordRecovery";
+        }
+
+        model.addAttribute("successRegister", "Email Enviado com Instruções");
+        String confirmationUrl = "https://localhost:8443/passwordReset?token=" + token.getToken();
+        String subject = "Pass Recovery Email";
+
+        emailService.emailLoader();
+        MimeMessage passwordRecoveryEmail = emailService.prepareEmail(user.getEmail(),"PasswordRecovery", user.getName(), confirmationUrl, subject);
+        emailService.sendEmail(passwordRecoveryEmail,user);
+
+        return "Login";
+    }
+
+    @RequestMapping(value="/passwordReset", method = RequestMethod.GET, params = {"token"})
+    public String passwordReset(@RequestParam("token") String token, Model model) {
+        if (token == null){
+            model.addAttribute("errorMessage", "Token invalida");
+            return "Login";
+        }
+
+        User user = userService.getUser(token);
+
+        if (user == null){
+            model.addAttribute("errorMessage", "Token invalida");
+            return "Login";
+        }
+        model.addAttribute("token",token);
+        return "PasswordReset";
+    }
+
+    @RequestMapping(value="/passwordResetConfirmation", method = RequestMethod.POST, params = {"token"})
+    public String passwordResetConfirmation(@RequestParam("token") String token, Model model, HttpServletRequest request) {
+        if (token == null){
+            model.addAttribute("errorMessage", "Request Inválido");
+            return "Login";
+        }
+
+        User user = userService.getUser(token);
+
+        if (user == null){
+            model.addAttribute("errorMessage", "Token invalida");
+            return "Login";
+        }
+
+        String password = new PasswordResetValidator().passwordResetValidator(request);
+
+        if (password == null){
+            model.addAttribute("errorMessage", "Passwords did not Match");
+            return "Login";
+        }
+
+        userService.updatePassword(user.setPassword(password));
+        model.addAttribute("successRegister","Password Reset Successful");
+        return "Login";
+    }
+
 
     private String getEmail() {
         String userName;

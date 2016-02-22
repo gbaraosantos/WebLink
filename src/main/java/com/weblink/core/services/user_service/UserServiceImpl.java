@@ -38,6 +38,12 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    public boolean updatePassword(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        dao.updateUser(user);
+        return true;
+    }
+
     @Override
     public List<User> getOnlineUsers() {
         List<User> userList = new ArrayList<>();
@@ -63,8 +69,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void activateAccount(User user) {
-        dao.activateUser(user);
+    public void updateUser(User user) {
+        dao.updateUser(user);
     }
 
     @Override
@@ -80,6 +86,13 @@ public class UserServiceImpl implements UserService{
         VerificationToken myToken = new VerificationToken(token, user);
         verificationTokenDao.addVerificationToken(myToken);
         return token;
+    }
+
+    @Override
+    public VerificationToken getToken(User user){
+        List<VerificationToken> verificationTokens = verificationTokenDao.getVerificationToken(user);
+        if(verificationTokens==null || verificationTokens.size() <= 0) throw new UsernameNotFoundException(user.getEmail() + ": User does not have token");
+        return verificationTokens.get(0);
     }
 
     @Override

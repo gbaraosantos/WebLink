@@ -23,7 +23,7 @@ public class UserManagementDaoImpl extends AbstractDao<Integer, User> implements
     }
 
     @Override
-    public void activateUser(User user) {
+    public void updateUser(User user) {
         update(user);
     }
 }
