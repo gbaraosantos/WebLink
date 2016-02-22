@@ -21,6 +21,7 @@
           <file>file://$MODULE_DIR$/src/main/java/com/weblink/core/configurations/AppConfig.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/weblink/core/configurations/HibernateConfiguration.java</file>
           <file>file://$MODULE_DIR$/src/main/java/com/weblink/core/configurations/AppConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/weblink/core/configurations/application_configuration/AppConfiguration.java</file>
         </fileset>
       </configuration>
     </facet>
@@ -80,5 +81,8 @@
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.2.12.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.7" level="project" />
+    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.4" level="project" />
   </component>
 </module>

@@ -15,7 +15,10 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.sql.DataSource;
 import java.nio.channels.Channel;
 
 @Configuration
@@ -36,9 +39,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         auth.authenticationProvider(authenticationProvider());
     }
 
+    @Autowired DataSource dataSource;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        tokenRepositoryImpl.setDataSource(dataSource);
+        return tokenRepositoryImpl;
     }
 
 
@@ -72,6 +84,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
         http.exceptionHandling()
                 .accessDeniedPage("/accessDenied");
+
+        http.rememberMe()
+                .rememberMeParameter("rememberme")
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(86400);
 
         /*Session Management*/
         http.sessionManagement()

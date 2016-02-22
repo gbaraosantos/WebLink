@@ -1,9 +1,6 @@
 package com.weblink.core.models;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 
 @Entity
 @Table(name="VerificationToken")

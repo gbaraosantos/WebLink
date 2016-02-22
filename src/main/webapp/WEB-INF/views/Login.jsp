@@ -87,10 +87,22 @@
                                                     <input class="form-control" placeholder="Password" name="password" type="password" id = "login_password">
                                                     <span class="input-group-addon glyphicon glyphicon-lock" id="basic-addon2"></span>
                                                 </div>
+
+                                                <div style="width:100%;">
+                                                    <div style="float: left;width:50%;">
+                                                        <input type="checkbox" name="rememberme" value="rememberme" title="rememberme">Remember Me<br>
+                                                    </div>
+                                                    <div style="float: right;width:30%;">
+                                                        <a href="<c:url value="/passRecovery"/>" style="color: #357ebd; text-align: right">Forgot Password</a>
+                                                    </div>
+                                                </div>
+                                                <br>
+
                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                 <button type="submit" class="btn" onclick="return verify_login();">Log in!</button>
                                             </form>
-                                        </div>   
+
+                                        </div>
                                     </div>
 
                                     <div role="tabpanel" class="tab-pane" id="Reg">

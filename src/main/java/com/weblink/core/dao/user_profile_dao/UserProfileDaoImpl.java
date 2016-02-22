@@ -31,6 +31,6 @@ public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implem
     }
 
     public void deleteUserProfile(UserProfile profile) {
-        deleteUserProfile(profile);
+        delete(profile);
     }
 }

@@ -1,12 +1,15 @@
 package com.weblink.core.configurations.email_configuration;
 
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 
+import java.io.IOException;
 import java.util.Properties;
 
 @Configurable
@@ -31,4 +34,5 @@ public class EmailConfiguration {
         prop.put("mail.debug", environment.getProperty("mail.debug"));
         return mailSender;
     }
+
 }

@@ -1,7 +1,6 @@
 package com.weblink.core.controllers.registerLogin;
 
 import com.weblink.core.common.Logger;
-import com.weblink.core.controllers.registerLogin.registerValidator;
 import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
 import com.weblink.core.models.enums.State;
@@ -21,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class LoginMenuController {
@@ -91,11 +92,16 @@ public class LoginMenuController {
         User user = new registerValidator().validateInput(request,userProfiles);
 
         if(user == null) return "redirect:/loginMenu?register=false";
-
         if (!userService.register(user)) return "redirect:/loginMenu?register=false";
 
         token = userService.createVerificationToken(user);
-        emailService.sendRegistrationEmail(user,token);
+        String confirmationUrl = "https://localhost:8443/regitrationConfirm?token=" + token;
+        String subject = "Registration Confirmation Email";
+
+
+        emailService.emailLoader();
+        MimeMessage regEmail = emailService.prepareRegistrationEmail(user.getEmail(),user.getName(),confirmationUrl,subject);
+        emailService.sendEmail(regEmail,user);
 
         new Logger().log("Account Created: " + user );
         return "redirect:/loginMenu?register=true";
