@@ -24,8 +24,7 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
-    @Autowired
-    CustomSuccessHandler customSuccessHandler;
+    @Autowired CustomSuccessHandler customSuccessHandler;
 
     @Autowired
     @Qualifier("customUserDetailsService")
