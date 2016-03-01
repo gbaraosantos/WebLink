@@ -1,8 +1,5 @@
 package com.weblink.core.validators;
 
-import com.weblink.core.models.User;
-import com.weblink.core.models.UserProfile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 

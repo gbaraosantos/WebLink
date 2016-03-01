@@ -1,10 +1,9 @@
 package com.weblink.core.validators;
 
-import com.weblink.core.common.Logger;
-import com.weblink.core.models.User;
-import com.weblink.core.models.UserProfile;
+import com.weblink.core.services.logger_service.Logger;
+import com.weblink.core.models.relational.User;
+import com.weblink.core.models.relational.UserProfile;
 import com.weblink.core.models.enums.State;
-import com.weblink.core.models.enums.UserProfileType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;

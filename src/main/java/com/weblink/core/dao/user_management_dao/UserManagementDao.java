@@ -1,7 +1,7 @@
 package com.weblink.core.dao.user_management_dao;
 
 
-import com.weblink.core.models.User;
+import com.weblink.core.models.relational.User;
 
 import java.util.List;
 

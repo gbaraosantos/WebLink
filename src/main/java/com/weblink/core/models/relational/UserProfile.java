@@ -1,4 +1,4 @@
-package com.weblink.core.models;
+package com.weblink.core.models.relational;
 
 import com.weblink.core.models.enums.UserProfileType;
 

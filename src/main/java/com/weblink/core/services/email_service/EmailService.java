@@ -1,9 +1,7 @@
 package com.weblink.core.services.email_service;
 
 
-import com.weblink.core.models.User;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
+import com.weblink.core.models.relational.User;
 
 import javax.mail.internet.MimeMessage;
 

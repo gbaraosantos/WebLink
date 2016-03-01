@@ -2,8 +2,8 @@ package com.weblink.core.services.user_service;
 
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
 import com.weblink.core.dao.verification_token_dao.VerificationTokenDao;
-import com.weblink.core.models.User;
-import com.weblink.core.models.VerificationToken;
+import com.weblink.core.models.relational.User;
+import com.weblink.core.models.relational.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;

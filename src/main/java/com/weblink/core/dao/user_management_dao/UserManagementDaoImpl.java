@@ -1,8 +1,7 @@
 package com.weblink.core.dao.user_management_dao;
 
-import com.weblink.core.models.User;
+import com.weblink.core.models.relational.User;
 import com.weblink.core.dao.AbstractDao;
-import com.weblink.core.models.enums.State;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 

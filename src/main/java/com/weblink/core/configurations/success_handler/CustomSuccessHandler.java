@@ -1,7 +1,7 @@
 package com.weblink.core.configurations.success_handler;
 
 
-import com.weblink.core.common.Logger;
+import com.weblink.core.services.logger_service.Logger;
 import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.user_service.UserService;
 import org.json.JSONObject;
@@ -20,9 +20,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @PropertySource(value = { "classpath:loginRedirect.properties" })
 @Component
@@ -41,17 +39,14 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
     protected String determineTargetUrl(Authentication authentication) {
         String url;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        JSONObject log = new JSONObject();
 
-        log     .append("email" ,  userService.getSingleUser(getEmail()))
-                .append("type", "Login");
-
+        Map<String, Object> log = new HashMap<>();
+        log.put("email" , userService.getSingleUser(getEmail()).getEmail());
+        log.put("type" , "Login");
         new Logger().log(log);
 
         List<String> roles = new ArrayList<>();
         for (GrantedAuthority a : authorities) {    roles.add(a.getAuthority());    }
-
-        System.out.println(environment.getRequiredProperty("Admin.redirect"));
 
         if (isCoordinator(roles))           url = environment.getRequiredProperty("Coordinator.redirect");
         else if (isTeach(roles))            url = environment.getRequiredProperty("Teacher.redirect");

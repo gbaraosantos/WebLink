@@ -1,9 +1,9 @@
 package com.weblink.core.controllers.registerLogin;
 
-import com.weblink.core.common.Logger;
-import com.weblink.core.models.User;
-import com.weblink.core.models.UserProfile;
-import com.weblink.core.models.VerificationToken;
+import com.weblink.core.services.logger_service.Logger;
+import com.weblink.core.models.relational.User;
+import com.weblink.core.models.relational.UserProfile;
+import com.weblink.core.models.relational.VerificationToken;
 import com.weblink.core.models.enums.State;
 import com.weblink.core.models.enums.UserProfileType;
 import com.weblink.core.services.email_service.EmailService;
@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -49,14 +51,13 @@ public class LoginMenuController {
     /* /logout Receives a Logout Request*/
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutRequest (HttpServletRequest request, HttpServletResponse response) {
-        JSONObject log = new JSONObject();
         if ((SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/");
 
-        log     .append("ip" , request.getRemoteAddr())
-                .append("email" , getEmail())
-                .append("type", "Logout")
-                .append("activeTime", (request.getSession().getLastAccessedTime() - request.getSession().getCreationTime()) / 1000 );
-
+        Map<String, Object> log = new HashMap<>();
+        log.put("ip" , request.getRemoteAddr());
+        log.put("email" , getEmail());
+        log.put("type" , "Logout");
+        log.put("activeTime" , (request.getSession().getLastAccessedTime() - request.getSession().getCreationTime()) / 1000);
         new Logger().log(log);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -73,9 +74,9 @@ public class LoginMenuController {
     /* /loginMenu?logout = 1 Logout was Successful */
     @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"expired"})
     public String sessionExpires(@RequestParam("expired") String val, Model model) {
-        JSONObject log = new JSONObject();
-        log     .append("type" , "Expired")
-                .append("email" , getEmail());
+        Map<String, Object> log = new HashMap<>();
+        log.put("type" , "Expired");
+        log.put("email" , getEmail());
 
         if(val.equals("true")) new Logger().log(log);
         model.addAttribute("errorMessage" , "A sua sessão expirou");
@@ -85,8 +86,8 @@ public class LoginMenuController {
     /* /loginForm?error Someone failed Login */
     @RequestMapping(value="/loginMenu", method = RequestMethod.GET, params = {"error"})
     public String loginError(@RequestParam("error") String val, Model model) {
-        JSONObject log = new JSONObject();
-        log     .append("type" , "loginFailed");
+        Map<String, Object> log = new HashMap<>();
+        log.put("type" , "loginFailed");
 
         new Logger().log(log);
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
@@ -106,7 +107,6 @@ public class LoginMenuController {
     public String registerRequest(HttpServletRequest request) {
         Set<UserProfile> userProfiles = new HashSet<>();
         String token;
-        JSONObject log = new JSONObject();
 
         userProfiles.add(userProfileService.getUserProfileByType(UserProfileType.USER));
         User user = new RegisterValidator().validateInput(request,userProfiles);
@@ -122,12 +122,12 @@ public class LoginMenuController {
         MimeMessage regEmail = emailService.prepareEmail(user.getEmail(),"RegistrationTemplate",user.getName(),confirmationUrl,subject);
         emailService.sendEmail(regEmail,user);
 
-
-        log     .append("ip" , request.getRemoteAddr())
-                .append("email" , getEmail())
-                .append("type", "Registration");
-
+        Map<String, Object> log = new HashMap<>();
+        log.put("ip" , request.getRemoteAddr());
+        log.put("email" , getEmail());
+        log.put("type", "Registration");
         new Logger().log(log);
+
         return "redirect:/loginMenu?register=true";
     }
 

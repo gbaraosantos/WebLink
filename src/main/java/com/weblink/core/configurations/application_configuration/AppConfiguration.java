@@ -1,9 +1,12 @@
 package com.weblink.core.configurations.application_configuration;
 
 import org.apache.velocity.app.VelocityEngine;
+import org.elasticsearch.bootstrap.Elasticsearch;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -17,12 +20,12 @@ import org.springframework.web.servlet.view.JstlView;
 import java.io.IOException;
 import java.util.Properties;
 
+import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages =
-        "com.weblink.core")
+@ComponentScan(basePackages = "com.weblink.core")
 public class AppConfiguration extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -33,6 +36,8 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
+
+
 
     @Bean
     SimpleMappingExceptionResolver exceptionResolver(){
@@ -54,6 +59,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
 
         return factory.createVelocityEngine();
     }
+
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {

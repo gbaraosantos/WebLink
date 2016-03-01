@@ -1,10 +1,8 @@
 package com.weblink.core.services.email_service;
 
-import com.weblink.core.common.Logger;
+import com.weblink.core.services.logger_service.Logger;
 import com.weblink.core.configurations.email_configuration.EmailConfiguration;
-import com.weblink.core.models.User;
-import org.apache.velocity.Template;
-import org.apache.velocity.app.Velocity;
+import com.weblink.core.models.relational.User;
 import org.apache.velocity.app.VelocityEngine;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,12 +72,11 @@ public class EmailServiceImpl implements EmailService{
 
     @Override
     public void sendEmail(MimeMessage mimeMessage, User user) {
-        JSONObject log = new JSONObject();
-
-        log     .append("email" , user.getEmail())
-                .append("type", "Email");
+        Map<String, Object> log = new HashMap<>();
+        log.put("type", "Email");
+        log.put("email" , user.getEmail());
+        new Logger().log(log);
 
         mailSender.send(mimeMessage);
-        new Logger().log(log);
     }
 }

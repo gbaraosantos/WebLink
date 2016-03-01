@@ -2,7 +2,7 @@ package com.weblink.core.dao.user_profile_dao;
 
 
 import com.weblink.core.dao.AbstractDao;
-import com.weblink.core.models.UserProfile;
+import com.weblink.core.models.relational.UserProfile;
 import com.weblink.core.models.enums.UserProfileType;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;

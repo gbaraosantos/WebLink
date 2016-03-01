@@ -1,7 +1,7 @@
 package com.weblink.core.services.user_profile_service;
 
 import com.weblink.core.dao.user_profile_dao.UserProfileDao;
-import com.weblink.core.models.UserProfile;
+import com.weblink.core.models.relational.UserProfile;
 import com.weblink.core.models.enums.UserProfileType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
