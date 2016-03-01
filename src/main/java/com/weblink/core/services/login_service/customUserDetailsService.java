@@ -2,9 +2,9 @@ package com.weblink.core.services.login_service;
 
 
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
-import com.weblink.core.models.relational.User;
-import com.weblink.core.models.relational.UserProfile;
-import com.weblink.core.models.enums.State;
+import com.weblink.core.models.User;
+import com.weblink.core.models.UserProfile;
+import com.weblink.core.common.enums.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

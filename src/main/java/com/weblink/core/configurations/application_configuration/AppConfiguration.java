@@ -37,8 +37,6 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
         return viewResolver;
     }
 
-
-
     @Bean
     SimpleMappingExceptionResolver exceptionResolver(){
         SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();

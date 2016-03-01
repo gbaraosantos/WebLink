@@ -1,7 +1,7 @@
 package com.weblink.core.services.email_service;
 
 
-import com.weblink.core.models.relational.User;
+import com.weblink.core.models.User;
 
 import javax.mail.internet.MimeMessage;
 

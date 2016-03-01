@@ -23,21 +23,15 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
-
     @Autowired CustomSuccessHandler customSuccessHandler;
-
-    @Autowired
-    @Qualifier("customUserDetailsService")
-    UserDetailsService userDetailsService;
-
+    @Autowired @Qualifier("customUserDetailsService") UserDetailsService userDetailsService;
+    @Autowired DataSource dataSource;
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
         auth.authenticationProvider(authenticationProvider());
     }
-
-    @Autowired DataSource dataSource;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -51,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         return tokenRepositoryImpl;
     }
 
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -60,17 +53,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         return authenticationProvider;
     }
 
-    /*Creates the session Registry Bean to keep tabs on Users*/
     @Bean(name = "sessionRegistry")
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
-    /*Configuration
-        CSRF: Protected
-        Fixation Attack: Protected
-        X-XSS Attack: Protected
-     */
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

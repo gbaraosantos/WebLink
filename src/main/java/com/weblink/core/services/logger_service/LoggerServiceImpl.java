@@ -1,34 +1,23 @@
 package com.weblink.core.services.logger_service;
 
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequestBuilder;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
+
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-@PropertySource(value = "classpath:elasticsearch.properties")
-public class Logger {
-    @Resource  private Environment environment;
-    private final String index = "weblink";
-
-    public Logger(){}
-
-    private String getDate(){
-        return new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date());
-    }
+@Service("loggerService")
+@PropertySource(value = "classpath:weblink.properties")
+public class LoggerServiceImpl implements LoggerService{
+    @Autowired private Environment environment;
 
     public void log(Map<String,Object> message){
         message.put("date",new Date());
@@ -40,14 +29,20 @@ public class Logger {
         String type = message.get("type").toString().toLowerCase();
         message.remove("type");
 
+        String index = "weblink";
         if (checkIndexExistence(index, client)) client.prepareIndex(index,type).setSource(message).get();
-        else createIndex(client,index);
+        else createIndex(client, index);
 
     }
 
     private Client getClient(){
         try {
-            return new TransportClient.Builder().build().addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"),9300));
+            return new TransportClient.Builder()
+                    .build()
+                    .addTransportAddress(
+                            new InetSocketTransportAddress(
+                                    InetAddress.getByName(environment.getRequiredProperty("spring.data.elasticsearch.host")),
+                                    Integer.parseInt(environment.getRequiredProperty("spring.data.elasticsearch.port"))));
         } catch (UnknownHostException e) { e.printStackTrace(); }
         return null;
     }
@@ -61,7 +56,4 @@ public class Logger {
         return client.admin().indices().prepareExists(index).execute().actionGet().isExists();
     }
 
-    public void err_log(String message){
-        System.err.println(getDate() + ": [" + message + "]");
-    }
 }

@@ -1,10 +1,9 @@
 package com.weblink.core.services.email_service;
 
-import com.weblink.core.services.logger_service.Logger;
 import com.weblink.core.configurations.email_configuration.EmailConfiguration;
-import com.weblink.core.models.relational.User;
+import com.weblink.core.models.User;
+import com.weblink.core.services.logger_service.LoggerService;
 import org.apache.velocity.app.VelocityEngine;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.PropertySource;
@@ -22,13 +21,13 @@ import java.util.Map;
 
 
 @Service("emailService")
-
-@PropertySource(value = { "classpath:email.properties" })
+@PropertySource(value = { "classpath:weblink.properties" })
 @Transactional
 public class EmailServiceImpl implements EmailService{
 
     @Autowired private Environment environment;
     @Autowired private VelocityEngine velocityEngine;
+    @Autowired private LoggerService logger;
 
     private JavaMailSenderImpl mailSender;
 
@@ -63,19 +62,23 @@ public class EmailServiceImpl implements EmailService{
 
             return mimeMessage;
 
-        } catch (MessagingException ex) { new Logger().err_log("Error sending PassRecovery Email");}
+        } catch (MessagingException ex) {
+            Map<String, Object> json = new HashMap<>();
+            json.put("type", "Failure");
+            json.put("Message" , "Register Email Failure");
+            logger.log(json);
+        }
 
         return null;
     }
 
 
-
     @Override
     public void sendEmail(MimeMessage mimeMessage, User user) {
-        Map<String, Object> log = new HashMap<>();
-        log.put("type", "Email");
-        log.put("email" , user.getEmail());
-        new Logger().log(log);
+        Map<String, Object> json = new HashMap<>();
+        json.put("type", "Email");
+        json.put("email" , user.getEmail());
+        logger.log(json);
 
         mailSender.send(mimeMessage);
     }

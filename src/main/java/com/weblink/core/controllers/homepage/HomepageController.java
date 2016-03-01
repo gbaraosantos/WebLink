@@ -1,9 +1,8 @@
 package com.weblink.core.controllers.homepage;
 
-import com.weblink.core.services.logger_service.Logger;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory.*;
-import org.json.JSONObject;
+import com.weblink.core.services.logger_service.LoggerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,18 +15,19 @@ import java.util.Map;
 
 @Controller
 public class HomepageController {
+    @Autowired LoggerService logger;
+
 
     /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/accessDenied" , method = RequestMethod.GET)
     public String accessDeniedPage(Model model){
-        Map<String, Object> json = new HashMap<String, Object>();
         model.addAttribute("user", getEmail());
 
+        Map<String, Object> json = new HashMap<>();
         json.put("email" , getEmail());
         json.put("type", "AccessDenied");
+        logger.log(json);
 
-
-        new Logger().log(json);
         return "403";
     }
 

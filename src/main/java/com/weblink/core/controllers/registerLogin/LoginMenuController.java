@@ -1,12 +1,12 @@
 package com.weblink.core.controllers.registerLogin;
 
-import com.weblink.core.services.logger_service.Logger;
-import com.weblink.core.models.relational.User;
-import com.weblink.core.models.relational.UserProfile;
-import com.weblink.core.models.relational.VerificationToken;
-import com.weblink.core.models.enums.State;
-import com.weblink.core.models.enums.UserProfileType;
+import com.weblink.core.models.User;
+import com.weblink.core.models.UserProfile;
+import com.weblink.core.models.VerificationToken;
+import com.weblink.core.common.enums.State;
+import com.weblink.core.common.enums.UserProfileType;
 import com.weblink.core.services.email_service.EmailService;
+import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.user_profile_service.UserProfileService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.EmailInputValidator;
@@ -39,6 +39,7 @@ public class LoginMenuController {
     @Autowired UserService userService;
     @Autowired UserProfileService userProfileService;
     @Autowired EmailService emailService;
+    @Autowired LoggerService logger;
 
 
     /* /loginMenu Request to change to the login Menu*/
@@ -58,7 +59,7 @@ public class LoginMenuController {
         log.put("email" , getEmail());
         log.put("type" , "Logout");
         log.put("activeTime" , (request.getSession().getLastAccessedTime() - request.getSession().getCreationTime()) / 1000);
-        new Logger().log(log);
+        logger.log(log);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -78,7 +79,7 @@ public class LoginMenuController {
         log.put("type" , "Expired");
         log.put("email" , getEmail());
 
-        if(val.equals("true")) new Logger().log(log);
+        if(val.equals("true")) logger.log(log);
         model.addAttribute("errorMessage" , "A sua sessão expirou");
         return "Login";
     }
@@ -89,7 +90,7 @@ public class LoginMenuController {
         Map<String, Object> log = new HashMap<>();
         log.put("type" , "loginFailed");
 
-        new Logger().log(log);
+        logger.log(log);
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
         return "Login";
     }
@@ -126,7 +127,7 @@ public class LoginMenuController {
         log.put("ip" , request.getRemoteAddr());
         log.put("email" , getEmail());
         log.put("type", "Registration");
-        new Logger().log(log);
+        logger.log(log);
 
         return "redirect:/loginMenu?register=true";
     }
@@ -240,8 +241,4 @@ public class LoginMenuController {
 
         return userName;
     }
-
-
-
-
 }

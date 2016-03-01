@@ -1,10 +1,9 @@
 package com.weblink.core.configurations.success_handler;
 
 
-import com.weblink.core.services.logger_service.Logger;
-import com.weblink.core.models.enums.UserProfileType;
+import com.weblink.core.common.enums.UserProfileType;
+import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.user_service.UserService;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -22,11 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-@PropertySource(value = { "classpath:loginRedirect.properties" })
+@PropertySource(value = { "classpath:weblink.properties" })
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
     @Autowired UserService userService;
     @Autowired private Environment environment;
+    @Autowired private LoggerService logger;
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -43,7 +43,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         Map<String, Object> log = new HashMap<>();
         log.put("email" , userService.getSingleUser(getEmail()).getEmail());
         log.put("type" , "Login");
-        new Logger().log(log);
+        logger.log(log);
 
         List<String> roles = new ArrayList<>();
         for (GrantedAuthority a : authorities) {    roles.add(a.getAuthority());    }

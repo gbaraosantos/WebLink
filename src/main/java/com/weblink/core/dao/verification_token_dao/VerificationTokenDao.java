@@ -1,8 +1,8 @@
 package com.weblink.core.dao.verification_token_dao;
 
 
-import com.weblink.core.models.relational.User;
-import com.weblink.core.models.relational.VerificationToken;
+import com.weblink.core.models.User;
+import com.weblink.core.models.VerificationToken;
 
 import java.util.List;
 

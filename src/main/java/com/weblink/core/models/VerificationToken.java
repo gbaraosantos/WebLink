@@ -1,4 +1,4 @@
-package com.weblink.core.models.relational;
+package com.weblink.core.models;
 
 import javax.persistence.*;
 

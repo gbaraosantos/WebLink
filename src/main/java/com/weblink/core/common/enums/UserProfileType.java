@@ -1,4 +1,4 @@
-package com.weblink.core.models.enums;
+package com.weblink.core.common.enums;
 
 public enum UserProfileType {
     USER("User"),

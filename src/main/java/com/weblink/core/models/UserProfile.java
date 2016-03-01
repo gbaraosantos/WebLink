@@ -1,6 +1,6 @@
-package com.weblink.core.models.relational;
+package com.weblink.core.models;
 
-import com.weblink.core.models.enums.UserProfileType;
+import com.weblink.core.common.enums.UserProfileType;
 
 import javax.persistence.*;
 

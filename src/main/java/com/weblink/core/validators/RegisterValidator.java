@@ -1,13 +1,11 @@
 package com.weblink.core.validators;
 
-import com.weblink.core.services.logger_service.Logger;
-import com.weblink.core.models.relational.User;
-import com.weblink.core.models.relational.UserProfile;
-import com.weblink.core.models.enums.State;
+import com.weblink.core.models.User;
+import com.weblink.core.models.UserProfile;
+import com.weblink.core.common.enums.State;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-
 
 public class RegisterValidator {
 
@@ -66,7 +64,7 @@ public class RegisterValidator {
                     .setState(State.INACTIVE.getState())
                     .setUserProfiles(userProfiles);
         }catch (NumberFormatException exception){
-            new Logger().err_log("Number Format Exception: LoginMenuController.Java Line 63");
+            System.out.println("Number Format Exception: LoginMenuController.Java Line 63");
         }
 
 

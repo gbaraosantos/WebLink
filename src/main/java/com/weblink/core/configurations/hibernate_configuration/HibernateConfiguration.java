@@ -1,5 +1,6 @@
 package com.weblink.core.configurations.hibernate_configuration;
 
+import java.sql.SQLException;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.hibernate.SessionFactory;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({ "com.weblink.core.configurations" })
-@PropertySource(value = {"classpath:hibernate.properties"})
+@PropertySource(value = {"classpath:weblink.properties"})
 public class HibernateConfiguration {
 
     @Autowired private Environment environment;
@@ -49,6 +50,8 @@ public class HibernateConfiguration {
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("c3p0.acquireRetryAttemps", 10000);
+        properties.put("c3p0.acquireRetryDelay", 30);
         return properties;
     }
 

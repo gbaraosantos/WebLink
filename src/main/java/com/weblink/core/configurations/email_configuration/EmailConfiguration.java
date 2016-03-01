@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Configurable
-@PropertySource(value = { "classpath:email.properties" })
+@PropertySource(value = { "classpath:weblink.properties" })
 public class EmailConfiguration {
     @Autowired private Environment environment;
 

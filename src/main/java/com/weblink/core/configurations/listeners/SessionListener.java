@@ -1,8 +1,5 @@
 package com.weblink.core.configurations.listeners;
 
-import com.weblink.core.services.logger_service.Logger;
-import org.json.JSONObject;
-
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.util.HashMap;
@@ -19,7 +16,7 @@ public class SessionListener implements HttpSessionListener{
         log.put("type", "SessionCreated");
         log.put("sessionNumber" , sessionCount);
         log.put("sessionID", event.getSession().getId());
-        new Logger().log(log);
+        System.out.println(log);
 
         event.getSession().setMaxInactiveInterval(30 * 60);
     }
