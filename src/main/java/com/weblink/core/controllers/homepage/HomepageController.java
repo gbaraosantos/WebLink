@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,13 +21,14 @@ public class HomepageController {
 
     /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/accessDenied" , method = RequestMethod.GET)
-    public String accessDeniedPage(Model model){
+    public String accessDeniedPage(Model model, HttpServletRequest request){
         model.addAttribute("user", getEmail());
 
         Map<String, Object> json = new HashMap<>();
         json.put("email" , getEmail());
         json.put("type", "AccessDenied");
-        logger.log(json);
+        json.put("url" , request.getAttribute("javax.servlet.forward.request_uri") );
+        logger.log(json,"403");
 
         return "403";
     }

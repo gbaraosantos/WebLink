@@ -43,7 +43,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
         Map<String, Object> log = new HashMap<>();
         log.put("email" , userService.getSingleUser(getEmail()).getEmail());
         log.put("type" , "Login");
-        logger.log(log);
+        logger.log(log,"INFO");
 
         List<String> roles = new ArrayList<>();
         for (GrantedAuthority a : authorities) {    roles.add(a.getAuthority());    }

@@ -59,7 +59,7 @@ public class LoginMenuController {
         log.put("email" , getEmail());
         log.put("type" , "Logout");
         log.put("activeTime" , (request.getSession().getLastAccessedTime() - request.getSession().getCreationTime()) / 1000);
-        logger.log(log);
+        logger.log(log, "INFO");
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
@@ -79,7 +79,7 @@ public class LoginMenuController {
         log.put("type" , "Expired");
         log.put("email" , getEmail());
 
-        if(val.equals("true")) logger.log(log);
+        if(val.equals("true")) logger.log(log,"INFO");
         model.addAttribute("errorMessage" , "A sua sessão expirou");
         return "Login";
     }
@@ -90,7 +90,7 @@ public class LoginMenuController {
         Map<String, Object> log = new HashMap<>();
         log.put("type" , "loginFailed");
 
-        logger.log(log);
+        logger.log(log,"INFO");
         model.addAttribute("errorMessage" , "Credenciais Inválidas");
         return "Login";
     }
@@ -127,7 +127,7 @@ public class LoginMenuController {
         log.put("ip" , request.getRemoteAddr());
         log.put("email" , getEmail());
         log.put("type", "Registration");
-        logger.log(log);
+        logger.log(log,"INFO");
 
         return "redirect:/loginMenu?register=true";
     }

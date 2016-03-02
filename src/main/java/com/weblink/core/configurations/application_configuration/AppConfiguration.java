@@ -2,9 +2,15 @@ package com.weblink.core.configurations.application_configuration;
 
 import org.apache.velocity.app.VelocityEngine;
 import org.elasticsearch.bootstrap.Elasticsearch;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.ui.velocity.VelocityEngineFactoryBean;
@@ -18,6 +24,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
@@ -26,7 +34,9 @@ import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.weblink.core")
+@PropertySource(value = "classpath:weblink.properties")
 public class AppConfiguration extends WebMvcConfigurerAdapter {
+    @Autowired Environment environment;
 
     @Bean
     public ViewResolver viewResolver() {
@@ -58,6 +68,18 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
         return factory.createVelocityEngine();
     }
 
+    @Bean
+    public Client elasticClient(){
+        try {
+            return new TransportClient.Builder()
+                    .build()
+                    .addTransportAddress(
+                            new InetSocketTransportAddress(
+                                    InetAddress.getByName(environment.getRequiredProperty("spring.data.elasticsearch.host")),
+                                    Integer.parseInt(environment.getRequiredProperty("spring.data.elasticsearch.port"))));
+        } catch (UnknownHostException e) { e.printStackTrace(); }
+        return null;
+    }
 
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {

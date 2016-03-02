@@ -66,7 +66,7 @@ public class EmailServiceImpl implements EmailService{
             Map<String, Object> json = new HashMap<>();
             json.put("type", "Failure");
             json.put("Message" , "Register Email Failure");
-            logger.log(json);
+            logger.log(json, "ERROR");
         }
 
         return null;
@@ -78,7 +78,7 @@ public class EmailServiceImpl implements EmailService{
         Map<String, Object> json = new HashMap<>();
         json.put("type", "Email");
         json.put("email" , user.getEmail());
-        logger.log(json);
+        logger.log(json,"INFO");
 
         mailSender.send(mimeMessage);
     }
