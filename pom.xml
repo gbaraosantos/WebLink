@@ -17,7 +17,7 @@
         <!-- Servlet Dependencies -->
         <servlet-version>2.5</servlet-version>
         <jsp-version>2.0</jsp-version>
-        <javax-servlet-api>3.1.0</javax-servlet-api>
+        <javax-servlet-api>3.0.1</javax-servlet-api>
         <javax-servlet-jsp-api>2.3.1</javax-servlet-jsp-api>
         <jslt-version>1.0.6</jslt-version>
 
@@ -90,15 +90,10 @@
         <!-- Servlet Dependencies -->
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet-version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax-servlet-api}</version>
         </dependency>
+
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>javax.servlet.jsp-api</artifactId>
@@ -214,7 +209,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>2.6</version>
                     <configuration>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
                         <warName>WebLink</warName>
