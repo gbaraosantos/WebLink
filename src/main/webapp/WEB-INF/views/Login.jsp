@@ -48,7 +48,6 @@
                             <div class="description">
                             	<p>
 	                            	Novo Sistema de Login
-                                    ok
                                 </p>
                             </div>
                         </div>
