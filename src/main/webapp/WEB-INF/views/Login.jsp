@@ -47,7 +47,7 @@
                             <h1><strong><span style="color: #FF9933;">Web</span>Link</strong> e-Learning Platform</h1>
                             <div class="description">
                             	<p>
-	                            	 v0.1
+	                            	kasd v0.1
                                 </p>
                             </div>
                         </div>
