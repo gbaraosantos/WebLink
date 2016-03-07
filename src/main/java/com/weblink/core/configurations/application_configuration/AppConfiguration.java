@@ -95,6 +95,9 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/css/SweetAlerts/**").addResourceLocations("/resources/css/SweetAlerts/");
         registry.addResourceHandler("/resources/css/fonts/**").addResourceLocations("/resources/css/fonts/");
         registry.addResourceHandler("/resources/css/Error404/**").addResourceLocations("/resources/css/Error404/");
+        registry.addResourceHandler("/resources/css/Error404/**").addResourceLocations("/resources/css/JQuery/");
+        registry.addResourceHandler("/resources/css/xCharts/**").addResourceLocations("/resources/css/xCharts/");
+        registry.addResourceHandler("/resources/css/main/**").addResourceLocations("/resources/css/main/");
 
         registry.addResourceHandler("/resources/images/Arrows/**").addResourceLocations("/resources/images/Arrows/");
         registry.addResourceHandler("/resources/images/fonts/**").addResourceLocations("/resources/images/fonts/");
@@ -105,6 +108,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/images/partners/**").addResourceLocations("/resources/images/partners/");
         registry.addResourceHandler("/resources/images/team/**").addResourceLocations("/resources/images/team/");
         registry.addResourceHandler("/resources/images/Error404/**").addResourceLocations("/resources/images/Error404/");
+        registry.addResourceHandler("/resources/images/Error404/**").addResourceLocations("/resources/images/Common/");
 
         registry.addResourceHandler("/resources/js/Error403/**").addResourceLocations("/resources/js/Error403/");
         registry.addResourceHandler("/resources/js/Animations/**").addResourceLocations("/resources/js/Animations/");
