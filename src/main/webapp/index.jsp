@@ -92,7 +92,7 @@
 
 						<div id="owl-intro-text" class="owl-carousel">
 							<div class="item">
-								<h1> Plataforma n.º 1 de ensino do mercado</h1>
+								<h1>Plataforma n.º 1 de ensino do mercado</h1>
 								<p>Veja os nossos cursos</p>
                                 <div class="extra-space-l"></div>
 								<a class="btn btn-blank" href="https://creativemarket.com/Themetorium" target="_blank" role="button">Aceda!</a>
