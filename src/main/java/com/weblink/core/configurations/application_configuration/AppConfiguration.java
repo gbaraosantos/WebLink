@@ -108,7 +108,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/resources/images/partners/**").addResourceLocations("/resources/images/partners/");
         registry.addResourceHandler("/resources/images/team/**").addResourceLocations("/resources/images/team/");
         registry.addResourceHandler("/resources/images/Error404/**").addResourceLocations("/resources/images/Error404/");
-        registry.addResourceHandler("/resources/images/Error404/**").addResourceLocations("/resources/images/Common/");
+        registry.addResourceHandler("/resources/images/Common/**").addResourceLocations("/resources/images/Common/");
 
         registry.addResourceHandler("/resources/js/Error403/**").addResourceLocations("/resources/js/Error403/");
         registry.addResourceHandler("/resources/js/Animations/**").addResourceLocations("/resources/js/Animations/");

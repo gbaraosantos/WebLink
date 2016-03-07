@@ -24,10 +24,7 @@
     <link href="<c:url value="/resources/css/xCharts/xcharts.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/JQuery/jquery-ui-1.10.4.min.css" />" rel="stylesheet">
 
-
-
     <!-- JS -->
-
     <script src="<c:url value="/resources/js/main/jquery.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery-ui-1.10.4.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery-1.8.3.min.js" />" type="text/javascript"></script>
@@ -91,7 +88,7 @@
                         <div class="log-arrow-up"></div>
                         <li class="eborder-top"> <a href="#"><i class="icon_profile"></i> My Profile</a> </li>
                         <li> <a href="#"><i class="icon_mail_alt"></i> My Inbox</a> </li>
-                        <li> <a href="<c:url value="/Logout" />"><i class="icon_key_alt"></i> Log Out</a> </li>
+                        <li> <a href="<c:url value="/logout" />"><i class="icon_key_alt"></i> Log Out</a> </li>
                     </ul>
                 </li>
                 <!-- END Person Icon, Name Menu -->
