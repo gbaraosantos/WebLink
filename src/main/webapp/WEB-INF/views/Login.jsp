@@ -47,7 +47,7 @@
                             <h1><strong><span style="color: #FF9933;">Web</span>Link</strong> e-Learning Platform</h1>
                             <div class="description">
                             	<p>
-	                            	Platform Version 0.1
+	                            	Platform Version v0.1
                                 </p>
                             </div>
                         </div>
