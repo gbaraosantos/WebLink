@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,16 +104,27 @@
     <br><br><br><br><br>
 
 
-    <form method="post" enctype="multipart/form-data" action="<c:url value="/upload"/>">
-        <table>
-            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-            <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
+    <div class="form-container">
+        <h1>Spring 4 MVC File Upload Example </h1>
+        <form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
 
-            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-        </table>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-md-3 control-lable" for="file">Upload a file</label>
+                    <div class="col-md-7">
+                        <form:input type="file" path="file" id="file" class="form-control input-sm"/>
+                    </div>
+                </div>
+            </div>
 
-
-    </form>
+            <div class="row">
+                <div class="form-actions floatRight">
+                    <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+                </div>
+            </div>
+        </form:form>
+        <a href="<c:url value='/welcome' />">Home</a>
+    </div>
 
 </section>
 
