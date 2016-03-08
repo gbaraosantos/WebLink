@@ -62,16 +62,11 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/upload")
     public String handleFileUpload(@RequestParam("name") String name,
-                                   @RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
-        if (name.contains("/")) {
-            redirectAttributes.addFlashAttribute("message", "Folder separators not allowed");
-            return "redirect:upload";
-        }
-        if (name.contains("/")) {
-            redirectAttributes.addFlashAttribute("message", "Relative pathnames not allowed");
-            return "redirect:upload";
-        }
+                                   @RequestParam("file") MultipartFile file) {
+
+        if (name.contains("/")) return "redirect:upload";
+        if (name.contains("/"))  return "redirect:upload";
+
 
         if (!file.isEmpty()) {
             try {
@@ -79,17 +74,13 @@ public class MenuController {
                         new FileOutputStream(new File("/home/filesystem/" + name)));
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 stream.close();
-                redirectAttributes.addFlashAttribute("message",
-                        "You successfully uploaded " + name + "!");
             }
             catch (Exception e) {
-                redirectAttributes.addFlashAttribute("message",
-                        "You failed to upload " + name + " => " + e.getMessage());
+                System.out.println("sdfsdf");
             }
         }
         else {
-            redirectAttributes.addFlashAttribute("message",
-                    "You failed to upload " + name + " because the file was empty");
+            System.out.println("asdasdasd");
         }
 
         return "redirect:upload";
