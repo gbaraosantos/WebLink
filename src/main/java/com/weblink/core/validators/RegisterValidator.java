@@ -55,6 +55,7 @@ public class RegisterValidator {
                     .setPassword(password)
                     .setName(name)
                     .setAddress(address)
+                    .setAvatarLocation("/resources/images/Common/nopic.jpg")
                     .setDateBirth(birth)
                     .setNationality(nationality)
                     .setPostal1(postal1)

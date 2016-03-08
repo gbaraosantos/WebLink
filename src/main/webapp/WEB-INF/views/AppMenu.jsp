@@ -78,7 +78,7 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <div class="parent">
                             <span class="profile-ava">
-                                <img alt="" style= "height:45px; width: 45px; "src="<c:url value="/resources/images/Common/nopic.jpg" />">
+                                <img alt="" style= "height:45px; width: 45px; " src = ${pic}>
 
                             </span>
                             <span class="username">${user}</span>

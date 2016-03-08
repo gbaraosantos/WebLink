@@ -49,8 +49,8 @@ public class User{
     @Column(name = "postal2", nullable = false)
     private Integer postal2;
 
-    @Column(name = "avatarLocation", nullable = true)
-    private Integer avatarLocation;
+    @Column(name = "avatarLocation", nullable = false)
+    private String avatarLocation;
 
     @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
     @Column(name = "regDate", nullable = false)
@@ -80,7 +80,7 @@ public class User{
     public User setAddress(String address) { this.address = address; return this; }
     public User setPostal1(Integer postal1) { this.postal1 = postal1; return this; }
     public User setPostal2(Integer postal2) { this.postal2 = postal2; return this; }
-    public User setAvatarLocation(Integer avatarLocation) { this.avatarLocation = avatarLocation; return this; }
+    public User setAvatarLocation(String avatarLocation) { this.avatarLocation = avatarLocation; return this; }
     public User setRegDate(Date regDate) { this.regDate = regDate; return this; }
     public User setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
     public User setState(String state) { this.state = state; return this; }
@@ -97,7 +97,7 @@ public class User{
     public String getAddress() { return address; }
     public Integer getPostal1() { return postal1; }
     public Integer getPostal2() { return postal2; }
-    public Integer getAvatarLocation() { return avatarLocation; }
+    public String getAvatarLocation() { return avatarLocation; }
     public Date getRegDate() { return regDate; }
     public Date getLastChangeDate() { return lastChangeDate; }
     public Set<UserProfile> getUserProfiles() { return userProfiles; }

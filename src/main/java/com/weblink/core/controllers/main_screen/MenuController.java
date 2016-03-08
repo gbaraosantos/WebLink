@@ -1,6 +1,15 @@
 package com.weblink.core.controllers.main_screen;
 
+import com.weblink.core.common.enums.Extension;
+import com.weblink.core.common.enums.FileType;
 import com.weblink.core.common.file.FileBucket;
+import com.weblink.core.models.User;
+import com.weblink.core.services.file_system_service.FileSystemService;
+import com.weblink.core.services.user_service.UserService;
+import com.weblink.core.validators.FileValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,17 +36,52 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@PropertySource(value = "classpath:weblink.properties")
 @Controller
 public class MenuController {
+    @Autowired FileSystemService fileSystemService;
+    @Autowired UserService userService;
+    @Autowired private Environment environment;
 
     /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/AppMenu" , method = RequestMethod.GET)
     public String getAppMenu(Model model){
-        String user = getEmail();
-        model.addAttribute("user" , user);
+        User user = userService.getSingleUser(getEmail());
+
+        model.addAttribute("pic" , user.getAvatarLocation());
+        model.addAttribute("user" , user.getEmail());
         model.addAttribute("fileBucket" , new FileBucket());
         return "AppMenu";
     }
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String UploadProfilePicture(@Valid FileBucket fileBucket, BindingResult result, ModelMap model){
+        String initialPath = environment.getProperty("file.system.path");
+
+        if (result.hasErrors()) model.addAttribute("Error", "Malformed File");
+
+        User user = userService.getSingleUser(getEmail());
+        model.addAttribute("pic" , user.getAvatarLocation());
+        model.addAttribute("user" , user.getEmail());
+
+        Extension ext = new FileValidator().validateFile(fileBucket, FileType.IMAGE);
+
+        if(ext == null){
+            model.addAttribute("Error", "Malformed File");
+            return "AppMenu";
+        }
+
+        if (fileSystemService.add_file("User" , user.getId(), "profilepic" + ext.getExtension() ,fileBucket)){
+            user.setAvatarLocation(initialPath + "User/" + user.getId() + "/profilepic" + ext.getExtension());
+            userService.updateUser(user);
+            model.addAttribute("Success", "File Uploaded Successfully");
+            return "AppMenu";
+        }
+
+        model.addAttribute("Error", "Could not Insert File");
+        return "AppMenu";
+    }
+
 
     private String getEmail() {
         String userName;
@@ -47,24 +91,5 @@ public class MenuController {
         else userName = principal.toString();
 
         return userName;
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String Upload(@Valid FileBucket fileBucket, BindingResult result, ModelMap model) throws IOException {
-        if (result.hasErrors()) {
-            System.out.println("validation errors");
-            return "AppMenu";
-        } else {
-            System.out.println("Fetching file");
-            MultipartFile multipartFile = fileBucket.getFile();
-
-            // Now do something with file...
-            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File( "/home/filesystem/" + fileBucket.getFile().getOriginalFilename()));
-            String fileName = multipartFile.getOriginalFilename();
-            model.addAttribute("fileName", fileName);
-            return "AppMenu";
-        }
-
-
     }
 }
