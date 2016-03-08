@@ -30,10 +30,10 @@ public class MenuController {
 
     /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/AppMenu" , method = RequestMethod.GET)
-    public String accessDeniedPage(Model model){
+    public String getAppMenu(Model model){
         String user = getEmail();
         model.addAttribute("user" , user);
-
+        model.addAttribute("fileBucket" , new FileBucket());
         return "AppMenu";
     }
 
