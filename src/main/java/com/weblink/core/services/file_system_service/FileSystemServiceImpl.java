@@ -57,7 +57,9 @@ public class FileSystemServiceImpl implements  FileSystemService{
 
     private Boolean prepareDirectory(String path) {
         File directory = new File(path);
-        return directory.exists() || directory.mkdir();
+        System.out.println("Base Directory exists? " + directory.exists() );
+        System.out.println("Can I Create it this way? " + directory.mkdirs() );
+        return directory.exists() || directory.mkdirs();
     }
     private Boolean putFile(FileBucket fileBucket, String path){
         try {
