@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -47,22 +49,16 @@ public class MenuController {
         return userName;
     }
 
-    @RequestMapping(value = "/AppMenu", method = RequestMethod.POST)
-    public String singleFileUpload(@Valid FileBucket fileBucket,
-                                   BindingResult result, ModelMap model) throws IOException {
-
-        if (result.hasErrors()) {
-            System.out.println("validation errors");
-            return "singleFileUploader";
-        } else {
-            System.out.println("Fetching file");
-            MultipartFile multipartFile = fileBucket.getFile();
-
-            // Now do something with file...
-            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File( "/home/filesystem/" + fileBucket.getFile().getOriginalFilename()));
-            String fileName = multipartFile.getOriginalFilename();
-            model.addAttribute("fileName", fileName);
-            return "success";
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String singleFileUpload(HttpServletRequest request, ModelMap model) throws IOException {
+        try {
+            Part a = request.getPart("file");
+            System.out.println(a);
+        } catch (ServletException e) {
+            e.printStackTrace();
         }
+
+        return "AppMenu";
+
     }
 }

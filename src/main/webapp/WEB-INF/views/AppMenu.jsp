@@ -105,25 +105,27 @@
 
 
     <div class="form-container">
-        <h1>Spring 4 MVC File Upload Example </h1>
-        <form:form method="POST" modelAttribute="fileBucket" enctype="multipart/form-data" class="form-horizontal">
+
+        <form method="POST" action="<c:url value='/upload' />" enctype="multipart/form-data" class="form-horizontal">
 
             <div class="row">
                 <div class="form-group col-md-12">
-                    <label class="col-md-3 control-lable" for="file">Upload a file</label>
                     <div class="col-md-7">
+                        <h1>Spring 4 MVC File Upload Example </h1>
+                        <label class="col-md-3 control-lable" for="file">Upload a file</label>
                         <form:input type="file" path="file" id="file" class="form-control input-sm"/>
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                        <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-actions floatRight">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+
                 </div>
             </div>
-        </form:form>
+        </form>
         <a href="<c:url value='/welcome' />">Home</a>
     </div>
 
