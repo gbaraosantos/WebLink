@@ -18,7 +18,7 @@ $(function() {
             return true;
         }
 
-        $('head').append('<link rel="stylesheet" media="screen" href="css/bootstrap-small.css"><link rel="stylesheet" media="screen" href="css/bootstrap-admin-theme-small.css">');
+        $('head').append('<link rel="stylesheet" media="main_screen" href="css/bootstrap-small.css"><link rel="stylesheet" media="main_screen" href="css/bootstrap-admin-theme-small.css">');
         $('.large', sizeChangerContainer).removeClass('active');
     });
 });

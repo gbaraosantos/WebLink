@@ -99,6 +99,28 @@
 
 
     </header>
+
+
+
+    <form method="POST" enctype="multipart/form-data" action="<c:url value="/upload"/>">
+        <table>
+            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+            <tr><td>Name:</td><td><input type="text" name="name" /></td></tr>
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        </table>
+
+        <li th:each="file : ${files}" th:text="${file}"></li>
+
+    </form>
+
+
+
+
+
+
+
+
+
 </section>
 
 

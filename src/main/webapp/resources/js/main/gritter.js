@@ -56,7 +56,7 @@ var Gritter = function () {
 
         $.gritter.add({
             // (string | mandatory) the heading of the notification
-            title: 'This is a notice with a max of 3 on screen at one time!',
+            title: 'This is a notice with a max of 3 on main_screen at one time!',
             // (string | mandatory) the text inside the notification
             text: 'This will fade out after a certain amount of time. Vivamus eget tincidunt velit. Cum sociis natoque penatibus et <a href="#" style="color:#ccc">magnis dis parturient</a> montes, nascetur ridiculus mus.',
             // (string | optional) the image to display on the left

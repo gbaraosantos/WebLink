@@ -87,10 +87,10 @@
 						$.when(readFileIntoDataUrl(fileInfo)).done(function (dataUrl) {
 							execCommand('insertimage', dataUrl);
 						}).fail(function (e) {
-							options.fileUploadError("file-reader", e);
+							options.fileUploadError("file_system-reader", e);
 						});
 					} else {
-						options.fileUploadError("unsupported-file-type", fileInfo.type);
+						options.fileUploadError("unsupported-file_system-type", fileInfo.type);
 					}
 				});
 			},
@@ -132,7 +132,7 @@
 						markSelection(input, false);
 					}
 				});
-				toolbar.find('input[type=file][data-' + options.commandRole + ']').change(function () {
+				toolbar.find('input[type=file_system][data-' + options.commandRole + ']').change(function () {
 					restoreSelection();
 					if (this.type === 'file' && this.files && this.files.length > 0) {
 						insertFiles(this.files);
