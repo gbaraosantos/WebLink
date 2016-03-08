@@ -50,15 +50,21 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String singleFileUpload(HttpServletRequest request, ModelMap model) throws IOException {
-        try {
-            Part a = request.getPart("file");
-            System.out.println(a);
-        } catch (ServletException e) {
-            e.printStackTrace();
+    public String Upload(@Valid FileBucket fileBucket, BindingResult result, ModelMap model) throws IOException {
+        if (result.hasErrors()) {
+            System.out.println("validation errors");
+            return "AppMenu";
+        } else {
+            System.out.println("Fetching file");
+            MultipartFile multipartFile = fileBucket.getFile();
+
+            // Now do something with file...
+            FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File( "/home/filesystem/" + fileBucket.getFile().getOriginalFilename()));
+            String fileName = multipartFile.getOriginalFilename();
+            model.addAttribute("fileName", fileName);
+            return "AppMenu";
         }
 
-        return "AppMenu";
 
     }
 }

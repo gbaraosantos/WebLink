@@ -1,3 +1,4 @@
+<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
@@ -103,32 +104,16 @@
 
     <br><br><br><br><br>
 
+    <center>
+        <h3>File Upload:</h3>
+        Select a file to upload: <br />
+        <form:form action="/upload?${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
+            <form:input type="file" path="file" id="file" class="form-control input-sm"/>
+            <br />
+            <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+        </form:form>
 
-    <div class="form-container">
-
-        <form method="POST" action="<c:url value='/upload' />" enctype="multipart/form-data" class="form-horizontal">
-
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <div class="col-md-7">
-                        <h1>Spring 4 MVC File Upload Example </h1>
-                        <label class="col-md-3 control-lable" for="file">Upload a file</label>
-                        <form:input type="file" path="file" id="file" class="form-control input-sm"/>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                        <input type="submit" value="Upload" class="btn btn-primary btn-sm">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-actions floatRight">
-
-                </div>
-            </div>
-        </form>
-        <a href="<c:url value='/welcome' />">Home</a>
-    </div>
-
+    </center>
 </section>
 
 
