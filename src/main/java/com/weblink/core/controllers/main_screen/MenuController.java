@@ -47,15 +47,7 @@ public class MenuController {
         return userName;
     }
 
-
-    @RequestMapping(value = "/singleUpload", method = RequestMethod.GET)
-    public String getSingleUploadPage(ModelMap model) {
-        FileBucket fileModel = new FileBucket();
-        model.addAttribute("fileBucket", fileModel);
-        return "singleFileUploader";
-    }
-
-    @RequestMapping(value = "/singleUpload", method = RequestMethod.POST)
+    @RequestMapping(value = "/AppMenu", method = RequestMethod.POST)
     public String singleFileUpload(@Valid FileBucket fileBucket,
                                    BindingResult result, ModelMap model) throws IOException {
 
