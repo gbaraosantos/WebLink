@@ -119,6 +119,7 @@
 
             <div class="row">
                 <div class="form-actions floatRight">
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                     <input type="submit" value="Upload" class="btn btn-primary btn-sm">
                 </div>
             </div>
