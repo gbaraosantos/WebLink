@@ -56,26 +56,20 @@ public class MenuController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String UploadProfilePicture(@Valid FileBucket fileBucket, BindingResult result, ModelMap model){
+        if (result.hasErrors()) return "redirect:/AppMenu?uploadSuccess=false";
         model.addAttribute("User" , user);
 
         String initialPath = environment.getProperty("file.system.path");
-
-        if (result.hasErrors()) return "redirect:/AppMenu?uploadSuccess = false";
-
         Extension ext = new FileValidator().validateFile(fileBucket, FileType.IMAGE);
 
-        if(ext == null) return "redirect:/AppMenu?uploadSuccess = false";
+        if(ext == null) return "redirect:/AppMenu?uploadSuccess=false";
+        if (!fileSystemService.add_file("User" , user.getId(), "profilepic" + ext.getExtension() ,fileBucket)) return "redirect:/AppMenu?uploadSuccess=false";
 
-        if (fileSystemService.add_file("User" , user.getId(), "profilepic" + ext.getExtension() ,fileBucket)){
+        user.setAvatarLocation(initialPath + "User/" + user.getId() + "/profilepic" + ext.getExtension());
+        userService.updateUser(user);
+        model.addAttribute("User" , user);
+        return "redirect:/AppMenu?uploadSuccess=true";
 
-            user.setAvatarLocation(initialPath + "User/" + user.getId() + "/profilepic" + ext.getExtension());
-            userService.updateUser(user);
-
-            model.addAttribute("User" , user);
-            return "redirect:/AppMenu?uploadSuccess = true";
-        }
-
-        return "redirect:/AppMenu?uploadSuccess = false";
     }
 
     private String getEmail() {
