@@ -43,45 +43,42 @@ public class MenuController {
     @Autowired UserService userService;
     @Autowired private Environment environment;
 
+    private volatile User user;
+
     /*User Tried to Access a page to which he has no access*/
     @RequestMapping(value = "/AppMenu" , method = RequestMethod.GET)
     public String getAppMenu(Model model){
-        User user = userService.getSingleUser(getEmail());
-
-        model.addAttribute("pic" , user.getAvatarLocation());
-        model.addAttribute("user" , user.getEmail());
+        user = userService.getSingleUser(getEmail());
+        model.addAttribute("User", user);
         model.addAttribute("fileBucket" , new FileBucket());
         return "AppMenu";
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String UploadProfilePicture(@Valid FileBucket fileBucket, BindingResult result, ModelMap model){
+        model.addAttribute("User" , user);
+
         String initialPath = environment.getProperty("file.system.path");
-
         if (result.hasErrors()) model.addAttribute("Error", "Malformed File");
-
-        User user = userService.getSingleUser(getEmail());
-        model.addAttribute("pic" , user.getAvatarLocation());
-        model.addAttribute("user" , user.getEmail());
 
         Extension ext = new FileValidator().validateFile(fileBucket, FileType.IMAGE);
 
-        if(ext == null){
-            model.addAttribute("Error", "Malformed File");
-            return "AppMenu";
-        }
-
+        if(ext == null){    model.addAttribute("Error", "Malformed File"); return "AppMenu";    }
         if (fileSystemService.add_file("User" , user.getId(), "profilepic" + ext.getExtension() ,fileBucket)){
+
             user.setAvatarLocation(initialPath + "User/" + user.getId() + "/profilepic" + ext.getExtension());
+            System.out.println(user.getAvatarLocation());
             userService.updateUser(user);
+
+            model.addAttribute("User" , user);
             model.addAttribute("Success", "File Uploaded Successfully");
+
             return "AppMenu";
         }
 
         model.addAttribute("Error", "Could not Insert File");
         return "AppMenu";
     }
-
 
     private String getEmail() {
         String userName;

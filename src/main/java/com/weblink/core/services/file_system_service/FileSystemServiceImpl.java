@@ -23,8 +23,6 @@ public class FileSystemServiceImpl implements  FileSystemService{
     @Autowired LoggerService logger;
     @Autowired private Environment environment;
 
-
-
     @Override
     public Boolean add_file(String type, int id, String name, FileBucket fileBucket){
         String initialPath = environment.getProperty("file.system.path");
@@ -33,7 +31,7 @@ public class FileSystemServiceImpl implements  FileSystemService{
         MultipartFile multipartFile = fileBucket.getFile();
         String path = initialPath + type + "/" + id + "/";
 
-        if (!prepareDirectory(path) || !putFile(fileBucket,path + name)){
+        if (!prepareDirectory(path,name) || !putFile(fileBucket,path + name)){
             log.put("type", "error");
             log.put("error", "Inserting file");
             logger.log(log, "ERROR");
@@ -55,17 +53,20 @@ public class FileSystemServiceImpl implements  FileSystemService{
         return null;
     }
 
-    private Boolean prepareDirectory(String path) {
+    private Boolean prepareDirectory(String path, String name) {
         File directory = new File(path);
-        System.out.println("Base Directory exists? " + directory.exists() );
-        System.out.println("Can I Create it this way? " + directory.mkdirs() );
+        File file = new File(path + name);
+
+        if(file.exists()) return file.delete();
         return directory.exists() || directory.mkdirs();
     }
+
     private Boolean putFile(FileBucket fileBucket, String path){
         try {
             FileCopyUtils.copy(fileBucket.getFile().getBytes(), new File(path));
             return true;
-        } catch (IOException e) { return false; }
+        } catch (IOException e) {
+            e.printStackTrace(); return false; }
     }
 
 }

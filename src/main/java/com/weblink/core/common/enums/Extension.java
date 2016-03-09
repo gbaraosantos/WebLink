@@ -5,7 +5,7 @@ package com.weblink.core.common.enums;
  */
 public enum Extension {
     PNG(".png"),
-    JPG(".jsp"),
+    JPG(".jpg"),
     JPEG(".jpeg"),
     MP3(".mp3"),
     FLAC(".flac"),

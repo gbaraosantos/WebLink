@@ -78,14 +78,14 @@
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <div class="parent">
                             <span class="profile-ava">
-                                <img alt="" style= "height:45px; width: 45px; " src = ${pic}>
+                                <img alt="" style= "height:45px; width: 45px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
 
                             </span>
-                            <span class="username">${user}</span>
+                            <span class="username">${User.email}</span>
                             <b class="caret"></b>
                         </div>
                     </a>
-
+                    ${User.avatarLocation}
                     <ul class="dropdown-menu extended logout">
                         <div class="log-arrow-up"></div>
                         <li class="eborder-top"> <a href="#"><i class="icon_profile"></i> My Profile</a> </li>
