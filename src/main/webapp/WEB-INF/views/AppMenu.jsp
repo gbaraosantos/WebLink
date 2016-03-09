@@ -101,18 +101,42 @@
 
     </header>
 
-    <br><br><br><br><br>
+    <aside>
+        <div id="sidebar"  class="nav-collapse ">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu">
 
-    <center>
-        <h3>File Upload:</h3>
-        Select a file to upload: <br />
-        <form:form action="/upload?${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
-            <form:input type="file" path="file" id="file" class="form-control input-sm"/>
-            <br />
-            <input type="submit" value="Upload" class="btn btn-primary btn-sm">
-        </form:form>
 
-    </center>
+
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+
+    <!-- Center Content -->
+    <section id="main-content">
+        <section class="wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="<c:url value="/" />">Home</a></li>
+                        <li><i class="fa fa-laptop"></i>Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+
+
+
+            <h3>File Upload:</h3>
+            Select a file to upload: <br />
+            <form:form action="/upload?${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
+                <form:input type="file" path="file" id="file" class="form-control input-sm"/>
+                <br />
+                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
+            </form:form>
+        </section>
+    </section>
 </section>
 
 
