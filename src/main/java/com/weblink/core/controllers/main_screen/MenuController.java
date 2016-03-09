@@ -59,25 +59,23 @@ public class MenuController {
         model.addAttribute("User" , user);
 
         String initialPath = environment.getProperty("file.system.path");
-        if (result.hasErrors()) model.addAttribute("Error", "Malformed File");
+
+        if (result.hasErrors()) return "redirect:/AppMenu?uploadSuccess = false";
 
         Extension ext = new FileValidator().validateFile(fileBucket, FileType.IMAGE);
 
-        if(ext == null){    model.addAttribute("Error", "Malformed File"); return "AppMenu";    }
+        if(ext == null) return "redirect:/AppMenu?uploadSuccess = false";
+
         if (fileSystemService.add_file("User" , user.getId(), "profilepic" + ext.getExtension() ,fileBucket)){
 
             user.setAvatarLocation(initialPath + "User/" + user.getId() + "/profilepic" + ext.getExtension());
-            System.out.println(user.getAvatarLocation());
             userService.updateUser(user);
 
             model.addAttribute("User" , user);
-            model.addAttribute("Success", "File Uploaded Successfully");
-
-            return "AppMenu";
+            return "redirect:/AppMenu?uploadSuccess = true";
         }
 
-        model.addAttribute("Error", "Could not Insert File");
-        return "AppMenu";
+        return "redirect:/AppMenu?uploadSuccess = false";
     }
 
     private String getEmail() {
