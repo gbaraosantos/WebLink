@@ -46,30 +46,12 @@ public class MenuController {
     private volatile User user;
 
     /*User Tried to Access a page to which he has no access*/
-    @RequestMapping(value = "/AppMenu" , method = RequestMethod.GET)
+    @RequestMapping(value = "/weblink" , method = RequestMethod.GET)
     public String getAppMenu(Model model){
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
         model.addAttribute("fileBucket" , new FileBucket());
-        return "AppMenu";
-    }
-
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public String UploadProfilePicture(@Valid FileBucket fileBucket, BindingResult result, ModelMap model){
-        if (result.hasErrors()) return "redirect:/AppMenu?uploadSuccess=false";
-        model.addAttribute("User" , user);
-
-        String initialPath = environment.getProperty("file.system.path");
-        Extension ext = new FileValidator().validateFile(fileBucket, FileType.IMAGE);
-
-        if(ext == null) return "redirect:/AppMenu?uploadSuccess=false";
-        if (!fileSystemService.add_file("User" , user.getId(), "profilepic" + ext.getExtension() ,fileBucket)) return "redirect:/AppMenu?uploadSuccess=false";
-
-        user.setAvatarLocation(initialPath + "User/" + user.getId() + "/profilepic" + ext.getExtension());
-        userService.updateUser(user);
-        model.addAttribute("User" , user);
-        return "redirect:/AppMenu?uploadSuccess=true";
-
+        return "weblink";
     }
 
     private String getEmail() {

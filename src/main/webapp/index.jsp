@@ -17,7 +17,7 @@
 
         <!-- Libs and Plugins CSS -->
         <link href="<c:url value="/resources/css/Bootstrap/bootstrap.min.css" />" rel="stylesheet">
-        <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.min.css" />" rel="stylesheet">
+        <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.minhome.css" />" rel="stylesheet">
         <link href="<c:url value="/resources/css/owlCarrosel/owl.carousel.css" />" rel="stylesheet">
         <link href="<c:url value="/resources/css/Animations/animate.min.css" />" rel="stylesheet">
         <link href="<c:url value="/resources/css/owlCarrosel/owl.theme.css" />" rel="stylesheet">

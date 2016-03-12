@@ -13,7 +13,7 @@
     <link href="<c:url value="/resources/css/Bootstrap/bootstrap.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Bootstrap/bootstrap-theme.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Icons/elegant-icons-style.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/fontAwesome/font-awesome.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/bootstrap-fullcalendar.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/fullcalendar.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/jquery.easy-pie-chart.css" />" rel="stylesheet">
@@ -64,10 +64,14 @@
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
+            <div class="icon-reorder tooltips" data-original-title="Toggle Nav
+
+ation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
-        <a href="<c:url value="AppMenu" />" class="logo">WEB<span class="lite">LINK</span></a>
+        <a href="<c:url value="weblink" />" class="logo">WEB<span class="lite"
+ig
+>LINK</span></a>
 
         <!-- START Buttons top right -->
         <div class="top-nav notification-row">
@@ -87,7 +91,7 @@
                     </a>
                     <ul class="dropdown-menu extended logout">
                         <div class="log-arrow-up"></div>
-                        <li class="eborder-top"> <a href="#"><i class="icon_profile"></i> My Profile</a> </li>
+                        <li class="eborder-top"> <a href="<c:url value="/weblink/profile" />"><i class="icon_profile"></i> My Profile</a> </li>
                         <li> <a href="#"><i class="icon_mail_alt"></i> My Inbox</a> </li>
                         <li> <a href="<c:url value="/logout" />"><i class="icon_key_alt"></i> Log Out</a> </li>
                     </ul>
@@ -131,10 +135,9 @@
             <h3>File Upload:</h3>
             Select a file to upload: <br />
             <form:form action="/upload?${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
-                <form:input type="file" path="file" id="file" class="form-control input-sm"/>
+                <form:input  type="file" path="file" id="file" class="form-control input-sm"/>
                 <br />
-                <input type="submit" value="Upload" class="btn btn-primary btn-sm">
-            </form:form>
+            </form:form>onchange="this.form.submit(
         </section>
     </section>
 </section>

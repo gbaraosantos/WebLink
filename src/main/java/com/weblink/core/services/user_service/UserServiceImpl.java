@@ -1,5 +1,6 @@
 package com.weblink.core.services.user_service;
 
+import com.weblink.core.common.enums.State;
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
 import com.weblink.core.dao.verification_token_dao.VerificationTokenDao;
 import com.weblink.core.models.User;
@@ -71,6 +72,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUser(User user) {
         dao.updateUser(user);
+    }
+
+    @Override
+    public void deleteUser(String email) {
+        dao.updateUser(getSingleUser(email).setState(State.DELETED.getState()));
     }
 
     @Override

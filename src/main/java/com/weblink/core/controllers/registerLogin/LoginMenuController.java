@@ -46,7 +46,7 @@ public class LoginMenuController {
     /* /loginMenu Request to change to the login Menu*/
     @RequestMapping(value = "/loginMenu" , method = RequestMethod.GET)
     public String redirectLogin(){
-        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/AppMenu");
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) return ("redirect:/weblink");
         return "Login";
     }
 

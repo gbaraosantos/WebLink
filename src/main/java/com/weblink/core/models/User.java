@@ -31,7 +31,7 @@ public class User{
     @Column(name = "verificationToken")
     private String verificationToken;
 
-    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern="dd-MM-yyyy")
     @Column(name = "dateBirth", nullable = false)
     private Date dateBirth;
 
@@ -52,7 +52,7 @@ public class User{
     @Column(name = "avatarLocation", nullable = false)
     private String avatarLocation;
 
-    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
+    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm")
     @Column(name = "regDate", nullable = false)
     private Date regDate;
 

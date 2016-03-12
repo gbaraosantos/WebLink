@@ -16,4 +16,5 @@ public interface UserService {
     VerificationToken getToken(User user);
     boolean updatePassword(User user);
     void updateUser(User user);
+    void deleteUser(String email);
 }
