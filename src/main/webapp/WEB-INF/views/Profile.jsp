@@ -182,7 +182,7 @@
                                 <div class="col-lg-2 col-sm-6 follow-info weather-category">
                                     <ul>
 
-                                        <p> Se decidir apagar a sua conta, clique na cruz que se encontra abaixo </p>
+                                        <p> Se decidir apagar a sua conta, clique na cruz abaixo </p>
                                         <a onclick="deleteConfirm('${User.email}'); " style="cursor: pointer;"><i class="fa fa-times fa-5x" style="color:#ff3738"> </i></a><br>
 
                                     </ul>
