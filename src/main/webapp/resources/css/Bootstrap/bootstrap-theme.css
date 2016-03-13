@@ -1959,8 +1959,8 @@ fieldset[disabled] .btn-warning.active {
 }
 .btn-danger {
   color: #ffffff;
-  background-color: #ff2d55;
-  border-color: #ff2d55;
+  background-color: #d14700;
+  border-color: #d14700;
 }
 .btn-danger:hover,
 .btn-danger:focus,
@@ -1996,8 +1996,8 @@ fieldset[disabled] .btn-danger.active {
 }
 .btn-success {
   color: #ffffff;
-  background-color: #4cd964;
-  border-color: #4cd964;
+  background-color: #1e902a;
+  border-color: #1e902a;
 }
 .btn-success:hover,
 .btn-success:focus,

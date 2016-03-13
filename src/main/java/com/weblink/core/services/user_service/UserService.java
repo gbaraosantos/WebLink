@@ -17,4 +17,6 @@ public interface UserService {
     boolean updatePassword(User user);
     void updateUser(User user);
     void deleteUser(String email);
+    List getAllUsers();
+    User getSingleUser(Integer id);
 }

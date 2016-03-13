@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -121,12 +122,21 @@ public class User{
         if (!(obj instanceof User)) return false;
 
         User other = (User) obj;
-
         if (this.id != other.getId()) return false;
         if (this.email == null) return false;
         if (this.email.equals(other.getEmail())) return true;
 
         return true;
+    }
+
+    public boolean hasPermission(String permissionType) {
+        Set<UserProfile> a = getUserProfiles();
+
+        for(UserProfile i : a){
+            if(permissionType.equals(i.getType())) return true;
+        }
+
+        return false;
     }
 
     @Override

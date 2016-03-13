@@ -50,7 +50,6 @@ public class MenuController {
     public String getAppMenu(Model model){
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
-        model.addAttribute("fileBucket" , new FileBucket());
         return "weblink";
     }
 

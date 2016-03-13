@@ -1,6 +1,7 @@
 <%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,6 +112,19 @@ ig
             <ul class="sidebar-menu">
 
 
+                <sec:authorize access="hasRole('Admin')">
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="fa fa-gavel"></i>
+                            <span>Admin Zone</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="<c:url value="/admin/userManagement" />">User Management</a></li>
+                        </ul>
+                    </li>
+                </sec:authorize>
+
 
             </ul>
             <!-- sidebar menu end-->
@@ -130,15 +144,6 @@ ig
                 </div>
             </div>
 
-
-
-            <h3>File Upload:</h3>
-            Select a file to upload: <br />
-            <form:form action="/upload?${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
-                <form:input  type="file" path="file" id="file" class="form-control input-sm"/>
-                <br />
-            </form:form>onchange="this.form.submit(
-        </section>
     </section>
 </section>
 

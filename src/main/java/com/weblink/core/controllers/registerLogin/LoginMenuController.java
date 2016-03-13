@@ -117,7 +117,7 @@ public class LoginMenuController {
         if (!userService.register(user)) return "redirect:/loginMenu?register=false";
 
         token = userService.createVerificationToken(user);
-        String confirmationUrl = "https://localhost:8443/regitrationConfirm?token=" + token;
+        String confirmationUrl = "https://elearning.konkrets.pt/regitrationConfirm?token=" + token;
         String subject = "Registration Confirmation Email";
 
         emailService.emailLoader();
@@ -145,6 +145,10 @@ public class LoginMenuController {
 
         if (user == null){
             model.addAttribute("errorMessage", "Token invalida");
+            return "Login";
+        }
+        else if(!user.getState().equals(State.INACTIVE.getState())){
+            model.addAttribute("errorMessage", "A sua contra encontra-se bloqueada ou apagada");
             return "Login";
         }
 

@@ -9,5 +9,7 @@ public interface UserManagementDao {
     List<User> getUserByEmail(String email);
     void register(User user);
     void updateUser(User user);
+    List getAllUsers();
 
+    List<User> getUser(Integer id);
 }

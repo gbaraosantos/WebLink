@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("customUserDetailsService")
 public class customUserDetailsService implements UserDetailsService{
@@ -34,11 +35,10 @@ public class customUserDetailsService implements UserDetailsService{
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(User user){
-        List<GrantedAuthority> authorities = new ArrayList<>();
 
-        for(UserProfile userProfile : user.getUserProfiles()){
-            authorities.add(new SimpleGrantedAuthority(userProfile.getType()));
-        }
-        return authorities;
+        return      user.getUserProfiles().stream().map(
+                    userProfile -> new SimpleGrantedAuthority("ROLE_" + userProfile.getType()))
+                    .collect(Collectors.toList());
+
     }
 }

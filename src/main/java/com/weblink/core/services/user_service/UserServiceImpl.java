@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,7 +42,8 @@ public class UserServiceImpl implements UserService{
 
     public boolean updatePassword(User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        dao.updateUser(user);
+
+        dao.updateUser(user.setLastChangeDate(new Date()));
         return true;
     }
 
@@ -71,12 +73,24 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(User user) {
-        dao.updateUser(user);
+        dao.updateUser(user.setLastChangeDate(new Date()));
     }
 
     @Override
     public void deleteUser(String email) {
         dao.updateUser(getSingleUser(email).setState(State.DELETED.getState()));
+    }
+
+    @Override
+    public List getAllUsers() {
+        return dao.getAllUsers();
+    }
+
+    @Override
+    public User getSingleUser(Integer id) {
+        List<User> userList = dao.getUser(id);
+        if(userList==null || userList.size() <= 0) return null;
+        return userList.get(0);
     }
 
     @Override

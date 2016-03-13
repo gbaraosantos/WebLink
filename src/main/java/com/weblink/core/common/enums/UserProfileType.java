@@ -16,4 +16,13 @@ public enum UserProfileType {
         return userProfileType;
     }
 
+    public static UserProfileType getProfileType(String perm) {
+        switch (perm) {
+            case "Admin":           return UserProfileType.ADMIN;
+            case "Coordinator":     return UserProfileType.COORD;
+            case "Teacher":         return UserProfileType.TEACHER;
+            default:                return UserProfileType.USER;
+        }
+    }
+
 }

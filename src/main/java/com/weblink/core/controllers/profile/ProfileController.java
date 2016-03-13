@@ -5,6 +5,7 @@ import com.weblink.core.common.enums.FileType;
 import com.weblink.core.common.file.FileBucket;
 import com.weblink.core.models.User;
 import com.weblink.core.services.file_system_service.FileSystemService;
+import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.FileValidator;
 import com.weblink.core.validators.ProfileUpdateValidator;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class ProfileController {
@@ -29,6 +33,7 @@ public class ProfileController {
     @Autowired UserService userService;
     @Autowired private Environment environment;
     @Autowired private PasswordEncoder passwordEncoder;
+    @Autowired LoggerService logger;
 
     private volatile User user;
 
@@ -72,8 +77,13 @@ public class ProfileController {
 
     @RequestMapping(value = "/weblink/profileUpdate", method = RequestMethod.POST)
     public String UpdateProfile(ModelMap model, HttpServletRequest request){
+        Map<String,Object> log = new HashMap<>();
+
         user = new ProfileUpdateValidator().validateInput(request,user,passwordEncoder);
-        System.out.println(user);
+
+        log.put("type","ProfileUpdate");
+        log.put("email" , user.getEmail());
+        logger.log(log, "INFO");
 
         userService.updateUser(user);
 

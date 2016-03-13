@@ -17,6 +17,13 @@ public class UserManagementDaoImpl extends AbstractDao<Integer, User> implements
         return (List<User>)query.list();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<User> getUser(Integer id) {
+        Query query = getSession().createQuery("FROM User AS u WHERE u.id = :id");
+        query.setParameter("id", id);
+        return (List<User>)query.list();
+    }
+
     public void register(User user) {
         persist(user);
     }
@@ -24,5 +31,12 @@ public class UserManagementDaoImpl extends AbstractDao<Integer, User> implements
     @Override
     public void updateUser(User user) {
         update(user);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public List getAllUsers() {
+        Query query = getSession().createQuery("FROM User");
+        return (List<User>)query.list();
     }
 }
