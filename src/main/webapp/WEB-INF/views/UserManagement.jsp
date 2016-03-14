@@ -132,7 +132,7 @@
     </aside>
 
     <!-- Center Content -->
-    <section id="main-content"  style="overflow: scroll">
+    <section id="main-content"  style="overflow-y: auto">
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
