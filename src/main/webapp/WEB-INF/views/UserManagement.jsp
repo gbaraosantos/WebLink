@@ -155,11 +155,11 @@
                                 <tr>
                                     <th>&nbsp;</th>
                                     <th><i class="icon_key"></i>Id</th>
-                                    <th><i class="icon_profile"></i> Full Name</th>
-                                    <th><i class="icon_calendar"></i> Date of Birth</th>
+                                    <th><i class="icon_profile"></i> Nome Completo </th>
+                                    <th><i class="icon_calendar"></i> Data de Nascimento</th>
                                     <th><i class="icon_mail_alt"></i> Email</th>
-                                    <th><i class="icon_pin_alt"></i> Address</th>
-                                    <th><i class="icon_pin_alt"></i> Nationality</th>
+                                    <th><i class="icon_pin_alt"></i> Morada</th>
+                                    <th><i class="icon_pin_alt"></i> Nacionalidade</th>
 
                                 </tr>
 
@@ -179,12 +179,12 @@
                                                 <table class="table" style="background-color:rgba(0, 0, 0, 0);">
                                                     <thead>
                                                     <tr>
-                                                        <th>Picture</th>
-                                                        <th>Register Date</th>
-                                                        <th>State</th>
-                                                        <th>Last Change Date</th>
-                                                        <th>Action</th>
-                                                        <th>Permission Type</th>
+                                                        <th>Imagem de Perfil</th>
+                                                        <th>Data de Registo</th>
+                                                        <th>Estado</th>
+                                                        <th>Data da Última Alteração</th>
+                                                        <th>Acções</th>
+                                                        <th>Permissões</th>
 
                                                     </tr>
                                                     </thead>
@@ -201,7 +201,7 @@
                                                         <td>
                                                             <table class="table" style="background-color:rgba(0, 0, 0, 0);">
                                                                 <tr>
-                                                                    <td>Admin</td>
+                                                                    <td>Administrador</td>
                                                                     <td>${user.hasPermission('Admin')}</td>
 
                                                                     <d:choose>
@@ -214,7 +214,7 @@
                                                                     </d:choose>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Coordinator</td>
+                                                                    <td>Coordenador</td>
                                                                     <td>${user.hasPermission('Coordinator')}</td>
 
                                                                     <d:choose>
@@ -227,7 +227,7 @@
                                                                     </d:choose>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Teacher</td>
+                                                                    <td>Professor</td>
                                                                     <td>${user.hasPermission('Teacher')}</td>
 
                                                                     <d:choose>
@@ -240,7 +240,7 @@
                                                                     </d:choose>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>User</td>
+                                                                    <td>Utilizador</td>
                                                                     <td>${user.hasPermission('User')}</td>
 
                                                                     <d:choose>

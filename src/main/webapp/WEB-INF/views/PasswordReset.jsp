@@ -47,7 +47,7 @@
                     <h1><strong><span style="color: #FF9933;">Web</span>Link</strong> e-Learning Platform</h1>
                     <div class="description">
                         <p>
-                            Password Recovery
+                            Recuperação de Password
                         </p>
                     </div>
                 </div>

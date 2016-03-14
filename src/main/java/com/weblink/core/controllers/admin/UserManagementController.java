@@ -73,7 +73,7 @@ public class UserManagementController {
             model.addAttribute("ErrorMessage" , "O utilizador ja tem a conta activada");
         }
         else if(user.getState().equals(State.INACTIVE.getState())){
-            model.addAttribute("ErrorMessage" , "Nem tu tens permissoes para dar bypass a confirmacao de email");
+            model.addAttribute("ErrorMessage" , "Nem tu tens permissões para dar bypass à confirmacão de email");
         }else{
             model.addAttribute("SuccessMessage", "Utilizador banido com sucesso");
 
@@ -102,7 +102,7 @@ public class UserManagementController {
         model.addAttribute("User", this.user);
 
         if(perm == null)                    model.addAttribute("ErrorMessage" , "Permissao Vazia");
-        else if(user.hasPermission(perm))   model.addAttribute("ErrorMessage" , "O utilizador ja tem essa permissao");
+        else if(user.hasPermission(perm))   model.addAttribute("ErrorMessage" , "O utilizador ja tem essa permissão");
 
         else{
             model.addAttribute("SuccessMessage", "Utilizador promovido com sucesso");
@@ -133,7 +133,7 @@ public class UserManagementController {
         model.addAttribute("User", this.user);
 
         if(perm == null)                        model.addAttribute("ErrorMessage" , "Permissao Vazia");
-        else if(!user.hasPermission(perm))      model.addAttribute("ErrorMessage" , "O utilizador nao tem essa permissao");
+        else if(!user.hasPermission(perm))      model.addAttribute("ErrorMessage" , "O utilizador nao tem essa permissão");
 
         else{
             model.addAttribute("SuccessMessage", "Utilizador despromovido com sucesso");

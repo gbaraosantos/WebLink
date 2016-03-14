@@ -137,18 +137,18 @@ public class LoginMenuController {
     @RequestMapping(value="/regitrationConfirm", method = RequestMethod.GET, params = {"token"})
     public String registrationConfirmation(@RequestParam("token") String token, Model model) {
         if (token == null){
-            model.addAttribute("errorMessage", "Token invalida");
+            model.addAttribute("errorMessage", "Token inválida");
             return "Login";
         }
 
         User user = userService.getUser(token);
 
         if (user == null){
-            model.addAttribute("errorMessage", "Token invalida");
+            model.addAttribute("errorMessage", "Token inválida");
             return "Login";
         }
         else if(!user.getState().equals(State.INACTIVE.getState())){
-            model.addAttribute("errorMessage", "A sua contra encontra-se bloqueada ou apagada");
+            model.addAttribute("errorMessage", "A sua contra encontra-se bloqueada ou foi apagada, contacte um administrador");
             return "Login";
         }
 
@@ -192,14 +192,14 @@ public class LoginMenuController {
     @RequestMapping(value="/passwordReset", method = RequestMethod.GET, params = {"token"})
     public String passwordReset(@RequestParam("token") String token, Model model) {
         if (token == null){
-            model.addAttribute("errorMessage", "Token invalida");
+            model.addAttribute("errorMessage", "Token inválida");
             return "Login";
         }
 
         User user = userService.getUser(token);
 
         if (user == null){
-            model.addAttribute("errorMessage", "Token invalida");
+            model.addAttribute("errorMessage", "Token inválida");
             return "Login";
         }
         model.addAttribute("token",token);
@@ -211,19 +211,19 @@ public class LoginMenuController {
         JSONObject log = new JSONObject();
 
         if (token == null){
-            model.addAttribute("errorMessage", "Request Inválido");
+            model.addAttribute("errorMessage", "Pedido Inválido");
             return "Login";
         }
 
         User user = userService.getUser(token);
         if (user == null){
-            model.addAttribute("errorMessage", "Token invalida");
+            model.addAttribute("errorMessage", "Token inválida");
             return "Login";
         }
 
         String password = new PasswordResetValidator().passwordResetValidator(request);
         if (password == null){
-            model.addAttribute("errorMessage", "Passwords did not Match");
+            model.addAttribute("errorMessage", "Passwords não são iguais");
             return "Login";
         }
 
@@ -232,7 +232,7 @@ public class LoginMenuController {
                 .append("type", "PasswordReset");
 
         userService.updatePassword(user.setPassword(password));
-        model.addAttribute("successRegister","Password Reset Successful");
+        model.addAttribute("successRegister","Actualização de Password bem sucedida");
         return "Login";
     }
 
