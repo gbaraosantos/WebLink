@@ -132,7 +132,7 @@
     </aside>
 
     <!-- Center Content -->
-    <section id="main-content">
+    <section id="main-content"  style="overflow: scroll">
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -147,7 +147,7 @@
 
 
             <div class="row">
-                <div class="col-lg-12" style="overflow: scroll">
+                <div class="col-lg-12">
                     <section class="panel">
                         <p style = "color: #b81900">${ErrorMessage}</p>
                         <p style = "color: #247000">${SuccessMessage}</p>
