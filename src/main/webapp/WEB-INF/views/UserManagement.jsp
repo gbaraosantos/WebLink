@@ -4,6 +4,8 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,7 +147,7 @@
 
 
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="overflow: scroll">
                     <section class="panel">
                         <p style = "color: #b81900">${ErrorMessage}</p>
                         <p style = "color: #247000">${SuccessMessage}</p>
@@ -164,7 +166,7 @@
                                 </tr>
 
                                 <d:forEach var="user" items="${userList}">
-                                    <tr data-toggle="collapse" data-target="#demo${user.id}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${user.id}">>
+                                    <tr data-toggle="collapse" data-target="#demo${user.id}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${user.id}">
                                         <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                                         <td>${user.id}</td>
                                         <td>${user.name}</td>
