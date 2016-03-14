@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -95,7 +96,18 @@
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu">
 
-
+                    <sec:authorize access="hasRole('Admin')">
+                        <li class="sub-menu">
+                            <a href="javascript:;" class="">
+                                <i class="fa fa-gavel"></i>
+                                <span>Admin Zone</span>
+                                <span class="menu-arrow arrow_carrot-right"></span>
+                            </a>
+                            <ul class="sub">
+                                <li><a class="" href="<c:url value="/admin/userManagement" />">User Management</a></li>
+                            </ul>
+                        </li>
+                    </sec:authorize>
 
                 </ul>
                 <!-- sidebar menu end-->

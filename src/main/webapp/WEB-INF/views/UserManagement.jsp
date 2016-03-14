@@ -70,7 +70,7 @@
             <div class="icon-reorder tooltips" data-original-title="Toggle Navation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
-        <a href="<c:url value="weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
+        <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
 
         <!-- START Buttons top right -->
         <div class="top-nav notification-row">
@@ -164,7 +164,7 @@
                                 </tr>
 
                                 <d:forEach var="user" items="${userList}">
-                                    <tr data-toggle="collapse" data-target="#demo${user.id}" class="accordion-toggle">
+                                    <tr data-toggle="collapse" data-target="#demo${user.id}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${user.id}">>
                                         <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                                         <td>${user.id}</td>
                                         <td>${user.name}</td>
