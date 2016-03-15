@@ -152,6 +152,10 @@ ig
                     </ol>
                 </div>
             </div>
+
+            <iframe src="http://192.168.5.8:5601/app/kibana#/visualize/edit/Session-per-Minute?embed=true&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(filters:!(),linked:!f,query:(query_string:(analyze_wildcard:!t,query:'*')),uiState:(),vis:(aggs:!((id:'1',params:(),schema:metric,type:count),(id:'2',params:(),schema:metric,type:count),(id:'3',params:(customInterval:'2h',extended_bounds:(),field:date,interval:auto,min_doc_count:1),schema:segment,type:date_histogram)),listeners:(),params:(addLegend:!t,addTimeMarker:!f,addTooltip:!t,defaultYExtents:!f,mode:stacked,scale:linear,setYExtents:!f,shareYAxis:!t,times:!(),yAxis:()),title:'Session%20per%20Minute',type:histogram))" height="400" width="500"></iframe>
+            <iframe src="http://192.168.5.8:5601/app/kibana#/visualize/edit/Info-Types?embed=true&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(filters:!(),linked:!f,query:(query_string:(analyze_wildcard:!t,query:'*')),uiState:(),vis:(aggs:!((id:'1',params:(),schema:metric,type:count),(id:'2',params:(field:level,order:desc,orderBy:'1',row:!t,size:5),schema:split,type:terms)),listeners:(),params:(addLegend:!t,addTooltip:!t,isDonut:!f,shareYAxis:!t),title:'Info%20Types',type:pie))" height="400" width="400"></iframe>
+            <iframe src="http://192.168.5.8:5601/app/kibana#/visualize/edit/Info-Types?embed=true&_g=(refreshInterval:(display:Off,pause:!f,value:0),time:(from:now-15m,mode:quick,to:now))&_a=(filters:!(),linked:!f,query:(query_string:(analyze_wildcard:!t,query:'*')),uiState:(),vis:(aggs:!((id:'2',params:(),schema:metric,type:count),(id:'3',params:(extended_bounds:(),field:activeTime,interval:5),schema:segment,type:histogram)),listeners:(),params:(addLegend:!t,addTimeMarker:!f,addTooltip:!t,defaultYExtents:!f,mode:stacked,scale:linear,setYExtents:!f,shareYAxis:!t,times:!(),yAxis:()),title:'',type:histogram))&indexPattern=weblink&type=histogram" height="400" width="400"></iframe>
         </section>
     </section>
 </section>
