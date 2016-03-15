@@ -70,7 +70,7 @@
 ation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
-        <a href="<c:url value="weblink" />" class="logo">WEB<span class="lite"
+        <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite"
 ig
 >LINK</span></a>
 
@@ -111,6 +111,15 @@ ig
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
 
+                <sec:authorize access="hasRole('User')">
+                    <li>
+                        <a class="" href="<c:url value="/weblink/courses" />">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>&nbsp; Cursos</span>
+                        </a>
+                    </li>
+                </sec:authorize>
+
 
                 <sec:authorize access="hasRole('Admin')">
                     <li class="sub-menu">
@@ -143,7 +152,7 @@ ig
                     </ol>
                 </div>
             </div>
-
+        </section>
     </section>
 </section>
 

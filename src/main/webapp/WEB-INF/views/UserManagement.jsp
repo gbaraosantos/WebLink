@@ -69,7 +69,7 @@
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Navation" data-placement="bottom"><i class="icon_menu"></i></div>
+            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
         <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
@@ -111,6 +111,15 @@
             <!-- sidebar menu start-->
             <ul class="sidebar-menu">
 
+                <sec:authorize access="hasRole('User')">
+                    <li>
+                        <a class="" href="<c:url value="/weblink/courses" />">
+                            <i class="fa fa-lightbulb-o"></i>
+                            <span>&nbsp; Cursos</span>
+                        </a>
+                    </li>
+                </sec:authorize>
+
 
                 <sec:authorize access="hasRole('Admin')">
                     <li class="sub-menu">
@@ -126,13 +135,16 @@
                 </sec:authorize>
 
 
+
+
+
             </ul>
             <!-- sidebar menu end-->
         </div>
     </aside>
 
     <!-- Center Content -->
-    <section id="main-content"  style="overflow-y: auto">
+    <section id="main-content">
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
