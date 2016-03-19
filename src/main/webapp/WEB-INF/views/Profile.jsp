@@ -14,8 +14,6 @@
 
     <title>Weblink :: eLearning</title>
 
-    <link href="<c:url value="/resources/js/Profile/confirmation.js" />" type="text/javascript">
-
 
     <!-- CSS -->
     <link href="<c:url value="/resources/css/Bootstrap/bootstrap.min.css" />" rel="stylesheet">
@@ -37,35 +35,13 @@
     <script src="<c:url value="/resources/js/main/jquery.scrollTo.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.sparkline.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.easy-pie-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/owl.carousel.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/fullcalendar.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/fullcalendar.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/calendar-custom.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.rateit.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.customSelect.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/Chart.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/scripts.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/sparkline-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/easy-pie-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-jvectormap-1.2.2.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-jvectormap-world-mill-en.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/xcharts.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.autosize.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.placeholder.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/gdp-data.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/morris.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/sparklines.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/charts.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.slimscroll.min.js" />" type="text/javascript"></script>
 
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
 
 
     <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
-
 
 </head>
 
@@ -315,8 +291,8 @@
     </section>
 
 
-
-    <script src="<c:url value="/resources/js/Input/custom-file-input.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/Profile/confirmation.js"/>" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/Input/custom-file-input.js"/>" type="text/javascript"></script>
 
     <script>
 

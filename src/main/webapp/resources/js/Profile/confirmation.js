@@ -1,5 +1,66 @@
 function deleteConfirm(email){
+    console.log("adf");
     alerts_confirm(email)
+}
+
+function request_delete(){
+    console.log("well im lost");
+
+    $.ajax({
+        type : "GET",
+        url : "/weblink/profile/deleteUser",
+
+        success:function(data){
+            console.log(data);
+        }
+
+    });
+}
+function alerts_confirm(email) {
+
+    swal({
+            title: "Account deleting",
+            text: "Are you sure about deleting your account? You will need an admin to restore it.",
+            confirmButtonColor: "#DD6B55",
+            type: "input",
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            imageUrl: "../../resources/images/Common/ftwarning.png",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            inputPlaceholder: "Your Email Address",
+            showLoaderOnConfirm: true
+        },
+        function(inputValue){
+            if (inputValue === false) return false;
+            if (inputValue === "") {
+                swal.showInputError("You need to write your Email!");
+                return false
+            }
+
+            if(inputValue == email){
+                request_delete(email);
+                setTimeout(function(){
+
+                    swal({
+                        title: "Deleted",
+                        text: "Your account has been deleted",
+                        type: "success"
+
+                    },function(isConfirm){
+                        if (isConfirm) document.location.href = '/logout';
+                    })
+                }, 2000);
+
+
+            }
+            else{
+                swal.showInputError("Incorrect Email!");
+                return false
+            }
+
+        });
+
 }
 
 function verify_profileUpdate(){
@@ -73,66 +134,4 @@ function compare_strings(field1, field2){
 
     alerts("Campos de password não estão iguais");
     return false
-}
-
-
-
-function request_delete(){
-    console.log("well im lost");
-
-    $.ajax({
-        type : "GET",
-        url : "/weblink/profile/deleteUser",
-
-        success:function(data){
-            console.log(data);
-        }
-
-    });
-}
-function alerts_confirm(email) {
-
-    swal({
-        title: "Account deleting",
-        text: "Are you sure about deleting your account? You will need an admin to restore it.",
-        confirmButtonColor: "#DD6B55",
-        type: "input",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        imageUrl: "../../resources/images/Common/ftwarning.png",
-        showCancelButton: true,
-        closeOnConfirm: false,
-        inputPlaceholder: "Your Email Address",
-        showLoaderOnConfirm: true
-    },
-        function(inputValue){
-            if (inputValue === false) return false;
-            if (inputValue === "") {
-                swal.showInputError("You need to write your Email!");
-                return false
-            }
-
-            if(inputValue == email){
-                request_delete(email);
-                setTimeout(function(){
-
-                    swal({
-                        title: "Deleted",
-                        text: "Your account has been deleted",
-                        type: "success"
-
-                    },function(isConfirm){
-                        if (isConfirm) document.location.href = '/logout';
-                    })
-                }, 2000);
-
-
-            }
-            else{
-                swal.showInputError("Incorrect Email!");
-                return false
-            }
-
-        });
-
 }
