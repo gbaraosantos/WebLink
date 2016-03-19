@@ -1,4 +1,6 @@
-
+function deleteConfirm(email){
+    alerts_confirm(email)
+}
 
 function verify_profileUpdate(){
     var name = document.getElementById("nome");
@@ -41,11 +43,7 @@ function verify_profileUpdate(){
 
 
     return true;
-
-
-
 }
-
 
 function verifyNull(InputBox){
     return InputBox.value != "";
@@ -78,10 +76,7 @@ function compare_strings(field1, field2){
 }
 
 
-function deleteConfirm(email){
 
-    alerts_confirm(email)
-}
 function request_delete(){
     console.log("well im lost");
 
