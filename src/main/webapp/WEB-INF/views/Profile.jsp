@@ -57,6 +57,8 @@
     <script src="<c:url value="/resources/js/main/charts.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.slimscroll.min.js" />" type="text/javascript"></script>
 
+    <link href="<c:url value="/resources/js/Profile/confirmation.js" />" rel="stylesheet">
+
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
 

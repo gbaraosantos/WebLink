@@ -121,9 +121,11 @@
                 <div class="col-lg-12">
                     <h3 class="page-header" style="float: left;"><i class="fa fa-lightbulb-o"></i> Courses </h3>
 
-                    <a href="<c:url value="/coord/addCourse" />" style="float: right; color: #384dd1; margin-right: 20px; ">
-                        <i style="color: green;" class="fa fa-plus-circle fa-4x"></i>
-                    </a>
+                    <sec:authorize access="hasRole('Coordinator')">
+                        <a href="<c:url value="/coord/addCourse" />" style="float: right; color: #384dd1; margin-right: 20px; ">
+                            <i style="color: green;" class="fa fa-plus-circle fa-4x"></i>
+                        </a>
+                    </sec:authorize>
 
                     <div style="clear: both;"></div>
 
@@ -219,14 +221,27 @@
                 <div class="col-lg-4" >
                     <div class="panel" >
                         <div class="panel-heading" style="border-bottom: #000000">
-                            <h4 style="float: left">Informática</h4>
+                            <div class="col-lg-8">
+                                <h4 style="float: left">Informática</h4>
+                            </div>
 
-                            <sec:authorize access="hasRole('Coordinator')">
-                                <a href="#" style="float: right; color: #384dd1">
-                                    <i class="fa fa-cog">Edit</i>
-                                </a>
-                            </sec:authorize>
-                            <div style="clear: both;"></div>
+                            <div class="col-lg-4">
+                                <sec:authorize access="hasRole('Coordinator')">
+                                    <div class="col-lg-2" style="padding-right: 30px">
+                                        <a href="#"  style="color: #384dd1">
+                                            <i class="fa fa-cog">Edit</i>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-lg-2" style="padding-right: 30px">
+                                        <a href="#" style=" color: #ad0e01">
+                                            <i class="fa fa-times">Remove</i>
+                                        </a>
+                                    </div>
+                                </sec:authorize>
+                            </div>
+
+
                         </div>
 
                         <div class="panel-body">
@@ -253,17 +268,30 @@
                 </div>
 
 
-                <div class="col-lg-4">
-                    <div class="panel">
-                        <div class="panel-heading">
-                            <h4 style="float: left">Informática</h4>
+                <div class="col-lg-4" >
+                    <div class="panel" >
+                        <div class="panel-heading" style="border-bottom: #000000">
+                            <div class="col-lg-8">
+                                <h4 style="float: left">Informática</h4>
+                            </div>
 
-                            <sec:authorize access="hasRole('Coordinator')">
-                                <a href="#" style="float: right; color: #384dd1">
-                                    <i class="fa fa-cog">Edit</i>
-                                </a>
-                            </sec:authorize>
-                            <div style="clear: both;"></div>
+                            <div class="col-lg-4">
+                                <sec:authorize access="hasRole('Coordinator')">
+                                    <div class="col-lg-2" style="padding-right: 30px">
+                                        <a href="#"  style="color: #384dd1">
+                                            <i class="fa fa-cog">Edit</i>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-lg-2" style="padding-right: 30px">
+                                        <a href="#" style=" color: #ad0e01">
+                                            <i class="fa fa-times">Remove</i>
+                                        </a>
+                                    </div>
+                                </sec:authorize>
+                            </div>
+
+
                         </div>
 
                         <div class="panel-body">

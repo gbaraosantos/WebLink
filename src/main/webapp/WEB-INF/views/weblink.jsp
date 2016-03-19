@@ -70,9 +70,7 @@
 ation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
-        <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite"
-ig
->LINK</span></a>
+        <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
 
         <!-- START Buttons top right -->
         <div class="top-nav notification-row">
