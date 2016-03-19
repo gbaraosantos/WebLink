@@ -110,7 +110,7 @@
                 </sec:authorize>
 
             </ul>
-            <!-- sidebar menu end-->
+            <!-- sidebar mendu end-->
         </div>
     </aside>
 
