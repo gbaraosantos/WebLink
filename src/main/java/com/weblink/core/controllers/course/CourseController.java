@@ -20,7 +20,6 @@ public class CourseController {
 
     private volatile User user;
 
-
     @RequestMapping(value = "/weblink/courses", method = RequestMethod.GET)
     public String getCourses(Model model){
         user = userService.getSingleUser(getEmail());
@@ -29,6 +28,13 @@ public class CourseController {
         return "Courses";
     }
 
+    @RequestMapping(value = "/coord/addCourse" , method = RequestMethod.GET)
+    public String getCourseAdd(Model model){
+        user = userService.getSingleUser(getEmail());
+        model.addAttribute("User", user);
+        model.addAttribute("fileBucket" , new FileBucket());
+        return "AddCourse";
+    }
 
 
 

@@ -25,7 +25,6 @@ public class Course {
     @Column(name = "price", nullable = false)
     private int price;
 
-    @Size(min=3, max=256)
     @Column(name = "area", nullable = false)
     private String area;
 
@@ -66,7 +65,7 @@ public class Course {
     public Course setName(String name) { this.name = name; return this; }
     public Course setDescription(String description) { this.description = description; return this; }
     public Course setPrice(int price) { this.price = price; return this; }
-    public Course setArea(String area) { this.area = area; return this; }
+    public Course setArea(String area) {this.area = area;return this;}
     public Course setNumClasses(int numClasses) { this.numClasses = numClasses; return this; }
     public Course setSynch(boolean synch) { this.synch = synch; return this; }
     public Course setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }

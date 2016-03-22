@@ -13,7 +13,7 @@
 
 
     <!-- CSS -->
-    <link href="<c:url value="/resources/css/Bootstrap/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Bootstrap/bootstrap.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Bootstrap/bootstrap-theme.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Icons/elegant-icons-style.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.min.css" />" rel="stylesheet">
@@ -24,20 +24,54 @@
     <link href="<c:url value="/resources/css/Loader/loader.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/course_icons/icons.css" />" rel="stylesheet">
 
-    <link href="<c:url value="http://www.jqueryscript.net/css/jquerysctipttop.css" />" rel="stylesheet">
-    <link href="<c:url value="https://cdnjs.com/libraries/bootstrap-slider" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/slider/bootstrap-slider.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/iconpicker/bootstrap-iconpicker.min.css" />" rel="stylesheet">
 
     <!-- JS -->
-    <script src="<c:url value="/resources/js/main/jquery.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/jQuery/jquery.nicefileinput.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/bootstrap.min.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/jQuery/jquery-1.10.2.min.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.scrollTo.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/scripts.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/ga.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/jquery.hotkeys.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/jquery.tagsinput.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap-switch.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg-custom.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
 
-    <script src="<c:url value="http://code.jquery.com/jquery-1.11.3.min.js"/>" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/slider/bootstrap-slider.js" />" ></script>
+    <style>
+        input[type=range]{
+            -webkit-appearance: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 300px;
+            height: 5px;
+            background: #ddd;
+            border: none;
+            border-radius: 3px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #06548d;
+            margin-top: -4px;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #ccc;
+        }
+    </style>
 
 </head>
 
@@ -117,19 +151,152 @@
     <!-- Center Content -->
     <section id="main-content">
         <section class="wrapper">
+
+            <!--            ADD A COURSE            -->
+
+
+            <div class="row">
+                <div aria-hidden="true" aria-labelledby="myModelLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                    <div class="modal-dialog" style = "width: 800px; margin:0 -400px; height: auto; position: absolute; overflow: visible;" >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                <h4 class="modal-title">Criação de Curso</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="panel-body bio-graph-info">
+
+                                    <form class="form-horizontal" role="form" action="<c:url value="/coord/addCourse"/>" method="post">
+                                        <div class="form-group" >
+                                            <div class="col-lg-12">
+                                                <label class="col-lg-2 control-label" style="text-align: left">Área: </label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="area" id="area" autocomplete="off" placeholder="Área do Curso">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <label class="col-lg-2 control-label" style="text-align: left">Nome: </label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="courseName" id="courseName" autocomplete="off" placeholder="Nome do Curso">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <label class="col-lg-2 control-label" style="text-align: left">Descrição: </label>
+                                                <div class="col-lg-9">
+                                                    <textarea class="form-control" name="description" id="description" placeholder="Descrição do Curso"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <label class="col-lg-2 control-label" style="text-align: left">Número de Módulos </label>
+                                                <div class="col-lg-9">
+                                                    <input type="number" class="form-control" name="nModules" id="nModules" autocomplete="off" placeholder="Número de Módulos">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-6" style="padding-left: 0">
+                                                    <label class="col-lg-5 control-label" style="text-align: left" >Tipo de Aulas</label>
+                                                    <div class="col-lg-7">
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="Synch" value="true" checked>
+                                                                Assincronas
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <label>
+                                                                <input type="radio" name="optionsRadios" id="Assynch" value="false">
+                                                                Sincronas
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6" style="padding-left: 0">
+                                                    <label  class="col-lg-5 control-label" style="text-align: left" >Icon do Curso</label>
+                                                    <div class="col-lg-7">
+                                                        <button id = "IconSelect" class="btn btn-default form-control" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class = "col-lg-12">
+                                                <div class="col-lg-6" style="padding-left: 0">
+                                                    <label class="col-lg-5 control-label" style="text-align: left">Data Inicio: </label>
+                                                    <div class="col-lg-7">
+                                                        <input type="date" class="form-control" name="startDate" id="startDate" autocomplete="off" placeholder="mm/dd/yyyy">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <label class="col-lg-5 control-label" style="text-align: left">Preço </label>
+                                                    <div class="col-lg-7">
+                                                        <input type="number" class="form-control" name="price" id="price" autocomplete="off" placeholder="Preço">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-6" style="padding-left: 0">
+                                                    <label class="col-lg-5 control-label" style="text-align: left">Número Aulas </label>
+                                                    <div class="col-lg-7">
+                                                        <input type="number" class="form-control" name="nClasses" id="nClasses" autocomplete="off" placeholder="Número de Aulas">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <label class="col-lg-5 control-label" style="text-align: left">Tempo por Aula </label>
+                                                    <div class="col-lg-7">
+                                                        <input type="number" class="form-control" name="tClass" id="tClass" autocomplete="off" placeholder="Time">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <center>
+                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                            <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
+                                        </center>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--        END OF COURSE ADD       -->
+
+
+            <!--        BREADCRUMBS START       -->
+
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="page-header" style="float: left;"><i class="fa fa-lightbulb-o"></i> Courses </h3>
 
                     <sec:authorize access="hasRole('Coordinator')">
-                        <a href="<c:url value="/coord/addCourse" />" style="float: right; color: #384dd1; margin-right: 20px; ">
+                        <a data-toggle="modal" href="<c:url value="#myModal" />" style="float: right; color: #384dd1; margin-right: 20px; ">
                             <i style="color: green;" class="fa fa-plus-circle fa-4x"></i>
                         </a>
                     </sec:authorize>
 
                     <div style="clear: both;"></div>
-
-
 
 
 
@@ -142,6 +309,12 @@
                 </div>
             </div>
 
+
+            <!--        BREADCRUMBS  END      -->
+
+
+            <!--        Filter  Start      -->
+
             <div class="row">
                 <div class="col-lg-12" >
                     <div class="panel" >
@@ -150,98 +323,118 @@
                                 <div class="col-lg-11">
                                     <h4>Filter</h4>
                                 </div>
-                                <div class="col-lg-1" id = "savebtt">
-                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                    <button type="submit" onclick="return verify_profileUpdate();" class="btn btn-primary" style="float: right">Save</button>
-                                </div>
                             </div>
 
                             <div class="collapse" id="filters">
                                 <div class = "panel-body" >
-                                    <div class="col-lg-6">
-
-                                        <div class="form-group">
-                                            <label class = "col-lg-2 control-label" for="name"><b>Curso:</b></label>
-                                            <div class="col-lg-5">
-                                                <input type="text" class="form-control" name="name" id="name" autocomplete="off" placeholder="Nome do Curso">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-6">
+                                                <label class = "col-lg-3 control-label" for="name" style="text-align: left" ><b>Curso:</b></label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="name" id="name" autocomplete="off" placeholder="Nome do Curso">
+                                                </div>
                                             </div>
 
+                                            <div class="col-lg-6">
+                                                <label class = "col-lg-3 control-label" for="areafilter" style="text-align: left" ><b>Área: </b></label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="area" id="areafilter" autocomplete="off" placeholder="Área">
+                                                </div>
+
+                                            </div>
                                         </div>
-
-
-                                        <div class="form-group">
-                                            <label class = "col-lg-2 control-label" for="ex2"><b>Preço: </b></label>
-                                            5€ &nbsp;
-                                            <input id="ex2" type="text" name= "priceRange" class="span2" data-slider-min="5" data-slider-max="200" data-slider-step="5" data-slider-value="[250,450]"/>
-                                            &nbsp; 200€
-                                        </div>
-
                                     </div>
 
-
-
-
-                                    <div class="col-lg-6" >
-                                        <div class="form-group">
-                                            <label class = "col-lg-2 control-label" for="name"><b>Curso: </b></label>
-                                            <div class="col-lg-5">
-                                                <input type="text" class="form-control" name="name" id="1" autocomplete="off" placeholder="Nome do Curso">
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-6">
+                                                <label class = "col-lg-3 control-label" for="pricerange" style="text-align: left" ><b>Preço: </b></label>
+                                                <div class="col-lg-9">
+                                                    <div class="col-lg-9" style="margin-right: 0; padding-right: 0; padding-left: 0">
+                                                        <input onchange="updateTextInput(this.value);" class="form-control" id= "pricerange" type="range" name="pricerange" min="0" max="200" step="5">
+                                                    </div>
+                                                    <div class="col-lg-3" style="margin-left: 0; padding-left: 5px;margin-right: 0; padding-right: 0">
+                                                        <input  class="form-control" type="text" id="textInput" name = "pricerangeValue" value="100">
+                                                    </div>
+                                                </div>
                                             </div>
-
+                                            <div class="col-lg-6">
+                                                <label class = "col-lg-3 control-label" for="date" style="text-align: left" ><b>Data de inicio: </b></label>
+                                                <div class="col-lg-9">
+                                                    <input type="date" class="form-control" name="date" id="date" autocomplete="off" placeholder="3/10/2016">
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
 
-
+                                    <sec:authorize access="hasRole('Coordinator')">
                                         <div class="form-group">
-                                            <label class = "col-lg-2 control-label" for="ex2"><b>Preço: </b></label>
-                                            <div class="col-lg-5">
-                                                <input type="text" class="form-control" name="name" id="na2me" autocomplete="off" placeholder="Nome do Curso">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-6">
+                                                    <label class = "col-lg-3 control-label" for="isvisible" style="text-align: left" ><b>Is visible:</b></label>
+                                                    <div class="col-lg-9">
+                                                        <select id="isvisible" name="isvisible" class="form-control">
+                                                            <option value="any">Any</option>
+                                                            <option value="no">No</option>
+                                                            <option value="yes">Yes</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                    </sec:authorize>
+
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <center>
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                <button type="submit" onclick="return verify_profileUpdate();" class="btn btn-primary" >Save</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </form:form>
-
-
                     </div>
+                </div>
             </div>
 
 
+            <!--        Filter  END      -->
 
-
-
-
-
-            </div>
-
+            <!--        Course  Listing Start      -->
             <div class="row">
-
-
                 <div class="col-lg-4" >
                     <div class="panel" >
-                        <div class="panel-heading" style="border-bottom: #000000">
-                            <div class="col-lg-8">
-                                <h4 style="float: left">Informática</h4>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <sec:authorize access="hasRole('Coordinator')">
-                                    <div class="col-lg-2" style="padding-right: 30px">
-                                        <a href="#"  style="color: #384dd1">
-                                            <i class="fa fa-cog">Edit</i>
+                        <div class="panel-heading">
+                            <div class="col-lg-12">
+                                <div class="col-lg-8">
+                                    <sec:authorize access="hasRole('Coordinator')">
+                                        <a href="#"  style="color: #d11c12; float:left;" >
+                                            <i class="fa fa-eye"></i>
                                         </a>
-                                    </div>
+                                    </sec:authorize>
 
-                                    <div class="col-lg-2" style="padding-right: 30px">
-                                        <a href="#" style=" color: #ad0e01">
-                                            <i class="fa fa-times">Remove</i>
-                                        </a>
-                                    </div>
-                                </sec:authorize>
+                                    <span style="float:left"><h4>Informática</h4></span>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <sec:authorize access="hasRole('Coordinator')">
+                                        <div class="col-lg-2" style="padding-right: 30px">
+                                            <a href="#"  style="color: #384dd1">
+                                                <i class="fa fa-cog">Edit</i>
+                                            </a>
+                                        </div>
+
+                                        <div class="col-lg-2" style="padding-right: 30px">
+                                            <a href="#" style=" color: #ad0e01">
+                                                <i class="fa fa-times">Remove</i>
+                                            </a>
+                                        </div>
+                                    </sec:authorize>
+                                </div>
                             </div>
-
-
                         </div>
 
                         <div class="panel-body">
@@ -272,7 +465,13 @@
                     <div class="panel" >
                         <div class="panel-heading" style="border-bottom: #000000">
                             <div class="col-lg-8">
-                                <h4 style="float: left">Informática</h4>
+                                <sec:authorize access="hasRole('Coordinator')">
+                                    <a href="#"  style="color: #247000; float:left" >
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                </sec:authorize>
+
+                                <span style="float:left"><h4>Informática</h4></span>
                             </div>
 
                             <div class="col-lg-4">
@@ -370,33 +569,21 @@
 
 
 
+<script src="<c:url value="/resources/js/iconpicker/iconset/iconset-fontawesome-4.2.0.min.js" />" type="text/javascript"></script>
+<script src="<c:url value="/resources/js/iconpicker/bootstrap-iconpicker.min.js" />" type="text/javascript"></script>
 
-
-
-
-
-
-
+<script type="text/javascript">
+    function updateTextInput(val) {
+        document.getElementById('textInput').value=val;
+    }
+</script>
 
 <script>
-    $('#ex1').slider({
-        formatter: function(value) {
-            return 'Current value: ' + value;
-        }
-    });
-    $("#ex2").slider({});
-    $("#ex3").slider();
-    $("#ex3").on("slide", function(slideEvt) {
-        $("#ex3SliderVal").text(slideEvt.value);
-    });
-    $("#ex4").slider({
-        ticks: [0, 100, 200, 300, 400],
-        ticks_labels: ['0€', '50€', '100€', '150€', '200€'],
-        ticks_snap_bounds: 30
-    });
-    $("#ex5a").slider({ id: "slider5a", min: 0, max: 10, value: 5 });
-    $("#ex5b").slider({ id: "slider5b", min: 0, max: 10, range: true, value: [3, 7] });
-    $("#ex5c").slider({ id: "slider5c", min: 0, max: 10, range: true, value: [3, 7] });
+
+    //knob
+    $(".knob").knob();
+
 </script>
+
 </body>
 </html>

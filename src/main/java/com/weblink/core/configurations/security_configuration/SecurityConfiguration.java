@@ -67,7 +67,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         /*Page permissions and Role attribution*/
         http.authorizeRequests()
                 .antMatchers("/", "/loginMenu/").permitAll()
-                .antMatchers("/admin/**").access("hasRole('Admin')");
+                .antMatchers("/admin/**").access("hasRole('Admin')")
+                .antMatchers("/coord/**").access("hasRole('Coordinator')");
 
         http.exceptionHandling()
                 .accessDeniedPage("/accessDenied");
