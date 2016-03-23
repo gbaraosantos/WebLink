@@ -1,0 +1,72 @@
+package com.weblink.core.models;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@Table(name="Action")
+
+public class Action {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne(targetEntity = Course.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "course_id")
+    private Course course;
+
+    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm")
+    @Column(name = "startDate", nullable = false)
+    private Date startDate;
+
+    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
+    @Column(name = "endDate", nullable = true)
+    private Date endDate;
+
+    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm")
+    @Column(name = "creationDate", nullable = false)
+    private Date creationDate;
+
+    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
+    @Column(name = "lastChangeDate", nullable = false)
+    private Date lastChangeDate;
+
+    @Column(name = "discount", nullable = false)
+    private int discount;
+
+    @Column(name = "visible", nullable = false)
+    private boolean visible;
+
+    public int getId() { return id; }
+    public Course getCourse() { return course; }
+    public Date getStartDate() { return startDate; }
+    public Date getEndDate() { return endDate; }
+    public Date getCreationDate() { return creationDate; }
+    public Date getLastChangeDate() { return lastChangeDate; }
+    public int getDiscount() { return discount; }
+    public boolean isVisible() { return visible; }
+
+    public Action setCourse(Course course) { this.course = course; return this; }
+    public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }
+    public Action setEndDate(Date endDate) { this.endDate = endDate; return this; }
+    public Action setCreationDate(Date creationDate) { this.creationDate = creationDate; return this; }
+    public Action setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
+    public Action setDiscount(int discount) { this.discount = discount; return this; }
+    public Action setVisible(boolean visible) { this.visible = visible; return this; }
+
+
+    @Override
+    public String toString() {
+        return "Action [id="            + this.id +
+                ", Course="             + this.course +
+                ", Date="               + this.startDate +
+                ", visible="            + this.visible +
+                ", Last Change Date="   + this.lastChangeDate +
+                ", End Date="           + this.endDate +
+                ", Last Change Date="   + this.lastChangeDate +
+                ", Discount="           + this.discount +"]";
+    }
+
+}

@@ -161,118 +161,208 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                                <h4 class="modal-title">Criação de Curso</h4>
+                                <h4 class="modal-title">Criação de Cursos e Acções</h4>
                             </div>
 
                             <div class="modal-body">
-                                <div class="panel-body bio-graph-info">
+                                <ul class="nav nav-tabs nav-justified">
+                                    <li class="active"><a href="#Course" aria-controls="Course" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Curso</b></h5></a></li>
+                                    <li><a href="#Actions" aria-controls="Actions" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Acção</b> </h5></a></li>
+                                    <li><a href="#Modules" aria-controls="Modules" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Módulos</b> </h5></a></li>
+                                </ul>
 
-                                    <form class="form-horizontal" role="form" action="<c:url value="/coord/addCourse"/>" method="post">
-                                        <div class="form-group" >
-                                            <div class="col-lg-12">
-                                                <label class="col-lg-2 control-label" style="text-align: left">Área: </label>
-                                                <div class="col-lg-9">
-                                                    <input type="text" class="form-control" name="area" id="area" autocomplete="off" placeholder="Área do Curso">
-                                                </div>
-                                            </div>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="Course">
+                                        <div class="panel-body bio-graph-info">
 
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-12">
-                                                <label class="col-lg-2 control-label" style="text-align: left">Nome: </label>
-                                                <div class="col-lg-9">
-                                                    <input type="text" class="form-control" name="courseName" id="courseName" autocomplete="off" placeholder="Nome do Curso">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-lg-12">
-                                                <label class="col-lg-2 control-label" style="text-align: left">Descrição: </label>
-                                                <div class="col-lg-9">
-                                                    <textarea class="form-control" name="description" id="description" placeholder="Descrição do Curso"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-lg-12">
-                                                <label class="col-lg-2 control-label" style="text-align: left">Número de Módulos </label>
-                                                <div class="col-lg-9">
-                                                    <input type="number" class="form-control" name="nModules" id="nModules" autocomplete="off" placeholder="Número de Módulos">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-lg-12">
-                                                <div class="col-lg-6" style="padding-left: 0">
-                                                    <label class="col-lg-5 control-label" style="text-align: left" >Tipo de Aulas</label>
-                                                    <div class="col-lg-7">
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input type="radio" name="optionsRadios" id="Synch" value="true" checked>
-                                                                Assincronas
-                                                            </label>
+                                            <form class="form-horizontal" role="form" action="<c:url value="/coord/addCourse"/>" method="post">
+                                                <div class="form-group" >
+                                                    <div class="col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Área: </label>
+                                                        <div class="col-lg-9">
+                                                            <input type="text" class="form-control" name="area" id="area" autocomplete="off" placeholder="Área do Curso">
                                                         </div>
-                                                        <div class="radio">
-                                                            <label>
-                                                                <input type="radio" name="optionsRadios" id="Assynch" value="false">
-                                                                Sincronas
-                                                            </label>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Nome: </label>
+                                                        <div class="col-lg-9">
+                                                            <input type="text" class="form-control" name="courseName" id="courseName" autocomplete="off" placeholder="Nome do Curso">
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6" style="padding-left: 0">
-                                                    <label  class="col-lg-5 control-label" style="text-align: left" >Icon do Curso</label>
-                                                    <div class="col-lg-7">
-                                                        <button id = "IconSelect" class="btn btn-default form-control" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Descrição: </label>
+                                                        <div class="col-lg-9">
+                                                            <textarea class="form-control" name="description" id="description" placeholder="Descrição do Curso"></textarea>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Número de Módulos </label>
+                                                        <div class="col-lg-9">
+                                                            <input type="number" class="form-control" name="nModules" id="nModules" autocomplete="off" placeholder="Número de Módulos">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left" >Tipo de Aulas</label>
+                                                            <div class="col-lg-7">
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="optionsRadios" id="Synch" value="1" checked>
+                                                                        Assincronas
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="optionsRadios" id="Assynch" value="2">
+                                                                        Sincronas
+                                                                    </label>
+                                                                </div>
+                                                                <div class="radio">
+                                                                    <label>
+                                                                        <input type="radio" name="optionsRadios" id="Blended" value="3">
+                                                                        Blended
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label  class="col-lg-5 control-label" style="text-align: left" >Icon do Curso</label>
+                                                            <div class="col-lg-7">
+                                                                <button id = "IconSelect" name = "IconSelect" class="btn btn-default form-control" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Data Inicio: </label>
+                                                            <div class="col-lg-7">
+                                                                <input type="date" class="form-control" name="startDate" id="startDate" autocomplete="off" placeholder="mm/dd/yyyy">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Preço </label>
+                                                            <div class="col-lg-7">
+                                                                <input type="number" class="form-control" name="price" id="price" autocomplete="off" placeholder="Preço">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Número Aulas </label>
+                                                            <div class="col-lg-7">
+                                                                <input type="number" class="form-control" name="nClasses" id="nClasses" autocomplete="off" placeholder="Número de Aulas">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Tempo por Aula </label>
+                                                            <div class="col-lg-7">
+                                                                <input type="number" class="form-control" name="tClass" id="tClass" autocomplete="off" placeholder="Time">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <center>
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
+                                                </center>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+                                    <!--        END OF COURSE ADD       -->
+
+                                    <!--            ADD an Action  START           -->
+
+                                    <div role="tabpanel" class="tab-pane" id="Actions">
+                                        <div class="panel-body bio-graph-info">
+
+                                            <form class="form-horizontal" role="form" action="<c:url value="/coord/addCourse"/>" method="post">
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Curso:</label>
+                                                            <div class="col-lg-7" style="padding-left: 0">
+                                                                <select class="form-control m-bot15" id="courseID" name="CourseID">
+                                                                    <option value = "1">Option 1</option>
+                                                                    <option value = "2">Option 2</option>
+                                                                    <option value = "3">Option 3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Data Inicio: </label>
+                                                            <div class="col-lg-7" style="padding-left: 0px">
+                                                                <input type="date" class="form-control" name="startDateAction" id="startDateAction" autocomplete="off" placeholder="mm/dd/yyyy">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Observações:</label>
+                                                        <div class="col-lg-9" style="padding-left: 20px">
+                                                            <textarea class="form-control" name="descriptionAction" id="descriptionAction" placeholder="Observações"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Desconto:</label>
+                                                            <div class="col-lg-7" style="padding-left: 0">
+                                                                <input type="number" class="form-control" name="discount" id="discount" autocomplete="off" placeholder="Desconto">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <center>
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
+                                                </center>
+                                            </form>
                                         </div>
 
-                                        <div class="form-group">
-                                            <div class = "col-lg-12">
-                                                <div class="col-lg-6" style="padding-left: 0">
-                                                    <label class="col-lg-5 control-label" style="text-align: left">Data Inicio: </label>
-                                                    <div class="col-lg-7">
-                                                        <input type="date" class="form-control" name="startDate" id="startDate" autocomplete="off" placeholder="mm/dd/yyyy">
-                                                    </div>
-                                                </div>
+                                    </div>
 
-                                                <div class="col-lg-6">
-                                                    <label class="col-lg-5 control-label" style="text-align: left">Preço </label>
-                                                    <div class="col-lg-7">
-                                                        <input type="number" class="form-control" name="price" id="price" autocomplete="off" placeholder="Preço">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <!--            ADD an Action  END           -->
 
-                                        <div class="form-group">
-                                            <div class="col-lg-12">
-                                                <div class="col-lg-6" style="padding-left: 0">
-                                                    <label class="col-lg-5 control-label" style="text-align: left">Número Aulas </label>
-                                                    <div class="col-lg-7">
-                                                        <input type="number" class="form-control" name="nClasses" id="nClasses" autocomplete="off" placeholder="Número de Aulas">
-                                                    </div>
-                                                </div>
+                                    <!--            ADD Modules  START           -->
 
-                                                <div class="col-lg-6">
-                                                    <label class="col-lg-5 control-label" style="text-align: left">Tempo por Aula </label>
-                                                    <div class="col-lg-7">
-                                                        <input type="number" class="form-control" name="tClass" id="tClass" autocomplete="off" placeholder="Time">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div role="tabpanel" class="tab-pane" id="Modules">
 
-                                        <center>
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                            <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
-                                        </center>
-                                    </form>
+
+                                    </div>
+
+                                    <!--            ADD Modules  END           -->
+
+
                                 </div>
                             </div>
                         </div>
@@ -281,7 +371,7 @@
             </div>
 
 
-            <!--        END OF COURSE ADD       -->
+
 
 
             <!--        BREADCRUMBS START       -->
@@ -405,6 +495,7 @@
 
             <!--        Course  Listing Start      -->
             <div class="row">
+
                 <div class="col-lg-4" >
                     <div class="panel" >
                         <div class="panel-heading">
@@ -571,6 +662,11 @@
 
 <script src="<c:url value="/resources/js/iconpicker/iconset/iconset-fontawesome-4.2.0.min.js" />" type="text/javascript"></script>
 <script src="<c:url value="/resources/js/iconpicker/bootstrap-iconpicker.min.js" />" type="text/javascript"></script>
+
+
+<script>
+    console.log(${SuccessCreating})
+</script>
 
 <script type="text/javascript">
     function updateTextInput(val) {

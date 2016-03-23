@@ -1,5 +1,6 @@
 package com.weblink.core.models;
 
+import com.weblink.core.common.enums.CourseType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,13 +10,12 @@ import java.util.Date;
 @Entity
 @Table(name="Course")
 public class Course {
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
     @Size(min=3, max=256)
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique=true)
     private String name;
 
     @Size(min=6, max=2048)
@@ -25,17 +25,21 @@ public class Course {
     @Column(name = "price", nullable = false)
     private int price;
 
+    @Column(name = "reTryPrice", nullable = false)
+    private int reTryPrice;
+
+    @Size(min=3, max=256)
     @Column(name = "area", nullable = false)
     private String area;
+
+    @Column(name = "icon", nullable = false)
+    private String icon;
 
     @Column(name = "numClasses", nullable = false)
     private int numClasses;
 
     @Column(name = "synch", nullable = false)
-    private boolean synch;
-
-    @Column(name = "visible", nullable = false)
-    private boolean visible;
+    private String synch;
 
     @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
     @Column(name = "lastChangeDate", nullable = false)
@@ -48,6 +52,9 @@ public class Course {
     @Column(name = "numberModules", nullable = false)
     private int numberModules;
 
+    @Column(name = "tClass", nullable = false)
+    private int tClass;
+
 
     public int getId() { return id; }
     public String getName() { return name; }
@@ -55,21 +62,34 @@ public class Course {
     public int getPrice() { return price; }
     public String getArea() { return area; }
     public int getNumClasses() { return numClasses; }
-    public boolean isSynch() { return synch; }
     public Date getLastChangeDate() { return lastChangeDate; }
     public Date getCreationDate() { return creationDate; }
     public int getNumberModules() { return numberModules; }
-    public boolean isVisible() { return visible; }
-
+    public String getSynch() { return synch; }
+    public int getReTryPrice() { return reTryPrice; }
+    public String getIcon() { return icon; }
+    public int gettClass() { return tClass; }
 
     public Course setName(String name) { this.name = name; return this; }
     public Course setDescription(String description) { this.description = description; return this; }
     public Course setPrice(int price) { this.price = price; return this; }
     public Course setArea(String area) {this.area = area;return this;}
     public Course setNumClasses(int numClasses) { this.numClasses = numClasses; return this; }
-    public Course setSynch(boolean synch) { this.synch = synch; return this; }
+    public Course setSynch(String synch) { this.synch = synch; return this; }
     public Course setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
     public Course setCreationDate(Date creationDate) { this.creationDate = creationDate; return this; }
     public Course setNumberModules(int numberModules) { this.numberModules = numberModules; return this; }
-    public Course setVisible(boolean visible) { this.visible = visible; return this; }
+    public Course setReTryPrice(int reTryPrice) { this.reTryPrice = reTryPrice; return this; }
+    public Course setIcon(String icon) { this.icon = icon; return this; }
+    public Course settClass(int tClass) { this.tClass = tClass; return this; }
+
+    @Override
+    public String toString() {
+        return "User [id=" + this.id +
+                ", name=" + this.name +
+                ", price=" + this.price +
+                ", area=" + this.area +
+                ", synch=" + this.synch +
+                ", icon=" + this.icon +"]";
+    }
 }

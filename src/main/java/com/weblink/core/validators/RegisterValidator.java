@@ -13,8 +13,7 @@ public class RegisterValidator {
 
         if(!hasAllValues(request)) return null;
 
-        User user;
-        user = mapUser(request,userProfiles);
+        User user = mapUser(request,userProfiles);
 
         if(user == null) return null;
         if(!checkNullAndSize(user.getAddress() , 3 , 256)) return null;
