@@ -33,4 +33,17 @@ public class CourseManagementDaoImpl extends AbstractDao<Integer, Course>  imple
         query.setParameter("name", name);
         return (List<Course>)query.list();
     }
+
+    @Override
+    public List<Course> getAll() {
+        Query query = getSession().createQuery("FROM Course");
+        return (List<Course>)query.list();
+    }
+
+    @Override
+    public List<Course> getCourse(int id) {
+        Query query = getSession().createQuery("FROM Course AS u WHERE u.id = :id");
+        query.setParameter("id", id);
+        return (List<Course>)query.list();
+    }
 }

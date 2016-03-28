@@ -8,4 +8,6 @@ public interface CourseManagementService {
     void deleteCourse(Course course);
     void updateCourse(Course course);
     Course getCourse(String name);
+    Object getAll();
+    Course getCourse(int courseID);
 }

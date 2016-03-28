@@ -11,3 +11,7 @@ INSERT INTO UserPermissions (userID, ProfileID) SELECT user.id, profile.id FROM 
 INSERT INTO UserPermissions (userID, ProfileID) SELECT user.id, profile.id FROM Users user, UserProfile profile where user.id=1 and profile.type="Coordinator";
 INSERT INTO UserPermissions (userID, ProfileID) SELECT user.id, profile.id FROM Users user, UserProfile profile where user.id=1 and profile.type="Teacher";
 INSERT INTO UserPermissions (userID, ProfileID) SELECT user.id, profile.id FROM Users user, UserProfile profile where user.id=1 and profile.type="User";
+
+
+INSERT INTO Course(creationDate,area, description,icon , lastChangeDate, name, numClasses, numberModules,price,reTryPrice,synch,tClass) VALUES (DATE(now()),"Informatica","Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ", "fa-key",DATE(now()),"App Development",7, 5, 60,20,"Synch",15);
+INSERT INTO Action(creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id) VALUES (DATE(now()),0,null, 60,DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),false, 1);

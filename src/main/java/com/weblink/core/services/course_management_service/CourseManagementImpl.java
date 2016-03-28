@@ -37,4 +37,16 @@ public class CourseManagementImpl implements CourseManagementService{
         if(list==null || list.size() <= 0) return null;
         return list.get(0);
     }
+
+    @Override
+    public List<Course> getAll() {
+        return courseManagementDao.getAll();
+    }
+
+    @Override
+    public Course getCourse(int id) {
+        List<Course> list = courseManagementDao.getCourse(id);
+        if(list==null || list.size() <= 0) return null;
+        return list.get(0);
+    }
 }

@@ -10,4 +10,6 @@ public interface CourseManagementDao {
     void deleteCourse(Course course);
     void updateCourse(Course course);
     List<Course> getCourse(String name);
+    List<Course> getAll();
+    List<Course> getCourse(int id);
 }

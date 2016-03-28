@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,6 +43,9 @@
     <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg-custom.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/delete_confirmation.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
+    <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
 
     <style>
         input[type=range]{
@@ -167,8 +173,12 @@
                             <div class="modal-body">
                                 <ul class="nav nav-tabs nav-justified">
                                     <li class="active"><a href="#Course" aria-controls="Course" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Curso</b></h5></a></li>
-                                    <li><a href="#Actions" aria-controls="Actions" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Acção</b> </h5></a></li>
-                                    <li><a href="#Modules" aria-controls="Modules" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Módulos</b> </h5></a></li>
+                                    <d:choose>
+                                        <d:when test="${courses.size() != 0}">
+                                            <li><a href="#Actions" aria-controls="Actions" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Acção</b> </h5></a></li>
+                                            <li><a href="#Modules" aria-controls="Modules" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Criação de Módulos</b> </h5></a></li>
+                                        </d:when>
+                                    </d:choose>
                                 </ul>
 
                                 <div class="tab-content">
@@ -240,7 +250,7 @@
                                                         <div class="col-lg-6" style="padding-left: 0">
                                                             <label  class="col-lg-5 control-label" style="text-align: left" >Icon do Curso</label>
                                                             <div class="col-lg-7">
-                                                                <button id = "IconSelect" name = "IconSelect" class="btn btn-default form-control" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
+                                                                <button id = "IconSelect" name = "IconSelect" class="btn btn-default form-control" data-search="false" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -298,16 +308,16 @@
                                     <div role="tabpanel" class="tab-pane" id="Actions">
                                         <div class="panel-body bio-graph-info">
 
-                                            <form class="form-horizontal" role="form" action="<c:url value="/coord/addCourse"/>" method="post">
+                                            <form class="form-horizontal" role="form" action="<c:url value="/coord/addAction"/>" method="post">
                                                 <div class="form-group">
                                                     <div class = "col-lg-12">
                                                         <div class="col-lg-6" style="padding-left: 0">
                                                             <label class="col-lg-5 control-label" style="text-align: left">Curso:</label>
                                                             <div class="col-lg-7" style="padding-left: 0">
                                                                 <select class="form-control m-bot15" id="courseID" name="CourseID">
-                                                                    <option value = "1">Option 1</option>
-                                                                    <option value = "2">Option 2</option>
-                                                                    <option value = "3">Option 3</option>
+                                                                    <d:forEach var="course" items="${courses}">
+                                                                        <option value = "${course.getId()}">${course.getName()}</option>
+                                                                    </d:forEach>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -317,15 +327,6 @@
                                                             <div class="col-lg-7" style="padding-left: 0px">
                                                                 <input type="date" class="form-control" name="startDateAction" id="startDateAction" autocomplete="off" placeholder="mm/dd/yyyy">
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="col-lg-12">
-                                                        <label class="col-lg-2 control-label" style="text-align: left">Observações:</label>
-                                                        <div class="col-lg-9" style="padding-left: 20px">
-                                                            <textarea class="form-control" name="descriptionAction" id="descriptionAction" placeholder="Observações"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -356,7 +357,37 @@
                                     <!--            ADD Modules  START           -->
 
                                     <div role="tabpanel" class="tab-pane" id="Modules">
+                                        <div class="panel-body bio-graph-info">
+                                            <form class="form-horizontal" role="form" action="<c:url value="/coord/addModules"/>" method="post">
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Curso:</label>
+                                                            <div class="col-lg-7" style="padding-left: 0">
+                                                                <select class="form-control m-bot15" id="courseIDModules" name="CourseID" onchange="loadModules()">
+                                                                    <option value="0" selected>Escolha um curso</option>
+                                                                    <d:forEach var="course" items="${courses}">
+                                                                        <option value = "${course.getId()}">${course.getName()}</option>
+                                                                    </d:forEach>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+
+                                                    </div>
+                                                </div>
+
+
+                                                <center>
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
+                                                </center>
+                                            </form>
+                                        </div>
 
                                     </div>
 
@@ -402,9 +433,12 @@
 
             <!--        BREADCRUMBS  END      -->
 
+            <div style="height: auto; text-align: center">
+                <h4 style="color: #d11c12">${FailureCreating}</h4>
+                <h4 style="color: #196e1b">${SuccessCreating}</h4>
+            </div>
 
             <!--        Filter  Start      -->
-
             <div class="row">
                 <div class="col-lg-12" >
                     <div class="panel" >
@@ -491,124 +525,86 @@
             </div>
 
 
+
             <!--        Filter  END      -->
+
+            <d:choose>
+                <d:when test="${actions.size() == 0}">
+                    <div style="text-align: center">
+                        <h3 style="color: #8e0d01;">
+                            Não Existem Cursos Disponiveis, Tente mais tarde.
+                        </h3>
+
+                    </div>
+                </d:when>
+            </d:choose>
+
 
             <!--        Course  Listing Start      -->
             <div class="row">
-
-                <div class="col-lg-4" >
-                    <div class="panel" >
-                        <div class="panel-heading">
-                            <div class="col-lg-12">
-                                <div class="col-lg-8">
+                <d:forEach var="action" items="${actions}">
+                    <div class="col-lg-4" >
+                        <div class="panel" >
+                            <div class="panel-heading" style=" padding-left: 0; margin-left: 1; padding-right: 0; margin-right: 0">
+                                <div class="col-lg-8" style="padding-left: 0; margin-left: 0; ; padding-right: 0; margin-right: 0">
                                     <sec:authorize access="hasRole('Coordinator')">
-                                        <a href="#"  style="color: #d11c12; float:left;" >
-                                            <i class="fa fa-eye"></i>
-                                        </a>
+                                        <d:choose>
+                                            <d:when test="${action.isVisible()}">
+                                                <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #1e902a; float:left; padding-right: 0; margin-right: 0" >
+                                                    <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
+                                                </a>
+                                            </d:when>
+                                            <d:otherwise>
+                                                <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #ad0e01; float:left; padding-right: 0; margin-right: 0" >
+                                                    <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
+                                                </a>
+                                            </d:otherwise>
+                                        </d:choose>
                                     </sec:authorize>
 
-                                    <span style="float:left"><h4>Informática</h4></span>
+                                    <span style="float:left"><h4>${action.getCourse().getArea()}</h4></span>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-4" style="padding-right: 0; margin-right: 0">
                                     <sec:authorize access="hasRole('Coordinator')">
-                                        <div class="col-lg-2" style="padding-right: 30px">
-                                            <a href="#"  style="color: #384dd1">
-                                                <i class="fa fa-cog">Edit</i>
+                                        <div style="padding-top: 3px">
+                                            <a onclick="deleteConfirm('${action.getId()}');">
+                                                <i style="color: #819ec2; padding-right: 0; margin-right: 0; float: right; font-size: x-large" class="fa fa-times fa"></i>
                                             </a>
                                         </div>
-
-                                        <div class="col-lg-2" style="padding-right: 30px">
-                                            <a href="#" style=" color: #ad0e01">
-                                                <i class="fa fa-times">Remove</i>
+                                        <div style="padding-top: 2px">
+                                            <a href = "<c:url value="/coord/deleteAction?Action=${action.getId()}"/>">
+                                                <i style="color: #819ec2; padding-right: 8px; margin-right: 8px; float: right; font-size: 21px" class="fa fa-cog"></i>
                                             </a>
                                         </div>
                                     </sec:authorize>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="panel-body">
-                            <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
-                                <span class="rotate-box-icon"><i class="fa fa-mobile"></i></span>
-                                <div class="rotate-box-info" style="margin-top: 5px;">
-                                    <h4>App Development</h4>
-                                    <p>Lorem ipsum dolor sit amet set, consectetur utes anet adipisicing elit, sed do eiusmod tempor incidist.</p>
-                                </div>
-                            </a>
+                            <div class="panel-body">
+                                <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
+                                    <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
+                                    <div class="rotate-box-info" style="margin-top: 5px;">
+                                        <h4>${action.getCourse().getName()}</h4>
+                                        <d:set var="shortDesc" value="${fn:substring(action.getCourse().getDescription(), 0, 100)}" />
+                                        <p>${shortDesc}</p>
+                                    </div>
+                                </a>
 
-                            <a href="#" style="float: right; color: #384dd1"> More </a>
-                            <div style="clear: both;"></div>
+                                <a href="#" style="float: right; color: #6b819f"> More </a>
+                                <div style="clear: both;"></div>
 
-                        </div>
-
-                        <div class="panel-footer">
-                            <h5 style="float: left"> <b>Quando Começa: </b> 3/6/2014</h5>
-                            <h5 style="float: right"> <b>Preço:</b> 60 <i class="fa fa-eur"></i></h5>
-                            <div style="clear: both;"></div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-lg-4" >
-                    <div class="panel" >
-                        <div class="panel-heading" style="border-bottom: #000000">
-                            <div class="col-lg-8">
-                                <sec:authorize access="hasRole('Coordinator')">
-                                    <a href="#"  style="color: #247000; float:left" >
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-                                </sec:authorize>
-
-                                <span style="float:left"><h4>Informática</h4></span>
                             </div>
 
-                            <div class="col-lg-4">
-                                <sec:authorize access="hasRole('Coordinator')">
-                                    <div class="col-lg-2" style="padding-right: 30px">
-                                        <a href="#"  style="color: #384dd1">
-                                            <i class="fa fa-cog">Edit</i>
-                                        </a>
-                                    </div>
+                            <div class="panel-footer">
+                                <h5 style="float: left"> <b>Quando Começa: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h5>
+                                <h5 style="float: right"> <b>Preço:</b> ${action.getFinalPrice()} <i class="fa fa-eur"></i></h5>
+                                <div style="clear: both;"></div>
 
-                                    <div class="col-lg-2" style="padding-right: 30px">
-                                        <a href="#" style=" color: #ad0e01">
-                                            <i class="fa fa-times">Remove</i>
-                                        </a>
-                                    </div>
-                                </sec:authorize>
                             </div>
-
-
-                        </div>
-
-                        <div class="panel-body">
-                            <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
-                                <span class="rotate-box-icon"><i class="fa fa-mobile"></i></span>
-                                <div class="rotate-box-info" style="margin-top: 5px;">
-                                    <h4>App Development</h4>
-                                    <p>Lorem ipsum dolor sit amet set, consectetur utes anet adipisicing elit, sed do eiusmod tempor incidist.</p>
-                                </div>
-                            </a>
-
-                            <a href="#" style="float: right; color: #384dd1"> More </a>
-                            <div style="clear: both;"></div>
-
-                        </div>
-
-                        <div class="panel-footer">
-                            <h5 style="float: left"> <b>Quando Começa: </b> 3/6/2014</h5>
-                            <h5 style="float: right"> <b>Preço:</b> 60 <i class="fa fa-eur"></i></h5>
-                            <div style="clear: both;"></div>
-
                         </div>
                     </div>
-                </div>
-
-
-
+                </d:forEach>
             </div>
         </section>
     </section>
@@ -663,10 +659,6 @@
 <script src="<c:url value="/resources/js/iconpicker/iconset/iconset-fontawesome-4.2.0.min.js" />" type="text/javascript"></script>
 <script src="<c:url value="/resources/js/iconpicker/bootstrap-iconpicker.min.js" />" type="text/javascript"></script>
 
-
-<script>
-    console.log(${SuccessCreating})
-</script>
 
 <script type="text/javascript">
     function updateTextInput(val) {

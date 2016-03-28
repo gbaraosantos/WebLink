@@ -85,7 +85,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "User [id=" + this.id +
+        return "Course [id=" + this.id +
                 ", name=" + this.name +
                 ", price=" + this.price +
                 ", area=" + this.area +

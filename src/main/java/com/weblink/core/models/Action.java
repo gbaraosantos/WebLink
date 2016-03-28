@@ -39,6 +39,10 @@ public class Action {
     @Column(name = "visible", nullable = false)
     private boolean visible;
 
+    @Column(name = "finalPrice", nullable = false)
+    private int finalPrice;
+
+
     public int getId() { return id; }
     public Course getCourse() { return course; }
     public Date getStartDate() { return startDate; }
@@ -47,14 +51,19 @@ public class Action {
     public Date getLastChangeDate() { return lastChangeDate; }
     public int getDiscount() { return discount; }
     public boolean isVisible() { return visible; }
+    public int getFinalPrice() { return finalPrice; }
 
     public Action setCourse(Course course) { this.course = course; return this; }
     public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }
     public Action setEndDate(Date endDate) { this.endDate = endDate; return this; }
     public Action setCreationDate(Date creationDate) { this.creationDate = creationDate; return this; }
     public Action setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
-    public Action setDiscount(int discount) { this.discount = discount; return this; }
     public Action setVisible(boolean visible) { this.visible = visible; return this; }
+    public Action setDiscount(int discount) {
+        this.finalPrice = this.course.getPrice() * (100-discount) / 100;
+        this.discount = discount; return this;
+    }
+
 
 
     @Override
@@ -69,4 +78,9 @@ public class Action {
                 ", Discount="           + this.discount +"]";
     }
 
+    public Action changeVisibility() {
+        if(this.visible) return this.setVisible(false);
+        else return this.setVisible(true);
+
+    }
 }
