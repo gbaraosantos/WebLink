@@ -97,6 +97,8 @@ public class CourseController {
         return "redirect:/weblink/courses";
     }
 
+    /*This is a comment*/
+
     @RequestMapping(value = "/coord/getModules" , method = RequestMethod.GET, params = {"Course"})
     public Course getCourseModules(@RequestParam("Course") int id, Model model, HttpServletResponse response) throws IOException {
         prepareModel(model);
