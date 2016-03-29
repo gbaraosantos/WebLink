@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service("courseManagementService")
 @Transactional
-public class CourseManagementImpl implements CourseManagementService{
+public class CourseManagementServiceImpl implements CourseManagementService{
 
     @Autowired private CourseManagementDao courseManagementDao;
 

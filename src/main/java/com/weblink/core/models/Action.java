@@ -36,6 +36,10 @@ public class Action {
     @Column(name = "discount", nullable = false)
     private int discount;
 
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false, name = "createdBy")
+    private User createdBy;
+
     @Column(name = "visible", nullable = false)
     private boolean visible;
 
@@ -52,6 +56,7 @@ public class Action {
     public int getDiscount() { return discount; }
     public boolean isVisible() { return visible; }
     public int getFinalPrice() { return finalPrice; }
+    public User getCreatedBy() { return createdBy; }
 
     public Action setCourse(Course course) { this.course = course; return this; }
     public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }
@@ -59,6 +64,8 @@ public class Action {
     public Action setCreationDate(Date creationDate) { this.creationDate = creationDate; return this; }
     public Action setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
     public Action setVisible(boolean visible) { this.visible = visible; return this; }
+    public Action setCreatedBy(User createdBy) { this.createdBy = createdBy; return this; }
+
     public Action setDiscount(int discount) {
         this.finalPrice = this.course.getPrice() * (100-discount) / 100;
         this.discount = discount; return this;

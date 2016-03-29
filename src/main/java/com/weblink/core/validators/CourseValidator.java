@@ -4,6 +4,7 @@ package com.weblink.core.validators;
 import com.weblink.core.common.enums.CourseType;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
+import com.weblink.core.models.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -12,10 +13,10 @@ import java.util.Date;
 import java.util.Map;
 
 public class CourseValidator {
-    public Action validateInput(HttpServletRequest request) {
+    public Action validateInput(HttpServletRequest request, User user) {
         if (!hasAllValues(request)) return null;
 
-        Action action = mapAction(request);
+        Action action = mapAction(request, user);
         if(action == null) return null;
 
 
@@ -31,7 +32,7 @@ public class CourseValidator {
         if(!min(course.getNumberModules() , 1)) return null;
         if(!min(course.getReTryPrice() , 0)) return null;
         if(!min(course.getPrice() , 0)) return null;
-        if(!min(course.getNumClasses() , 0)) return null;
+        if(!min(course.getNumberClasses() , 0)) return null;
 
         return action;
 
@@ -49,7 +50,7 @@ public class CourseValidator {
     }
 
 
-    private Action mapAction(HttpServletRequest request) {
+    private Action mapAction(HttpServletRequest request, User user) {
         SimpleDateFormat sdfmt1 = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
@@ -58,11 +59,12 @@ public class CourseValidator {
             return new Action()
                     .setCreationDate(new Date())
                     .setLastChangeDate(new Date())
-                    .setCourse(mapCourse(request))
+                    .setCourse(mapCourse(request , user))
                     .setDiscount(0)
                     .setEndDate(null)
                     .setVisible(false)
-                    .setStartDate(startDate);
+                    .setStartDate(startDate)
+                    .setCreatedBy(user);
         } catch (ParseException e) {
             return null;
         }
@@ -70,7 +72,7 @@ public class CourseValidator {
 
     }
 
-    private Course mapCourse(HttpServletRequest request) {
+    private Course mapCourse(HttpServletRequest request, User user) {
         String area, courseName, description, icon;
         Integer nModules, price, nClasses, tClass, optionsRadios;
 
@@ -99,9 +101,10 @@ public class CourseValidator {
                     .setCreationDate(new Date())
                     .setLastChangeDate(new Date())
                     .setPrice(price)
-                    .setNumClasses(nClasses)
+                    .setNumberClasses(nClasses)
                     .settClass(tClass)
-                    .setReTryPrice(retryPrice.intValue());
+                    .setReTryPrice(retryPrice.intValue())
+                    .setCreatedBy(user);
 
 
         }catch (Exception exception){ System.out.println("Exception adding a new course "); }

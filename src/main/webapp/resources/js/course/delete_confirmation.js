@@ -62,27 +62,33 @@ function alerts_confirm(name,id) {
 
 }
 
-function ajax_load_modules(id){
+function loadModules(){
+    var i, unloadedResponse;
+    var id = document.getElementById("courseIDModules").value;
 
     $.ajax({
         type : "GET",
         url : "/coord/getModules?Course=" + id,
+        dataType: "text",
+
+        error:function(){
+            alert("Ajax Error Ocurred");
+            return "Well i Know What is Happening now";
+        },
 
         success:function(data){
-            console.log(data);
+            var unloadedResponse = jQuery.parseJSON(data);
+
+            for(i = 0; i < unloadedResponse.length; i++){
+                console.log(unloadedResponse[i]);
+            }
         }
-
     });
-}
-
-function loadModules(){
-    var id = document.getElementById("courseIDModules").value;
-    ajax_load_modules(id);
-
-    var Courses = '${courses}';
-
-    console.log(Courses)
-
-
 
 }
+
+
+
+
+
+

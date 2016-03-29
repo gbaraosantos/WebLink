@@ -1,15 +1,19 @@
 package com.weblink.core.controllers.course;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
+import com.weblink.core.models.Module;
 import com.weblink.core.models.User;
 import com.weblink.core.services.course_management_service.ActionManagementService;
 import com.weblink.core.services.course_management_service.CourseManagementService;
+import com.weblink.core.services.course_management_service.ModuleManagementService;
 import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.ActionValidator;
 import com.weblink.core.validators.CourseValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -17,10 +21,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class CourseController {
@@ -29,6 +36,7 @@ public class CourseController {
     @Autowired LoggerService logger;
     @Autowired CourseManagementService courseManagementService;
     @Autowired ActionManagementService actionManagementService;
+    @Autowired ModuleManagementService moduleManagementService;
 
     private volatile User user;
 
@@ -42,8 +50,7 @@ public class CourseController {
     public String getCourseAdd(Model model, HttpServletRequest request){
         prepareModel(model);
 
-
-        Action action = new CourseValidator().validateInput(request);
+        Action action = new CourseValidator().validateInput(request, user);
 
         if (action == null)  return "redirect:/weblink/courses?addCourse=false";
 
@@ -61,7 +68,7 @@ public class CourseController {
             Course course = courseManagementService.getCourse(Integer.parseInt(request.getParameter("CourseID")));
             if(course == null) return "redirect:/weblink/courses?addCourse=false";
 
-            Action action = new ActionValidator().validateInput(request, course);
+            Action action = new ActionValidator().validateInput(request, course, user);
             if (action == null)  return "redirect:/weblink/courses?addCourse=false";
 
             actionManagementService.createAction(action);
@@ -86,41 +93,81 @@ public class CourseController {
     @RequestMapping(value="/coord/deleteAction", method = RequestMethod.GET, params = {"Action"})
     public void deleteAction(@RequestParam("Action") int id, Model model) {
         prepareModel(model);
-        actionManagementService.deleteAction(actionManagementService.getAction(id));
+
+        Action action = actionManagementService.getAction(id);
+        if(action != null) actionManagementService.deleteAction(action);
 
     }
 
     @RequestMapping(value = "/coord/changeVisibility" , method = RequestMethod.GET, params = {"Action"})
     public String changeVisibility(@RequestParam("Action") int id, Model model){
         prepareModel(model);
-        actionManagementService.updateAction(actionManagementService.getAction(id).changeVisibility());
+
+        Action action = actionManagementService.getAction(id);
+        if (action != null) actionManagementService.updateAction(action.changeVisibility());
         return "redirect:/weblink/courses";
     }
 
     /*This is a comment*/
 
     @RequestMapping(value = "/coord/getModules" , method = RequestMethod.GET, params = {"Course"})
-    public Course getCourseModules(@RequestParam("Course") int id, Model model, HttpServletResponse response) throws IOException {
+    public @ResponseBody String getCourseModules(@RequestParam("Course") int id, Model model, HttpServletResponse response) throws IOException {
+        List<Map<String, String>> map = new LinkedList<>();
+
         prepareModel(model);
         Course course = courseManagementService.getCourse(id);
-        System.out.println(course);
+
+        if(course == null)  return null;
+
+        List<Module> moduleList = moduleManagementService.getCourseModules(course);
+
+        for(Module module: moduleList){
+            Map<String, String> temp = new HashMap<>();
+
+            temp.put("pos" , String.valueOf(module.getPosition()));
+            temp.put("name" , module.getName());
+            temp.put("description" , module.getDescription());
+            temp.put("startDate", String.valueOf(module.getStartDate()));
+            temp.put("endDate", String.valueOf(module.getEndDate()));
+            temp.put("nClasses", String.valueOf(module.getnClasses()));
+            temp.put("percentage", String.valueOf(module.getPercentage()));
 
 
-        response.setContentType("text/plain");  // Set content type of the response so that jQuery knows what it can expect.
-        response.setCharacterEncoding("UTF-8"); // You want world domination, huh?
-        response.getWriter().write("Hello there ajax");       // Write response body.
+            map.add(temp);
 
+        }
 
-        return course;
+        ObjectMapper mapper = new ObjectMapper();
+        String result = mapper.writeValueAsString(map);
+        System.out.println(result);
+        return result;
     }
-
-
 
     private Model prepareModel(Model model){
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
-        model.addAttribute("actions" , actionManagementService.getUpcoming());
         model.addAttribute("courses" , courseManagementService.getAll());
+        model = noVisibleAction(model);
+        return model;
+    }
+
+
+    private Model noVisibleAction(Model model){
+        Boolean errorShow = true;
+        List<Action> actions = actionManagementService.getUpcoming();
+
+        if(!user.hasPermission("Coordinator")){
+            for(Action a : actions){
+                if (a.isVisible()){
+                    errorShow = false;
+                    break;
+                }
+            }
+        }else  if(actions.size() > 0)       errorShow = false;
+
+        if (errorShow)      model.addAttribute("NoActions","Não Existem Cursos Disponiveis, Tente mais tarde.");
+
+        model.addAttribute("actions" , actions);
         return model;
     }
 

@@ -159,8 +159,6 @@
         <section class="wrapper">
 
             <!--            ADD A COURSE            -->
-
-
             <div class="row">
                 <div aria-hidden="true" aria-labelledby="myModelLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
                     <div class="modal-dialog" style = "width: 800px; margin:0 -400px; height: auto; position: absolute; overflow: visible;" >
@@ -505,6 +503,16 @@
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-lg-6">
+                                                    <label class = "col-lg-3 control-label" for="createdBy" style="text-align: left" ><b>Created By:</b></label>
+                                                    <div class="col-lg-9">
+                                                        <select id="createdBy" name="createdBy" class="form-control">
+                                                            <option value="any">Any</option>
+                                                            <option value="no">Me</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </sec:authorize>
@@ -527,83 +535,146 @@
 
 
             <!--        Filter  END      -->
+            <div style="text-align: center">
+                <h3 style="color: #8e0d01;">
+                    ${NoActions}
+                </h3>
 
-            <d:choose>
-                <d:when test="${actions.size() == 0}">
-                    <div style="text-align: center">
-                        <h3 style="color: #8e0d01;">
-                            Não Existem Cursos Disponiveis, Tente mais tarde.
-                        </h3>
-
-                    </div>
-                </d:when>
-            </d:choose>
-
+            </div>
 
             <!--        Course  Listing Start      -->
             <div class="row">
                 <d:forEach var="action" items="${actions}">
-                    <div class="col-lg-4" >
-                        <div class="panel" >
-                            <div class="panel-heading" style=" padding-left: 0; margin-left: 1; padding-right: 0; margin-right: 0">
-                                <div class="col-lg-8" style="padding-left: 0; margin-left: 0; ; padding-right: 0; margin-right: 0">
-                                    <sec:authorize access="hasRole('Coordinator')">
-                                        <d:choose>
-                                            <d:when test="${action.isVisible()}">
-                                                <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #1e902a; float:left; padding-right: 0; margin-right: 0" >
-                                                    <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
-                                                </a>
-                                            </d:when>
-                                            <d:otherwise>
-                                                <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #ad0e01; float:left; padding-right: 0; margin-right: 0" >
-                                                    <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
-                                                </a>
-                                            </d:otherwise>
-                                        </d:choose>
-                                    </sec:authorize>
+                    <d:choose>
+                        <d:when test="${!action.isVisible()}">
+                            <sec:authorize access="hasRole('Coordinator')">
+                                <div class="col-lg-4" >
+                                    <div class="panel" >
+                                        <div class="panel-heading" style=" padding-left: 0; margin-left: 1; padding-right: 0; margin-right: 0">
+                                            <div class="col-lg-8" style="padding-left: 0; margin-left: 0; ; padding-right: 0; margin-right: 0">
+                                                <sec:authorize access="hasRole('Coordinator')">
+                                                    <d:choose>
+                                                        <d:when test="${action.isVisible()}">
+                                                            <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #1e902a; float:left; padding-right: 0; margin-right: 0" >
+                                                                <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
+                                                            </a>
+                                                        </d:when>
+                                                        <d:otherwise>
+                                                            <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #ad0e01; float:left; padding-right: 0; margin-right: 0" >
+                                                                <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
+                                                            </a>
+                                                        </d:otherwise>
+                                                    </d:choose>
+                                                </sec:authorize>
 
-                                    <span style="float:left"><h4>${action.getCourse().getArea()}</h4></span>
-                                </div>
+                                                <span style="float:left"><h4>${action.getCourse().getArea()}</h4></span>
+                                            </div>
 
-                                <div class="col-lg-4" style="padding-right: 0; margin-right: 0">
-                                    <sec:authorize access="hasRole('Coordinator')">
-                                        <div style="padding-top: 3px">
-                                            <a onclick="deleteConfirm('${action.getId()}');">
-                                                <i style="color: #819ec2; padding-right: 0; margin-right: 0; float: right; font-size: x-large" class="fa fa-times fa"></i>
-                                            </a>
+                                            <div class="col-lg-4" style="padding-right: 0; margin-right: 0">
+                                                <sec:authorize access="hasRole('Coordinator')">
+                                                    <div style="padding-top: 3px">
+                                                        <a onclick="deleteConfirm('${action.getId()}');">
+                                                            <i style="color: #819ec2; padding-right: 0; margin-right: 0; float: right; font-size: x-large" class="fa fa-times fa"></i>
+                                                        </a>
+                                                    </div>
+                                                    <div style="padding-top: 2px">
+                                                        <a href = "<c:url value="/coord/deleteAction?Action=${action.getId()}"/>">
+                                                            <i style="color: #819ec2; padding-right: 8px; margin-right: 8px; float: right; font-size: 21px" class="fa fa-cog"></i>
+                                                        </a>
+                                                    </div>
+                                                </sec:authorize>
+                                            </div>
                                         </div>
-                                        <div style="padding-top: 2px">
-                                            <a href = "<c:url value="/coord/deleteAction?Action=${action.getId()}"/>">
-                                                <i style="color: #819ec2; padding-right: 8px; margin-right: 8px; float: right; font-size: 21px" class="fa fa-cog"></i>
-                                            </a>
-                                        </div>
-                                    </sec:authorize>
-                                </div>
-                            </div>
 
-                            <div class="panel-body">
-                                <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
-                                    <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
-                                    <div class="rotate-box-info" style="margin-top: 5px;">
-                                        <h4>${action.getCourse().getName()}</h4>
-                                        <d:set var="shortDesc" value="${fn:substring(action.getCourse().getDescription(), 0, 100)}" />
-                                        <p>${shortDesc}</p>
+                                        <div class="panel-body">
+                                            <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
+                                                <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
+                                                <div class="rotate-box-info" style="margin-top: 5px;">
+                                                    <h4>${action.getCourse().getName()}</h4>
+                                                    <d:set var="shortDesc" value="${fn:substring(action.getCourse().getDescription(), 0, 100)}" />
+                                                    <p>${shortDesc}</p>
+                                                </div>
+                                            </a>
+
+                                            <a href="#" style="float: right; color: #6b819f"> More </a>
+                                            <div style="clear: both;"></div>
+
+                                        </div>
+
+                                        <div class="panel-footer">
+                                            <h5 style="float: left"> <b>Quando Começa: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h5>
+                                            <h5 style="float: right"> <b>Preço:</b> ${action.getFinalPrice()} <i class="fa fa-eur"></i></h5>
+                                            <div style="clear: both;"></div>
+
+                                        </div>
                                     </div>
-                                </a>
+                                </div>
+                            </sec:authorize>
+                        </d:when>
+                        <d:otherwise>
+                            <div class="col-lg-4" >
+                                <div class="panel" >
+                                    <div class="panel-heading" style=" padding-left: 0; margin-left: 1; padding-right: 0; margin-right: 0">
+                                        <div class="col-lg-8" style="padding-left: 0; margin-left: 0; ; padding-right: 0; margin-right: 0">
+                                            <sec:authorize access="hasRole('Coordinator')">
+                                                <d:choose>
+                                                    <d:when test="${action.isVisible()}">
+                                                        <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #1e902a; float:left; padding-right: 0; margin-right: 0" >
+                                                            <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
+                                                        </a>
+                                                    </d:when>
+                                                    <d:otherwise>
+                                                        <a href="<c:url value="/coord/changeVisibility?Action=${action.getId()}"/>"  style="color: #ad0e01; float:left; padding-right: 0; margin-right: 0" >
+                                                            <i class="fa fa-eye fa-fw" style="padding-right: 0; margin-right: 0"></i>
+                                                        </a>
+                                                    </d:otherwise>
+                                                </d:choose>
+                                            </sec:authorize>
 
-                                <a href="#" style="float: right; color: #6b819f"> More </a>
-                                <div style="clear: both;"></div>
+                                            <span style="float:left"><h4>${action.getCourse().getArea()}</h4></span>
+                                        </div>
 
+                                        <div class="col-lg-4" style="padding-right: 0; margin-right: 0">
+                                            <sec:authorize access="hasRole('Coordinator')">
+                                                <div style="padding-top: 3px">
+                                                    <a onclick="deleteConfirm('${action.getId()}');">
+                                                        <i style="color: #819ec2; padding-right: 0; margin-right: 0; float: right; font-size: x-large" class="fa fa-times fa"></i>
+                                                    </a>
+                                                </div>
+                                                <div style="padding-top: 2px">
+                                                    <a href = "<c:url value="/coord/deleteAction?Action=${action.getId()}"/>">
+                                                        <i style="color: #819ec2; padding-right: 8px; margin-right: 8px; float: right; font-size: 21px" class="fa fa-cog"></i>
+                                                    </a>
+                                                </div>
+                                            </sec:authorize>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
+                                            <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
+                                            <div class="rotate-box-info" style="margin-top: 5px;">
+                                                <h4>${action.getCourse().getName()}</h4>
+                                                <d:set var="shortDesc" value="${fn:substring(action.getCourse().getDescription(), 0, 100)}" />
+                                                <p>${shortDesc}</p>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" style="float: right; color: #6b819f"> More </a>
+                                        <div style="clear: both;"></div>
+
+                                    </div>
+
+                                    <div class="panel-footer">
+                                        <h5 style="float: left"> <b>Quando Começa: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h5>
+                                        <h5 style="float: right"> <b>Preço:</b> ${action.getFinalPrice()} <i class="fa fa-eur"></i></h5>
+                                        <div style="clear: both;"></div>
+
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="panel-footer">
-                                <h5 style="float: left"> <b>Quando Começa: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h5>
-                                <h5 style="float: right"> <b>Preço:</b> ${action.getFinalPrice()} <i class="fa fa-eur"></i></h5>
-                                <div style="clear: both;"></div>
-
-                            </div>
-                        </div>
-                    </div>
+                        </d:otherwise>
+                    </d:choose>
                 </d:forEach>
             </div>
         </section>

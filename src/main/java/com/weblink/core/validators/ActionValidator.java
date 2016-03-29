@@ -2,6 +2,7 @@ package com.weblink.core.validators;
 
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
+import com.weblink.core.models.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -10,10 +11,11 @@ import java.util.Date;
 import java.util.Map;
 
 public class ActionValidator {
-    public Action validateInput(HttpServletRequest request, Course course) {
+    public Action validateInput(HttpServletRequest request, Course course, User user) {
         if (!hasAllValues(request)) return null;
 
-        Action action = mapAction(request, course);
+        Action action = mapAction(request, course, user);
+
 
         if (action == null) return null;
         if(!min(action.getDiscount() , 0)) return null;
@@ -25,7 +27,7 @@ public class ActionValidator {
         return price >= i;
     }
 
-    private Action mapAction(HttpServletRequest request, Course course) {
+    private Action mapAction(HttpServletRequest request, Course course, User user) {
         int discount;
 
         SimpleDateFormat sdfmt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -41,7 +43,8 @@ public class ActionValidator {
                     .setDiscount(discount)
                     .setEndDate(null)
                     .setVisible(false)
-                    .setStartDate(startDate);
+                    .setStartDate(startDate)
+                    .setCreatedBy(user);
         } catch (ParseException e) {
             return null;
         }
