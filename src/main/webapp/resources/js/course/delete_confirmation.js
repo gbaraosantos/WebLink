@@ -63,8 +63,19 @@ function alerts_confirm(name,id) {
 }
 
 function loadModules(){
-    var i, unloadedResponse;
+
+    var i, name, position, startDate, endDate, nClasses, percentage,button;
+    var row, errorColor;
+    var div = document.getElementById('moduleSpot');
     var id = document.getElementById("courseIDModules").value;
+    var moduleTable = document.getElementById("moduleTable");
+
+    for(i = 1 ; i < moduleTable.rows.length; i++){
+        moduleTable.deleteRow(i);
+    }
+
+
+
 
     $.ajax({
         type : "GET",
@@ -80,13 +91,55 @@ function loadModules(){
             var unloadedResponse = jQuery.parseJSON(data);
 
             for(i = 0; i < unloadedResponse.length; i++){
-                console.log(unloadedResponse[i]);
+                row = moduleTable.insertRow(i + 1);
+
+                position = row.insertCell(0);
+                name = row.insertCell(1);
+                startDate = row.insertCell(2);
+                endDate = row.insertCell(3);
+                nClasses = row.insertCell(4);
+                percentage = row.insertCell(5);
+                button = row.insertCell(6);
+
+                id =unloadedResponse[i]["id"];
+                errorColor = "style='color: #d11c12;'";
+
+                name.innerHTML          = "" + unloadedResponse[i]['name'];
+                position.innerHTML      = "" + unloadedResponse[i]['pos'];
+                startDate.innerHTML     = "" + new Date(Date.parse(unloadedResponse[i]['startDate'])).toDateString();
+                endDate.innerHTML       = "" + new Date(Date.parse(unloadedResponse[i]['endDate'])).toDateString();
+                nClasses.innerHTML      = "" + unloadedResponse[i]['nClasses'];
+                percentage.innerHTML    = "" + unloadedResponse[i]['percentage'];
+                button.innerHTML        = "<a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='fa fa-times-circle fa-2x'></i></a>";
+
             }
         }
     });
 
 }
 
+function deleteModuleTrigger(id){
+    $.ajax({
+        type : "GET",
+        url : "/coord/deleteModuleTrigger?module=" + id,
+        dataType: "text",
+
+        error:function(){
+            alert("Ajax Error Ocurred");
+        },
+
+        success:function(data) {
+            alert(data);
+            loadModules();
+        }
+
+    });
+}
+
+function createAddFields() {
+    alert('so far so good');
+
+}
 
 
 

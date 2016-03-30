@@ -19,8 +19,10 @@ public class ModuleManagementDaoImpl  extends AbstractDao<Integer, Module> imple
 
     @Override
     public List<Module> getModule(int id) {
+        System.out.println("Dao -> " + id);
         Query query = getSession().createQuery("FROM Module As m WHERE m.id = :id");
-        query.setParameter("courseId", id);
+        query.setParameter("id", id);
+        System.out.println(query.list());
         return (List<Module>)query.list();
     }
 

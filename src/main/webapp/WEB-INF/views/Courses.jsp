@@ -371,13 +371,35 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class = "col-lg-12" id="moduleSpot">
+                                                        <table class="table table-striped table-advance table-hover" id="moduleTable">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th><i class="fa fa-sort-numeric-asc"></i>Nr</th>
+                                                                    <th><i class="fa fa-genderless"></i> Nome </th>
+                                                                    <th><i class="icon_calendar"></i> Data Inicio</th>
+                                                                    <th><i class="icon_calendar"></i> Data Final</th>
+                                                                    <th><i class="fa fa-book"></i> Nr Aulas</th>
+                                                                    <th><i class="fa fa-percent"></i>Percentage</th>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <div class = "col-lg-12">
 
                                                     </div>
+                                                    <center>
+                                                        <a onclick="createAddFields()"  style="color: #384dd1;">
+                                                            <i style="color: green;" class="fa fa-plus-circle fa-3x"></i>
+                                                        </a>
+                                                    </center>
+
                                                 </div>
+
+
 
 
                                                 <center>
@@ -398,6 +420,7 @@
                     </div>
                 </div>
             </div>
+
 
 
 

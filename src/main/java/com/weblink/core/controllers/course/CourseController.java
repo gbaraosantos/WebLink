@@ -124,6 +124,7 @@ public class CourseController {
         for(Module module: moduleList){
             Map<String, String> temp = new HashMap<>();
 
+            temp.put("id" , String.valueOf(module.getId()));
             temp.put("pos" , String.valueOf(module.getPosition()));
             temp.put("name" , module.getName());
             temp.put("description" , module.getDescription());
@@ -141,6 +142,17 @@ public class CourseController {
         String result = mapper.writeValueAsString(map);
         System.out.println(result);
         return result;
+    }
+
+    @RequestMapping(value = "/coord/deleteModuleTrigger" , method = RequestMethod.GET, params = {"module"})
+    public @ResponseBody String deleteModuleTrigger(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
+        prepareModel(model);
+        Module module = moduleManagementService.getModule(id);
+
+        if (module == null) return "Could not delete";
+
+        moduleManagementService.deleteModule(module);
+        return "Deleted";
     }
 
     private Model prepareModel(Model model){

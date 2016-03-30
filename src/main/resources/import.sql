@@ -30,5 +30,5 @@ INSERT INTO Action(creationDate,discount, endDate,finalPrice , lastChangeDate, s
 INSERT INTO Action(creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id, createdBy) VALUES (DATE(now()),0,null, 60,DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),false, 3,1);
 INSERT INTO Action(creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id, createdBy) VALUES (DATE(now()),0,null, 60,DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),false, 4,1);
 
-INSERT INTO Module(startDate, creationDate, description,lastChangeDate,endDate, name, nClasses, percentage,position,createdBy,course_id) VALUES (STR_TO_DATE('18-06-2017', '%d-%m-%Y'),DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),"Civil 1.0",2, 25, 1,1,4);
+INSERT INTO Module(startDate, creationDate, description,lastChangeDate,endDate, name, nClasses, percentage,position,createdBy,course_id) VALUES (STR_TO_DATE('5-06-2017', '%d-%m-%Y'),DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),"Civil 1.0",2, 25, 1,1,4);
 
