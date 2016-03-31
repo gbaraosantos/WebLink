@@ -44,8 +44,13 @@
     <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg-custom.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/delete_confirmation.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/module_handler.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
+
+
+
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
+
     <style>
         input[type=range]{
             -webkit-appearance: none;
@@ -386,9 +391,10 @@
 
                                     <!--            ADD Modules  START           -->
 
-                                    <div role="tabpanel" class="tab-pane" id="Modules">
+                                    <div role="tabpanel" class="tab-pane" id="Modules" style="overflow:auto; ">
+
                                         <div class="panel-body bio-graph-info">
-                                            <form class="form-horizontal" role="form" action="<c:url value="/coord/addModules"/>" method="post">
+                                            <div>
                                                 <div class="form-group">
                                                     <div class = "col-lg-12">
                                                         <div class="col-lg-6" style="padding-left: 0">
@@ -429,16 +435,86 @@
 
                                                     </div>
                                                     <center>
-                                                        <a onclick="createAddFields()"  style="color: #384dd1;">
+                                                        <a id="addModuleButton" onclick="createAddFields()"  style="color: #384dd1; display: none">
                                                             <i style="color: green;" class="fa fa-plus-circle fa-3x"></i>
                                                         </a>
                                                     </center>
 
                                                 </div>
-                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                            </form>
-                                        </div>
 
+                                                <form class="form-horizontal" role="form" action="<c:url value="/coord/addModule"/>" method="post">
+                                                    <div id= "addModulesDiv" class="col-lg-12" style="text-align: center; border: 3px ridge;height: auto; background-color: #ededed; display: none">
+                                                        <center>
+                                                            <h4>Adicionar um Modulo</h4>
+                                                        </center>
+
+                                                        <div style="padding-top: 30px">
+                                                            <div class="form-group">
+                                                                <div class = "col-lg-12">
+                                                                    <label class="col-lg-2 control-label" style="text-align: left">Nome:</label>
+                                                                    <div class="col-lg-10" style="padding-left: 0">
+                                                                        <input type="text" class="form-control" name="moduleName" id="moduleName" autocomplete="off" placeholder="Nome do Modulo">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class = "col-lg-12">
+                                                                    <label class="col-lg-2 control-label" style="text-align: left">Descrição </label>
+                                                                    <div class="col-lg-10" style="padding-left: 0px">
+                                                                        <textarea class="form-control" name="moduleDescription" id="moduleDescription" placeholder="Descrição do Modulo"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class = "col-lg-12">
+                                                                    <div class="col-lg-6" style="padding-left: 0">
+                                                                        <label class="col-lg-5 control-label" style="text-align: left">Data de Inicio:</label>
+                                                                        <div class="col-lg-7" style="padding-left: 0">
+                                                                            <input type="date" class="form-control" name="moduleStartDate" id="moduleStartDate" autocomplete="off" placeholder="mm/dd/yyyy">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6" style="padding-left: 0">
+                                                                        <label class="col-lg-5 control-label" style="text-align: left">Data Final: </label>
+                                                                        <div class="col-lg-7" style="padding-left: 0px">
+                                                                            <input type="date" class="form-control" name="moduleEndDate" id="moduleEndDate" placeholder="Descrição do Modulo">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <div class = "col-lg-12">
+                                                                    <div class="col-lg-6" style="padding-left: 0">
+                                                                        <label class="col-lg-5 control-label" style="text-align: left">Numero de aulas:</label>
+                                                                        <div class="col-lg-7" style="padding-left: 0">
+                                                                            <input type="number" class="form-control" name="nClassesModule" id="nClassesModule" autocomplete="off" placeholder="Numero de Aulas">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6" style="padding-left: 0">
+                                                                        <label class="col-lg-5 control-label" style="text-align: left">Percentagem: </label>
+                                                                        <div class="col-lg-7" style="padding-left: 0px">
+                                                                            <input type="number" class="form-control" name="percentage" id="percentage" placeholder="Percentagem">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <center style="padding-top: 10px; padding-bottom: 10px">
+                                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                                <span>
+                                                                    <button type="submit" onclick="return addClick();" class="btn btn-primary">Save</button>
+                                                                    <a onclick=" addClick();" class="btn btn-Danger">Cancel</a>
+                                                                </span>
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!--            ADD Modules  END           -->
