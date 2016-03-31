@@ -1,6 +1,6 @@
 package com.weblink.core.services.course_management_service;
 
-import com.weblink.core.dao.course_management_dao.CourseManagementDao;
+
 import com.weblink.core.dao.course_management_dao.ModuleManagementDao;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.Module;
@@ -31,6 +31,12 @@ public class ModuleManagementServiceImpl implements ModuleManagementService{
     @Override
     public void deleteModule(Module module) {
         moduleManagementDao.deleteModule(module);
+
+        List <Module> moduleList = moduleManagementDao.getModulesPosHigher(module.getCourse(), module.getPosition());
+        for(Module m: moduleList) moduleManagementDao.updateModule(m.setPosition(m.getPosition() - 1));
+
+
+
     }
 
     @Override
@@ -41,5 +47,12 @@ public class ModuleManagementServiceImpl implements ModuleManagementService{
     @Override
     public void addModule(Module module) {
         moduleManagementDao.addModule(module);
+    }
+
+    @Override
+    public Module getModule(Course course, int position) {
+        List<Module> list = moduleManagementDao.getModule(course, position);
+        if(list==null || list.size() <= 0) return null;
+        return list.get(0);
     }
 }

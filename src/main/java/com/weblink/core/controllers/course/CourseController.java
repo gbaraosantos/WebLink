@@ -99,6 +99,8 @@ public class CourseController {
 
     }
 
+
+
     @RequestMapping(value = "/coord/changeVisibility" , method = RequestMethod.GET, params = {"Action"})
     public String changeVisibility(@RequestParam("Action") int id, Model model){
         prepareModel(model);
@@ -144,14 +146,50 @@ public class CourseController {
         return result;
     }
 
+    @RequestMapping(value = "/coord/ChangeUp" , method = RequestMethod.GET, params = {"module"})
+    public @ResponseBody String changeModuleUp(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
+        prepareModel(model);
+
+        Module module = moduleManagementService.getModule(id);
+
+        if (module == null)             return "Could Not Change";
+        if (module.getPosition() <= 1)  return "Could Not Change";
+
+        Module module2 = moduleManagementService.getModule(module.getCourse(), module.getPosition() - 1);
+        if(module2 == null)             return "Could Not Change";
+
+        moduleManagementService.updateModule(module.setPosition(module.getPosition() - 1));
+        moduleManagementService.updateModule(module2.setPosition(module2.getPosition() + 1));
+
+        return "Changed Up";
+    }
+
+    @RequestMapping(value = "/coord/ChangeDown" , method = RequestMethod.GET, params = {"module"})
+    public @ResponseBody String changeModuleDown(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
+        prepareModel(model);
+
+        Module module = moduleManagementService.getModule(id);
+
+        if (module == null)             return "Could Not Change";
+
+        Module module2 = moduleManagementService.getModule(module.getCourse(), module.getPosition() + 1);
+        if(module2 == null)             return "Could Not Change";
+
+        moduleManagementService.updateModule(module.setPosition(module.getPosition() + 1));
+        moduleManagementService.updateModule(module2.setPosition(module2.getPosition() - 1));
+
+        return "Changed Down";
+    }
+
     @RequestMapping(value = "/coord/deleteModuleTrigger" , method = RequestMethod.GET, params = {"module"})
     public @ResponseBody String deleteModuleTrigger(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
         prepareModel(model);
         Module module = moduleManagementService.getModule(id);
 
         if (module == null) return "Could not delete";
-
         moduleManagementService.deleteModule(module);
+
+
         return "Deleted";
     }
 

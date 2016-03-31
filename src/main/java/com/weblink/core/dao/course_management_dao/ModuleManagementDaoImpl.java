@@ -19,10 +19,8 @@ public class ModuleManagementDaoImpl  extends AbstractDao<Integer, Module> imple
 
     @Override
     public List<Module> getModule(int id) {
-        System.out.println("Dao -> " + id);
         Query query = getSession().createQuery("FROM Module As m WHERE m.id = :id");
         query.setParameter("id", id);
-        System.out.println(query.list());
         return (List<Module>)query.list();
     }
 
@@ -39,5 +37,21 @@ public class ModuleManagementDaoImpl  extends AbstractDao<Integer, Module> imple
     @Override
     public void addModule(Module module) {
         persist(module);
+    }
+
+    @Override
+    public List<Module> getModule(Course course, int position) {
+        Query query = getSession().createQuery("FROM Module As m WHERE m.course = :courseId AND m.position = :position ORDER BY m.position");
+        query.setParameter("courseId", course);
+        query.setParameter("position", position);
+        return (List<Module>)query.list();
+    }
+
+    @Override
+    public List<Module> getModulesPosHigher(Course course, int position) {
+        Query query = getSession().createQuery("FROM Module As m WHERE m.course = :courseId AND m.position > :position ORDER BY m.position");
+        query.setParameter("courseId", course);
+        query.setParameter("position", position);
+        return (List<Module>)query.list();
     }
 }

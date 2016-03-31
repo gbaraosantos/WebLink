@@ -11,5 +11,6 @@ public interface ModuleManagementDao {
     void deleteModule(Module module);
     void updateModule(Module module);
     void addModule(Module module);
-
+    List<Module> getModule(Course course, int position);
+    List<Module> getModulesPosHigher(Course course, int position);
 }

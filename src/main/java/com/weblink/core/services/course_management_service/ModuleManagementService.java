@@ -11,7 +11,5 @@ public interface ModuleManagementService {
     void deleteModule(Module module);
     void updateModule(Module module);
     void addModule(Module module);
-
-
-
+    Module getModule(Course course, int position);
 }

@@ -31,7 +31,7 @@
 
     <!-- JS -->
     <script src="<c:url value="/resources/js/jQuery/jquery-1.10.2.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/bootstrap.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/Bootstrap/bootstrap.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.scrollTo.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
@@ -46,7 +46,6 @@
     <script src="<c:url value="/resources/js/course/delete_confirmation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
-
     <style>
         input[type=range]{
             -webkit-appearance: none;
@@ -77,6 +76,39 @@
         input[type=range]:focus::-webkit-slider-runnable-track {
             background: #ccc;
         }
+    </style>
+
+    <style>
+        @import "compass/css3";
+
+        .table-editable {
+            position: relative;
+        }
+
+        .glyphicon {
+            font-size: 20px;
+
+        }
+
+        .table-remove {
+            color: #700;
+            cursor: pointer;
+        }
+
+        .table-up, .table-down {
+            color: #007;
+            cursor: pointer;
+         }
+
+
+        .table-add {
+            color: #070;
+            cursor: pointer;
+            position: absolute;
+            top: 8px;
+            right: 0;
+        }
+
     </style>
 
 </head>
@@ -373,19 +405,24 @@
                                                     </div>
                                                     <div class = "col-lg-12" id="moduleSpot">
                                                         <table class="table table-striped table-advance table-hover" id="moduleTable">
-                                                            <tbody>
+                                                            <thead>
                                                                 <tr>
-                                                                    <th><i class="fa fa-sort-numeric-asc"></i>Nr</th>
-                                                                    <th><i class="fa fa-genderless"></i> Nome </th>
+                                                                    <th>Nr</th>
+                                                                    <th><i class="fa fa-circle"></i> Nome </th>
                                                                     <th><i class="icon_calendar"></i> Data Inicio</th>
                                                                     <th><i class="icon_calendar"></i> Data Final</th>
                                                                     <th><i class="fa fa-book"></i> Nr Aulas</th>
-                                                                    <th><i class="fa fa-percent"></i>Percentage</th>
+                                                                    <th><i class="fa fa-tasks"></i>Percentage</th>
+                                                                    <th><i class="fa fa-cog"></i>Actions</th>
                                                                 </tr>
+                                                            </thead>
+                                                            <tbody id="moduleTableBody">
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
+
+
 
                                                 <div class="form-group">
                                                     <div class = "col-lg-12">
@@ -398,14 +435,7 @@
                                                     </center>
 
                                                 </div>
-
-
-
-
-                                                <center>
-                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                                    <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
-                                                </center>
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             </form>
                                         </div>
 
