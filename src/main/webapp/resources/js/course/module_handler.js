@@ -14,6 +14,8 @@ function loadModules(){
     var moduleTableBody = document.getElementById("moduleTableBody");
     var new_tbody = document.createElement('tbody');
 
+    document.getElementById("courseIdModule").value = id;
+
     if(parseInt(id) != "0"){
         document.getElementById("percentageBarLocal").style.display = "inline";
         document.getElementById("addModuleButton").style.display = "inline";
@@ -61,7 +63,7 @@ function putPercentageBar(){
     child2.setAttribute("aria-valuenow", int_percentage.toString());
     child2.setAttribute("aria-valuemin", "0");
     child2.setAttribute("aria-valuemax", "100");
-    child2.setAttribute("style", "width:50%");
+    child2.setAttribute("style", "width:"+int_percentage.toString()+"%");
     child2.innerHTML = int_percentage.toString() + "% of Course is Set";
 
     child1.appendChild(child2);
@@ -71,51 +73,55 @@ function putPercentageBar(){
 }
 
 function prepareTable(module, i, len){
-    var name, position, startDate, endDate, nClasses, percentage,button;
-    var row, errorColor, id;
+    var name, position, startDate, endDate, accordion_handler, percentage,button;
+    var row, row2, id;
     var moduleTable = document.getElementById("moduleTableBody");
-
+    var child1 = document.createElement("div");
 
     int_percentage = int_percentage + parseInt(module['percentage']);
 
-
-    row = moduleTable.insertRow(i);
-
-    position = row.insertCell(0);
-    name = row.insertCell(1);
-    startDate = row.insertCell(2);
-    endDate = row.insertCell(3);
-    percentage = row.insertCell(4);
-    button = row.insertCell(5);
-
     id =module["id"];
-    errorColor = "style='color: #d11c12;'";
 
+    row = moduleTable.insertRow(i * 2);
 
-    name.innerHTML          = "<a onclick='tooltipFunc('name')'>" + module['name'] + "</a>";
+    accordion_handler = row.insertCell(0);
+    position = row.insertCell(1);
+    name = row.insertCell(2);
+    startDate = row.insertCell(3);
+    endDate = row.insertCell(4);
+    percentage = row.insertCell(5);
+    button = row.insertCell(6);
+
+    accordion_handler.innerHTML= "<a data-toggle='collapse'' href= '#"+id+"' data-parent= '#"+id+"' data-target = '#"+id+"' aria-expanded='true' aria-controls='"+id+"'><li class='fa fa-arrow-right'></li></a>";
+    name.innerHTML          = "" + module['name'];
     position.innerHTML      = "" + module['pos'];
-    startDate.innerHTML     = "" + new Date(Date.parse(module['startDate'])).toDateString();
-    endDate.innerHTML       = "" + new Date(Date.parse(module['endDate'])).toDateString();
+    startDate.innerHTML     = "" + new Date(Date.parse(module['creationDate'])).toDateString();
+    endDate.innerHTML       = "" + new Date(Date.parse(module['lastChangeDate'])).toDateString();
     percentage.innerHTML    = "" + module['percentage'] + "%";
+    button.innerHTML = createButtons(button, id,len,i);
 
 
-    if(len == 1)
-        button.innerHTML        =   "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>";
+    row2 = moduleTable.insertRow(i * 2 + 1);
+    child1.setAttribute("class", "accordian-body collapse");
+    child1.setAttribute("id",id);
+    child1.innerHTML = module['description'];
+    var newCell = row2.insertCell(0);
+    newCell.setAttribute("colspan", "12");
+    newCell.style.padding = 0;
+    newCell.appendChild(child1);
+    console.log(row2)
 
+}
 
-    else if(i != 0 && i != len - 1)
-        button.innerHTML        =   "<span class='table-up glyphicon glyphicon-arrow-up' onclick='moveUp("+id+")'></span>"          +
-            "<span class='table-down glyphicon glyphicon-arrow-down' onclick='moveDown("+id+")'></span>"    +
-            "&nbsp;"                                                                                        +
-            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>";
-    else if(i == 0)
-        button.innerHTML        =   "<span class='table-down glyphicon glyphicon-arrow-down' onclick='moveDown("+id+")'></span>"    +
-            "&nbsp;"                                                                                        +
-            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>";
-    else if(i == len - 1)
-        button.innerHTML        =   "<span class='table-up glyphicon glyphicon-arrow-up' onclick='moveUp("+id+")'></span>"          +
-            "&nbsp;"                                                                                        +
-            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>"
+function edit(id){
+    var url_change = "/coord/updateModule?module=" + id;
+
+    document.getElementById("formModule").action = url_change;
+    document.getElementById("titleModule").innerHTML = "Modificar um Módulo";
+
+    document.getElementById("addModulesDiv").style.display = "inline";
+    document.getElementById("addModuleButton").style.display = "none";
+
 
 
 }
@@ -189,13 +195,53 @@ function deleteModuleTrigger(id){
             swal("Sucesso!", "Modulo Apagado.", "success");
         });
 }
+function createButtons(button, id, len,i){
+
+    var errorColor = "style='color: #d11c12;'";
+
+    if(len == 1)
+        button.innerHTML        =
+            "<a onclick='edit("+id+")'><span class='glyphicon glyphicon-pencil'></span></a>"                                        +
+            "&nbsp;"                                                                                                                +
+            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>";
+    else if(i != 0 && i != len - 1)
+        button.innerHTML        =   "<span class='table-up glyphicon glyphicon-arrow-up' onclick='moveUp("+id+")'></span>"          +
+            "<span class='table-down glyphicon glyphicon-arrow-down' onclick='moveDown("+id+")'></span>"                            +
+            "&nbsp;"                                                                                                                +
+            "<a onclick='edit("+id+")'><span class='glyphicon glyphicon-pencil'></span></a>"                                        +
+            "&nbsp;"                                                                                                                +
+            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>";
+    else if(i == 0)
+        button.innerHTML        =   "<span class='table-down glyphicon glyphicon-arrow-down' onclick='moveDown("+id+")'></span>"    +
+            "&nbsp;"                                                                                                                +
+            "<a onclick='edit("+id+")'><span class='glyphicon glyphicon-pencil'></span></a>"                                        +
+            "&nbsp;"                                                                                                                +
+            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>";
+    else if(i == len - 1)
+        button.innerHTML        =   "<span class='table-up glyphicon glyphicon-arrow-up' onclick='moveUp("+id+")'></span>"          +
+            "&nbsp;"                                                                                                                +
+            "<a onclick='edit("+id+")'><span class='glyphicon glyphicon-pencil'></span></a>"                                        +
+            "&nbsp;"                                                                                                                +
+            "<span><a " + errorColor + " onclick='deleteModuleTrigger("+id+")'> <i class='table-remove glyphicon glyphicon-remove'></i></a></span>"
+
+
+    return button.innerHTML;
+}
 
 function createAddFields() {
+    var url_add = "/coord/addModule";
+    document.getElementById("formModule").action = url_add;
+    document.getElementById("titleModule").innerHTML = "Adicionar um Módulo";
+
     document.getElementById("addModulesDiv").style.display = "inline";
     document.getElementById("addModuleButton").style.display = "none";
 }
 
 function addClick(){
+    var url_add = "/coord/addModule";
+    document.getElementById("formModule").action = url_add;
+    document.getElementById("titleModule").innerHTML = "Adicionar um Módulo";
+
     document.getElementById("addModulesDiv").style.display = "none";
     document.getElementById("addModuleButton").style.display = "inline";
 }
@@ -205,14 +251,10 @@ function addClick(){
 function validateNewModule(){
     var name = document.getElementById("moduleName");
     var description = document.getElementById("moduleDescription");
-    var startDate = document.getElementById("moduleStartDate");
-    var endDate = document.getElementById("moduleEndDate");
     var percentage = document.getElementById("percentage");
 
     if( !verifyNull(name) 								||
         !verifyNull(description) 						||
-        !verifyNull(startDate)						    ||
-        !verifyNull(endDate)							||
         !verifyNull(percentage)						    ||
         !check_minSize(name, 3, "Name") 				||
         !check_minSize(description, 6, "description")   ||

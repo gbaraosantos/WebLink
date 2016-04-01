@@ -252,6 +252,15 @@
 
                                                 <div class="form-group">
                                                     <div class="col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Tempo por Aula </label>
+                                                        <div class="col-lg-9">
+                                                            <input type="number" class="form-control" name="tClass" id="tClass" autocomplete="off" placeholder="Time">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-lg-12">
                                                         <div class="col-lg-6" style="padding-left: 0">
                                                             <label class="col-lg-5 control-label" style="text-align: left" >Tipo de Aulas</label>
                                                             <div class="col-lg-7">
@@ -302,16 +311,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <div class="col-lg-12">
-                                                        <div class="col-lg-6">
-                                                            <label class="col-lg-5 control-label" style="text-align: left">Tempo por Aula </label>
-                                                            <div class="col-lg-7">
-                                                                <input type="number" class="form-control" name="tClass" id="tClass" autocomplete="off" placeholder="Time">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
 
                                                 <center>
                                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -397,7 +397,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class = "col-lg-12" id = "percentageBarLocal" style="padding-bottom: 30px; padding-top: 20px; display: none">
+                                                    <div class = "col-lg-12" id = "percentageBarLocal" style="padding-bottom: 15px; padding-top: 20px; display: none">
 
                                                     </div>
 
@@ -405,10 +405,11 @@
                                                         <table class="table table-striped table-advance table-hover" id="moduleTable">
                                                             <thead>
                                                                 <tr>
+                                                                    <th>&nbsp;</th>
                                                                     <th># Nr</th>
                                                                     <th><i class="fa fa-circle"></i> Nome </th>
-                                                                    <th><i class="icon_calendar"></i> Data Inicio</th>
-                                                                    <th><i class="icon_calendar"></i> Data Final</th>
+                                                                    <th><i class="icon_calendar"></i> Data Criação</th>
+                                                                    <th><i class="icon_calendar"></i> Data Alteração</th>
                                                                     <th><i class="fa fa-tasks"></i>Percentage</th>
                                                                     <th><i class="fa fa-cog"></i>Actions</th>
                                                                 </tr>
@@ -430,10 +431,10 @@
 
                                                 </div>
 
-                                                <form class="form-horizontal" role="form" action="<c:url value="/coord/addModule"/>" method="post">
+                                                <form id = "formModule" class="form-horizontal" role="form" action="<c:url value="/coord/addModule"/>" method="post">
                                                     <div id= "addModulesDiv" class="col-lg-12" style="text-align: center; border: 3px ridge;height: auto; background-color: #ededed; display: none">
                                                         <center>
-                                                            <h4>Adicionar um Modulo</h4>
+                                                            <h4 id = "titleModule">Adicionar um Modulo</h4>
                                                         </center>
 
                                                         <div style="padding-top: 30px">
@@ -457,35 +458,17 @@
 
                                                             <div class="form-group">
                                                                 <div class = "col-lg-12">
-                                                                    <div class="col-lg-6" style="padding-left: 0">
-                                                                        <label class="col-lg-5 control-label" style="text-align: left">Data de Inicio:</label>
-                                                                        <div class="col-lg-7" style="padding-left: 0">
-                                                                            <input type="date" class="form-control" name="moduleStartDate" id="moduleStartDate" autocomplete="off" placeholder="mm/dd/yyyy">
-                                                                        </div>
+                                                                    <label class="col-lg-2 control-label" style="text-align: left">Percentagem: </label>
+                                                                    <div class="col-lg-10" style="padding-left: 0px">
+                                                                        <input type="number" class="form-control" name="percentage" id="percentage" placeholder="Percentagem">
                                                                     </div>
 
-                                                                    <div class="col-lg-6" style="padding-left: 0">
-                                                                        <label class="col-lg-5 control-label" style="text-align: left">Data Final: </label>
-                                                                        <div class="col-lg-7" style="padding-left: 0px">
-                                                                            <input type="date" class="form-control" name="moduleEndDate" id="moduleEndDate" placeholder="Descrição do Modulo">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <div class = "col-lg-12">
-
-                                                                    <div class="col-lg-6" style="padding-left: 0">
-                                                                        <label class="col-lg-5 control-label" style="text-align: left">Percentagem: </label>
-                                                                        <div class="col-lg-7" style="padding-left: 0px">
-                                                                            <input type="number" class="form-control" name="percentage" id="percentage" placeholder="Percentagem">
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
                                                             </div>
 
                                                             <center style="padding-top: 10px; padding-bottom: 10px">
+                                                                <input type="hidden" id="courseIdModule" name="courseIdModule">
+                                                                <input type="hidden" id="moduleId" name="moduleId">
                                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                                 <span>
                                                                     <button type="submit" onclick="return validateNewModule();" class="btn btn-primary">Save</button>

@@ -12,6 +12,7 @@ import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.ActionValidator;
 import com.weblink.core.validators.CourseValidator;
+import com.weblink.core.validators.ModuleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -130,8 +131,8 @@ public class CourseController {
             temp.put("pos" , String.valueOf(module.getPosition()));
             temp.put("name" , module.getName());
             temp.put("description" , module.getDescription());
-            temp.put("startDate", String.valueOf(module.getStartDate()));
-            temp.put("endDate", String.valueOf(module.getEndDate()));
+            temp.put("creationDate", String.valueOf(module.getCreationDate()));
+            temp.put("lastChangeDate", String.valueOf(module.getLastChangeDate()));
             temp.put("percentage", String.valueOf(module.getPercentage()));
 
 
@@ -144,6 +145,56 @@ public class CourseController {
         System.out.println(result);
         return result;
     }
+
+    @RequestMapping(value="/coord/addModule", method = RequestMethod.POST)
+    public String moduleCreate(HttpServletRequest request, Model model) {
+        int position = 0;
+        prepareModel(model);
+
+        Course course = courseManagementService.getCourse(Integer.parseInt(request.getParameter("courseIdModule")));
+        if(course == null) return "redirect:/coord/addModule?addModule=false";
+
+        List<Module> moduleList= moduleManagementService.getCourseModules(course);
+        if(moduleList == null) return "redirect:/coord/addModule?addModule=false";
+
+        for(Module m : moduleList){
+            if(m.getPosition() > position)  position = m.getPosition();
+        }
+
+        Module module = new ModuleValidator().validateInput(request, user, course,null, position+1);
+        if (module == null)  return "redirect:/coord/addModule?addModule=false";
+
+        moduleManagementService.addModule(module);
+        return "redirect:/coord/addModule?addModule=true";
+    }
+
+    @RequestMapping(value="/coord/updateModule", method = RequestMethod.POST, params = {"module"})
+    public String updateModule(@RequestParam("module") int  moduleId, Model model, HttpServletRequest request) {
+        prepareModel(model);
+
+        Module module = moduleManagementService.getModule(moduleId);
+        if (module == null) return "redirect:/coord/addModule?addModule=false";
+
+        Module moduleToUpdate = new ModuleValidator().validateInput(request, user, module.getCourse() ,module, module.getPosition());
+        if(moduleToUpdate == null) return "redirect:/coord/addModule?addModule=false";
+
+        moduleManagementService.updateModule(moduleToUpdate);
+        return "redirect:/coord/addModule?addModule=true";
+    }
+
+
+    @RequestMapping(value="/coord/addModule", method = RequestMethod.GET, params = {"addModule"})
+    public String moduleCreationFail(@RequestParam("addModule") boolean addModule, Model model) {
+        prepareModel(model);
+
+        if(addModule)   model.addAttribute("SuccessCreating", "Sucesso a Adicionar/Alterar Modulo");
+        else            model.addAttribute("FailureCreating", "Criação/Alteração de Modulo não foi bem sucedida");
+
+        return "Courses";
+    }
+
+
+
 
     @RequestMapping(value = "/coord/ChangeUp" , method = RequestMethod.GET, params = {"module"})
     public @ResponseBody String changeModuleUp(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
@@ -179,6 +230,9 @@ public class CourseController {
 
         return "Changed Down";
     }
+
+
+
 
     @RequestMapping(value = "/coord/deleteModuleTrigger" , method = RequestMethod.GET, params = {"module"})
     public @ResponseBody String deleteModuleTrigger(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {

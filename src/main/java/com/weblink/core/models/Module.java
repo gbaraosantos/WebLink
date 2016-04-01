@@ -39,17 +39,9 @@ public class Module {
     @Column(name = "lastChangeDate", nullable = false)
     private Date lastChangeDate;
 
-    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
-    @Column(name = "startDate", nullable = false)
-    private Date startDate;
-
     @DateTimeFormat(pattern="dd-MM-yyyy hh:mm")
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
-
-    @DateTimeFormat(pattern="dd-MM-yyyy hh:mm")
-    @Column(name = "endDate", nullable = false)
-    private Date endDate;
 
 
     public int getId() { return id; }
@@ -59,10 +51,8 @@ public class Module {
     public int getPosition() { return position; }
     public Date getLastChangeDate() { return lastChangeDate; }
     public Date getCreationDate() { return creationDate; }
-    public Date getEndDate() { return endDate; }
     public User getCreatedBy() { return createdBy; }
     public Course getCourse() { return course; }
-    public Date getStartDate() { return startDate; }
 
     public Module setName(String name) { this.name = name; return this; }
     public Module setDescription(String description) { this.description = description; return this; }
@@ -70,10 +60,8 @@ public class Module {
     public Module setPosition(int position) { this.position = position; return this; }
     public Module setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
     public Module setCreationDate(Date creationDate) { this.creationDate = creationDate; return this; }
-    public Module setEndDate(Date endDate) { this.endDate = endDate; return this; }
     public Module setCreatedBy(User createdBy) { this.createdBy = createdBy; return this; }
     public Module setCourse(Course course) { this.course = course; return this; }
-    public Module setStartDate(Date startDate) { this.startDate = startDate; return this; }
 
     @Override
     public String toString() {
