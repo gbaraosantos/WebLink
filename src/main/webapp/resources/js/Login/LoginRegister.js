@@ -33,8 +33,6 @@ function verify_registry(){
 	var city = document.getElementById("city");
 
 
-	
-
 	setDefaultBorder(password, defaultBorders );
 	setDefaultBorder(re_password , defaultBorders );
 	setDefaultBorder(name, defaultBorders );

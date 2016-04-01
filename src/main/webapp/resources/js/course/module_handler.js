@@ -1,5 +1,11 @@
+var int_percentage = 0;
+
 
 function loadModules(){
+    int_percentage = 0;
+    var divPercentage = document.getElementById("percentageBarLocal");
+    divPercentage.innerHTML = '';
+
     document.getElementById("addModulesDiv").style.display = "none";
 
     var i;
@@ -8,8 +14,14 @@ function loadModules(){
     var moduleTableBody = document.getElementById("moduleTableBody");
     var new_tbody = document.createElement('tbody');
 
-    if(parseInt(id) != "0") document.getElementById("addModuleButton").style.display = "inline";
-    else document.getElementById("addModuleButton").style.display = "none";
+    if(parseInt(id) != "0"){
+        document.getElementById("percentageBarLocal").style.display = "inline";
+        document.getElementById("addModuleButton").style.display = "inline";
+    }
+    else{
+        document.getElementById("addModuleButton").style.display = "none";
+        document.getElementById("percentageBarLocal").style.display = "none";
+    }
 
 
     moduleTableBody.parentNode.replaceChild(new_tbody, moduleTableBody);
@@ -29,17 +41,43 @@ function loadModules(){
             var unloadedResponse = jQuery.parseJSON(data);
             for(i = 0; i < unloadedResponse.length; i++){
                 prepareTable(unloadedResponse[i], i, unloadedResponse.length)
-
             }
+            putPercentageBar();
+
         }
     });
 
 }
 
+function putPercentageBar(){
+    var divPercentage = document.getElementById("percentageBarLocal");
+    var child1 = document.createElement("div");
+    var child2 = document.createElement("div");
+
+    child1.setAttribute("class", "progress");
+
+    child2.setAttribute("class", "progress-bar progress-bar-success progress-bar-striped active");
+    child2.setAttribute("role", "progressbar");
+    child2.setAttribute("aria-valuenow", int_percentage.toString());
+    child2.setAttribute("aria-valuemin", "0");
+    child2.setAttribute("aria-valuemax", "100");
+    child2.setAttribute("style", "width:50%");
+    child2.innerHTML = int_percentage.toString() + "% of Course is Set";
+
+    child1.appendChild(child2);
+    divPercentage.appendChild(child1);
+
+
+}
+
 function prepareTable(module, i, len){
     var name, position, startDate, endDate, nClasses, percentage,button;
-    var row, errorColor, id, order;
+    var row, errorColor, id;
     var moduleTable = document.getElementById("moduleTableBody");
+
+
+    int_percentage = int_percentage + parseInt(module['percentage']);
+
 
     row = moduleTable.insertRow(i);
 
@@ -47,9 +85,8 @@ function prepareTable(module, i, len){
     name = row.insertCell(1);
     startDate = row.insertCell(2);
     endDate = row.insertCell(3);
-    nClasses = row.insertCell(4);
-    percentage = row.insertCell(5);
-    button = row.insertCell(6);
+    percentage = row.insertCell(4);
+    button = row.insertCell(5);
 
     id =module["id"];
     errorColor = "style='color: #d11c12;'";
@@ -59,7 +96,6 @@ function prepareTable(module, i, len){
     position.innerHTML      = "" + module['pos'];
     startDate.innerHTML     = "" + new Date(Date.parse(module['startDate'])).toDateString();
     endDate.innerHTML       = "" + new Date(Date.parse(module['endDate'])).toDateString();
-    nClasses.innerHTML      = "" + module['nClasses'];
     percentage.innerHTML    = "" + module['percentage'] + "%";
 
 
@@ -163,3 +199,95 @@ function addClick(){
     document.getElementById("addModulesDiv").style.display = "none";
     document.getElementById("addModuleButton").style.display = "inline";
 }
+
+
+
+function validateNewModule(){
+    var name = document.getElementById("moduleName");
+    var description = document.getElementById("moduleDescription");
+    var startDate = document.getElementById("moduleStartDate");
+    var endDate = document.getElementById("moduleEndDate");
+    var percentage = document.getElementById("percentage");
+
+    if( !verifyNull(name) 								||
+        !verifyNull(description) 						||
+        !verifyNull(startDate)						    ||
+        !verifyNull(endDate)							||
+        !verifyNull(percentage)						    ||
+        !check_minSize(name, 3, "Name") 				||
+        !check_minSize(description, 6, "description")   ||
+        !checkDates(startDate, endDate)                 ||
+        !checkPercentage(percentage)
+                                                            )return false;
+
+    return true;
+}
+
+function check_min(value, min, name){
+    if(parseInt(value.value) >= min) return true;
+    alerts("O campo " + name + " não pode ter esse valor");
+    return false;
+}
+
+function checkPercentage(percentage){
+    var intpercentage = parseInt(percentage.value);
+
+    if(intpercentage + int_percentage > 100){
+        alerts("Percentagem ultrapassa os 100% totais");
+        return false;
+    }
+
+    if(intpercentage <= 100 && intpercentage > 0) return true;
+
+    alerts("Percentagem não está dentro dos limites aceitáveis");
+    return false;
+
+}
+
+function checkDates(startDate, endDate){
+    var date1 = new Date(Date.parse(startDate.value));
+    var date2 = new Date(Date.parse(endDate.value));
+
+
+    if(date1.getTime() < new Date().getTime()){
+        alerts("Vão haver formações no passado?");
+        return false;
+    }
+
+    if(date1.getTime() < date2.getTime()) return true;
+
+    alerts("Data inicial não pode ser depois da final");
+    return false;
+
+}
+
+function check_minSize(field, size, name){
+    if(field.value.length >= size)	return true
+    alerts("Campo " +name + " tem de ter pelo menos "+size+" digitos");
+    return false
+}
+
+function verifyNull(InputBox){
+    if (InputBox.value == ""){
+        alerts("Preencha todos os campos");
+        return false
+    }
+    return true
+}
+
+function alerts(text){
+    swal({
+        confirmButtonColor: 'ffbf80',
+        title: 'Oops...',
+        text: text,
+        type: 'error',
+        animation: true });
+}
+
+
+
+
+
+
+
+

@@ -32,9 +32,6 @@ public class Module {
     @Column(name = "percentage", nullable = false)
     private int percentage;
 
-    @Column(name = "nClasses", nullable = false)
-    private int nClasses;
-
     @Column(name = "position", nullable = false)
     private int position;
 
@@ -59,7 +56,6 @@ public class Module {
     public String getName() { return name; }
     public String getDescription() { return description; }
     public int getPercentage() { return percentage; }
-    public int getnClasses() { return nClasses; }
     public int getPosition() { return position; }
     public Date getLastChangeDate() { return lastChangeDate; }
     public Date getCreationDate() { return creationDate; }
@@ -71,7 +67,6 @@ public class Module {
     public Module setName(String name) { this.name = name; return this; }
     public Module setDescription(String description) { this.description = description; return this; }
     public Module setPercentage(int percentage) { this.percentage = percentage; return this; }
-    public Module setnClasses(int nClasses) { this.nClasses = nClasses; return this; }
     public Module setPosition(int position) { this.position = position; return this; }
     public Module setLastChangeDate(Date lastChangeDate) { this.lastChangeDate = lastChangeDate; return this; }
     public Module setCreationDate(Date creationDate) { this.creationDate = creationDate; return this; }
@@ -84,7 +79,6 @@ public class Module {
     public String toString() {
         return "Module [id="        + this.id               +
                 ", name="           + this.name             +
-                ", nClasses="       + this.nClasses         +
                 ", createdBy="      + this.createdBy        +
                 ", creationDate="   + this.creationDate     +
                 ", position="       + this.position +"]";

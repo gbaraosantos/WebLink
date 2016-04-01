@@ -29,10 +29,8 @@ public class CourseValidator {
         if(!checkNullAndSize(course.getArea() , 3 , 256)) return null;
         if(!checkNullAndSize(course.getIcon() , 1 , 64)) return null;
         if(!checkNullAndSize(course.getDescription() , 6 , 2048)) return null;
-        if(!min(course.getNumberModules() , 1)) return null;
         if(!min(course.getReTryPrice() , 0)) return null;
         if(!min(course.getPrice() , 0)) return null;
-        if(!min(course.getNumberClasses() , 0)) return null;
 
         return action;
 
@@ -74,17 +72,15 @@ public class CourseValidator {
 
     private Course mapCourse(HttpServletRequest request, User user) {
         String area, courseName, description, icon;
-        Integer nModules, price, nClasses, tClass, optionsRadios;
+        Integer price, nClasses, tClass, optionsRadios;
 
         try {
             area = request.getParameter("area");
             courseName = request.getParameter("courseName");
             description = request.getParameter("description");
-            nModules = Integer.parseInt(request.getParameter("nModules"));
             optionsRadios = Integer.parseInt(request.getParameter("optionsRadios"));
             icon = request.getParameter("IconSelect");
             price = Integer.parseInt(request.getParameter("price"));
-            nClasses = Integer.parseInt(request.getParameter("nClasses"));
             tClass = Integer.parseInt(request.getParameter("tClass"));
 
             String courseType = getCourseType(optionsRadios);
@@ -95,13 +91,11 @@ public class CourseValidator {
                     .setArea(area)
                     .setName(courseName)
                     .setDescription(description)
-                    .setNumberModules(nModules)
                     .setSynch(courseType)
                     .setIcon(icon)
                     .setCreationDate(new Date())
                     .setLastChangeDate(new Date())
                     .setPrice(price)
-                    .setNumberClasses(nClasses)
                     .settClass(tClass)
                     .setReTryPrice(retryPrice.intValue())
                     .setCreatedBy(user);
@@ -130,12 +124,10 @@ public class CourseValidator {
         return (parameters.containsKey("area")              &&
                 parameters.containsKey("courseName")        &&
                 parameters.containsKey("description")       &&
-                parameters.containsKey("nModules")          &&
                 parameters.containsKey("optionsRadios")     &&
                 parameters.containsKey("IconSelect")        &&
                 parameters.containsKey("startDate")         &&
                 parameters.containsKey("price")             &&
-                parameters.containsKey("nClasses")          &&
                 parameters.containsKey("tClass"));
 
     }

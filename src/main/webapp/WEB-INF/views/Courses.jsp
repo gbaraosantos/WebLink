@@ -45,6 +45,8 @@
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/delete_confirmation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/module_handler.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/action_validation.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/course_validation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
 
 
@@ -250,15 +252,6 @@
 
                                                 <div class="form-group">
                                                     <div class="col-lg-12">
-                                                        <label class="col-lg-2 control-label" style="text-align: left">Número de Módulos </label>
-                                                        <div class="col-lg-9">
-                                                            <input type="number" class="form-control" name="nModules" id="nModules" autocomplete="off" placeholder="Número de Módulos">
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="col-lg-12">
                                                         <div class="col-lg-6" style="padding-left: 0">
                                                             <label class="col-lg-5 control-label" style="text-align: left" >Tipo de Aulas</label>
                                                             <div class="col-lg-7">
@@ -285,7 +278,7 @@
                                                         <div class="col-lg-6" style="padding-left: 0">
                                                             <label  class="col-lg-5 control-label" style="text-align: left" >Icon do Curso</label>
                                                             <div class="col-lg-7">
-                                                                <button id = "IconSelect" name = "IconSelect" class="btn btn-default form-control" data-search="false" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
+                                                                <button id = "IconSelect" name = "IconSelect"  class="btn btn-default form-control" data-search="false" data-iconset="fontawesome" data-icon="fa-wifi" role="iconpicker"></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -311,13 +304,6 @@
 
                                                 <div class="form-group">
                                                     <div class="col-lg-12">
-                                                        <div class="col-lg-6" style="padding-left: 0">
-                                                            <label class="col-lg-5 control-label" style="text-align: left">Número Aulas </label>
-                                                            <div class="col-lg-7">
-                                                                <input type="number" class="form-control" name="nClasses" id="nClasses" autocomplete="off" placeholder="Número de Aulas">
-                                                            </div>
-                                                        </div>
-
                                                         <div class="col-lg-6">
                                                             <label class="col-lg-5 control-label" style="text-align: left">Tempo por Aula </label>
                                                             <div class="col-lg-7">
@@ -380,7 +366,7 @@
 
                                                 <center>
                                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                                    <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
+                                                    <button type="submit" onclick="return verify_newAction();" class="btn btn-primary">Save</button>
                                                 </center>
                                             </form>
                                         </div>
@@ -394,6 +380,7 @@
                                     <div role="tabpanel" class="tab-pane" id="Modules" style="overflow:auto; ">
 
                                         <div class="panel-body bio-graph-info">
+
                                             <div>
                                                 <div class="form-group">
                                                     <div class = "col-lg-12">
@@ -409,15 +396,19 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div class = "col-lg-12" id = "percentageBarLocal" style="padding-bottom: 30px; padding-top: 20px; display: none">
+
+                                                    </div>
+
                                                     <div class = "col-lg-12" id="moduleSpot">
                                                         <table class="table table-striped table-advance table-hover" id="moduleTable">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Nr</th>
+                                                                    <th># Nr</th>
                                                                     <th><i class="fa fa-circle"></i> Nome </th>
                                                                     <th><i class="icon_calendar"></i> Data Inicio</th>
                                                                     <th><i class="icon_calendar"></i> Data Final</th>
-                                                                    <th><i class="fa fa-book"></i> Nr Aulas</th>
                                                                     <th><i class="fa fa-tasks"></i>Percentage</th>
                                                                     <th><i class="fa fa-cog"></i>Actions</th>
                                                                 </tr>
@@ -431,9 +422,6 @@
 
 
                                                 <div class="form-group">
-                                                    <div class = "col-lg-12">
-
-                                                    </div>
                                                     <center>
                                                         <a id="addModuleButton" onclick="createAddFields()"  style="color: #384dd1; display: none">
                                                             <i style="color: green;" class="fa fa-plus-circle fa-3x"></i>
@@ -487,12 +475,6 @@
 
                                                             <div class="form-group">
                                                                 <div class = "col-lg-12">
-                                                                    <div class="col-lg-6" style="padding-left: 0">
-                                                                        <label class="col-lg-5 control-label" style="text-align: left">Numero de aulas:</label>
-                                                                        <div class="col-lg-7" style="padding-left: 0">
-                                                                            <input type="number" class="form-control" name="nClassesModule" id="nClassesModule" autocomplete="off" placeholder="Numero de Aulas">
-                                                                        </div>
-                                                                    </div>
 
                                                                     <div class="col-lg-6" style="padding-left: 0">
                                                                         <label class="col-lg-5 control-label" style="text-align: left">Percentagem: </label>
@@ -506,7 +488,7 @@
                                                             <center style="padding-top: 10px; padding-bottom: 10px">
                                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                                 <span>
-                                                                    <button type="submit" onclick="return addClick();" class="btn btn-primary">Save</button>
+                                                                    <button type="submit" onclick="return validateNewModule();" class="btn btn-primary">Save</button>
                                                                     <a onclick=" addClick();" class="btn btn-Danger">Cancel</a>
                                                                 </span>
                                                             </center>

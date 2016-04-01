@@ -132,7 +132,6 @@ public class CourseController {
             temp.put("description" , module.getDescription());
             temp.put("startDate", String.valueOf(module.getStartDate()));
             temp.put("endDate", String.valueOf(module.getEndDate()));
-            temp.put("nClasses", String.valueOf(module.getnClasses()));
             temp.put("percentage", String.valueOf(module.getPercentage()));
 
 
