@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("actionManagementService")
 @Transactional
@@ -40,5 +41,12 @@ public class ActionManagementServiceImpl implements ActionManagementService{
         List<Action> list = actionManagementDao.getAction(id);
         if(list==null || list.size() <= 0) return null;
         return list.get(0);
+    }
+
+    @Override
+    public List<Action> getFiltered(Map<String, String> filterRequest) {
+        List<Action> list = actionManagementDao.filterActions(filterRequest);
+        if(list==null || list.size() <= 0) return null;
+        return list;
     }
 }

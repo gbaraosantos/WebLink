@@ -1,5 +1,6 @@
 package com.weblink.core.validators;
 
+import com.weblink.core.common.enums.EvaluationType;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.User;
@@ -35,16 +36,19 @@ public class ActionValidator {
         try {
             Date startDate = sdfmt1.parse(request.getParameter("startDateAction"));
             discount = Integer.parseInt(request.getParameter("discount"));
+            String evalType = EvaluationType.whichIs(request.getParameter("evaltype")).getEvaluationType();
 
             return new Action()
                     .setCreationDate(new Date())
                     .setLastChangeDate(new Date())
                     .setCourse(course)
                     .setDiscount(discount)
+                    .setEvaluationType(evalType)
                     .setEndDate(null)
                     .setVisible(false)
                     .setStartDate(startDate)
                     .setCreatedBy(user);
+
         } catch (ParseException e) {
             return null;
         }
@@ -55,7 +59,10 @@ public class ActionValidator {
         Map<String, String[]> parameters = request.getParameterMap();
 
         return (parameters.containsKey("CourseID")                  &&
+                parameters.containsKey("evaltype")                  &&
                 parameters.containsKey("startDateAction")           &&
-                parameters.containsKey("discount"));
+                parameters.containsKey("discount")
+
+        );
     }
 }

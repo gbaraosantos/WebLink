@@ -196,7 +196,6 @@
     <!-- Center Content -->
     <section id="main-content">
         <section class="wrapper">
-
             <!--            ADD A COURSE            -->
             <div class="row">
                 <div aria-hidden="true" aria-labelledby="myModelLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
@@ -358,6 +357,16 @@
                                                             <label class="col-lg-5 control-label" style="text-align: left">Desconto:</label>
                                                             <div class="col-lg-7" style="padding-left: 0">
                                                                 <input type="number" class="form-control" name="discount" id="discount" autocomplete="off" placeholder="Desconto">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Tipo de Avaliacao:</label>
+                                                            <div class="col-lg-7" style="padding-left: 0">
+                                                                <select class="form-control m-bot15" id="evaltype" name="evaltype">
+                                                                    <d:forEach var="evaltype" items="${evalTypes}">
+                                                                        <option value = "${evaltype}">${evaltype}</option>
+                                                                    </d:forEach>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -592,8 +601,8 @@
                                                     <div class="col-lg-9">
                                                         <select id="isvisible" name="isvisible" class="form-control">
                                                             <option value="any">Any</option>
-                                                            <option value="no">No</option>
-                                                            <option value="yes">Yes</option>
+                                                            <option value="false">No</option>
+                                                            <option value="true">Yes</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -661,7 +670,7 @@
                                                     </d:choose>
                                                 </sec:authorize>
 
-                                                <span style="float:left"><h4>${action.getCourse().getArea()}</h4></span>
+                                                <span style="float:left ;padding-left: 15px"><h4>${action.getCourse().getArea()}</h4></span>
                                             </div>
 
                                             <div class="col-lg-4" style="padding-right: 0; margin-right: 0">
@@ -669,11 +678,6 @@
                                                     <div style="padding-top: 3px">
                                                         <a onclick="deleteConfirm('${action.getId()}');">
                                                             <i style="color: #819ec2; padding-right: 0; margin-right: 0; float: right; font-size: x-large" class="fa fa-times fa"></i>
-                                                        </a>
-                                                    </div>
-                                                    <div style="padding-top: 2px">
-                                                        <a href = "<c:url value="/coord/deleteAction?Action=${action.getId()}"/>">
-                                                            <i style="color: #819ec2; padding-right: 8px; margin-right: 8px; float: right; font-size: 21px" class="fa fa-cog"></i>
                                                         </a>
                                                     </div>
                                                 </sec:authorize>
@@ -725,7 +729,7 @@
                                                 </d:choose>
                                             </sec:authorize>
 
-                                            <span style="float:left"><h4>${action.getCourse().getArea()}</h4></span>
+                                            <span style="float:left; padding-left: 15px"><h4>${action.getCourse().getArea()}</h4></span>
                                         </div>
 
                                         <div class="col-lg-4" style="padding-right: 0; margin-right: 0">
@@ -735,11 +739,7 @@
                                                         <i style="color: #819ec2; padding-right: 0; margin-right: 0; float: right; font-size: x-large" class="fa fa-times fa"></i>
                                                     </a>
                                                 </div>
-                                                <div style="padding-top: 2px">
-                                                    <a href = "<c:url value="/coord/deleteAction?Action=${action.getId()}"/>">
-                                                        <i style="color: #819ec2; padding-right: 8px; margin-right: 8px; float: right; font-size: 21px" class="fa fa-cog"></i>
-                                                    </a>
-                                                </div>
+
                                             </sec:authorize>
                                         </div>
                                     </div>

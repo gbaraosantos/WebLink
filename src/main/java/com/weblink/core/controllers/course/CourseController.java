@@ -1,6 +1,7 @@
 package com.weblink.core.controllers.course;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weblink.core.common.enums.EvaluationType;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.Module;
@@ -11,6 +12,7 @@ import com.weblink.core.services.course_management_service.ModuleManagementServi
 import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.ActionValidator;
+import com.weblink.core.validators.CourseFilterValidator;
 import com.weblink.core.validators.CourseValidator;
 import com.weblink.core.validators.ModuleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,8 +102,6 @@ public class CourseController {
 
     }
 
-
-
     @RequestMapping(value = "/coord/changeVisibility" , method = RequestMethod.GET, params = {"Action"})
     public String changeVisibility(@RequestParam("Action") int id, Model model){
         prepareModel(model);
@@ -110,8 +110,6 @@ public class CourseController {
         if (action != null) actionManagementService.updateAction(action.changeVisibility());
         return "redirect:/weblink/courses";
     }
-
-    /*This is a comment*/
 
     @RequestMapping(value = "/coord/getModules" , method = RequestMethod.GET, params = {"Course"})
     public @ResponseBody String getCourseModules(@RequestParam("Course") int id, Model model, HttpServletResponse response) throws IOException {
@@ -182,7 +180,6 @@ public class CourseController {
         return "redirect:/coord/addModule?addModule=true";
     }
 
-
     @RequestMapping(value="/coord/addModule", method = RequestMethod.GET, params = {"addModule"})
     public String moduleCreationFail(@RequestParam("addModule") boolean addModule, Model model) {
         prepareModel(model);
@@ -192,9 +189,6 @@ public class CourseController {
 
         return "Courses";
     }
-
-
-
 
     @RequestMapping(value = "/coord/ChangeUp" , method = RequestMethod.GET, params = {"module"})
     public @ResponseBody String changeModuleUp(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
@@ -231,9 +225,6 @@ public class CourseController {
         return "Changed Down";
     }
 
-
-
-
     @RequestMapping(value = "/coord/deleteModuleTrigger" , method = RequestMethod.GET, params = {"module"})
     public @ResponseBody String deleteModuleTrigger(@RequestParam("module") int id, Model model, HttpServletResponse response) throws IOException {
         prepareModel(model);
@@ -246,18 +237,36 @@ public class CourseController {
         return "Deleted";
     }
 
+    @RequestMapping(value = "/weblink/filterCourse" , method = RequestMethod.POST)
+    public String filterCourses(Model model, HttpServletRequest request){
+        user = userService.getSingleUser(getEmail());
+        model.addAttribute("evalTypes" , EvaluationType.getAll());
+        model.addAttribute("User", user);
+        model.addAttribute("courses" , courseManagementService.getAll());
+
+        Map<String,String> filterRequest = new CourseFilterValidator().validateInput(request,user);
+        List<Action> result = actionManagementService.getFiltered(filterRequest);
+
+        if(result == null){
+            model.addAttribute("NoActions","Não Existem Cursos que correspondam a essa pesquisa.");
+            return "Courses";
+        }
+
+        checkIfAnyVisible(result, model);
+        return "Courses";
+    }
+
     private Model prepareModel(Model model){
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
+        model.addAttribute("evalTypes" , EvaluationType.getAll());
         model.addAttribute("courses" , courseManagementService.getAll());
         model = noVisibleAction(model);
         return model;
     }
 
-
-    private Model noVisibleAction(Model model){
+    private Model checkIfAnyVisible(List<Action> actions, Model model){
         Boolean errorShow = true;
-        List<Action> actions = actionManagementService.getUpcoming();
 
         if(!user.hasPermission("Coordinator")){
             for(Action a : actions){
@@ -272,6 +281,13 @@ public class CourseController {
 
         model.addAttribute("actions" , actions);
         return model;
+    }
+
+    private Model noVisibleAction(Model model){
+
+        List<Action> actions = actionManagementService.getUpcoming();
+        return checkIfAnyVisible(actions,model);
+
     }
 
     private String getEmail() {
