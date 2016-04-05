@@ -7,14 +7,14 @@ function verify_newAction(){
     if( !verifyNull(discount) 								||
         !verifyNull(startDate) 						        ||
         !checkDates(startDate)                              ||
-        !checkPercentage(discount)
+        !checkPercentage2(discount)
     )return false;
 
     return true;
 }
 
 
-function checkPercentage(percentage){
+function checkPercentage2(percentage){
     if(parseInt(percentage.value) <= 100 && parseInt(percentage.value) >= 0) return true;
 
     alerts("Percentagem não está dentro dos limites aceitáveis");

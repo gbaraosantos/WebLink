@@ -2,6 +2,7 @@ package com.weblink.core.dao.course_management_dao;
 
 import com.weblink.core.dao.AbstractDao;
 import com.weblink.core.models.Action;
+import com.weblink.core.models.Course;
 import com.weblink.core.models.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,13 @@ public class ActionManagementDaoImpl extends AbstractDao<Integer, Action> implem
     @Override
     public void updateAction(Action action) {
         update(action);
+    }
+
+    @Override
+    public List<Action> getCourseActions(Course course) {
+        Query query = getSession().createQuery("FROM Action AS a WHERE a.course >= :course");
+        query.setParameter("course", course);
+        return (List<Action>)query.list();
     }
 
     @SuppressWarnings("unchecked")
@@ -80,4 +88,6 @@ public class ActionManagementDaoImpl extends AbstractDao<Integer, Action> implem
 
         return (List<Action>)query3.list();
     }
+
+
 }

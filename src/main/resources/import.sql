@@ -33,4 +33,9 @@ INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , la
 INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,position,createdBy,course_id) VALUES (DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),"Civil 1.0", 25, 1,1,4);
 INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,position,createdBy,course_id) VALUES (DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),"Civil 2.0", 25, 2,1,4);
 
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (DATE(now()),1,DATE(now()),4);
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (DATE(now()),2,DATE(now()),4);
+
+INSERT INTO Teacher(teacher, modulePerAction) VALUES (2,1);
+
 

@@ -685,7 +685,7 @@
                                         </div>
 
                                         <div class="panel-body">
-                                            <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
+                                            <a href="<c:url value="/weblink/action?action=${action.getId()}"/>" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
                                                 <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
                                                 <div class="rotate-box-info" style="margin-top: 5px;">
                                                     <h4>${action.getCourse().getName()}</h4>
@@ -694,7 +694,7 @@
                                                 </div>
                                             </a>
 
-                                            <a href="#" style="float: right; color: #6b819f"> More </a>
+                                            <a href="<c:url value="/weblink/action?action=${action.getId()}"/>" style="float: right; color: #6b819f"> More </a>
                                             <div style="clear: both;"></div>
 
                                         </div>
@@ -745,7 +745,7 @@
                                     </div>
 
                                     <div class="panel-body">
-                                        <a href="#" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
+                                        <a href="<c:url value="/weblink/action?action=${action.getId()}"/>" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 5px; margin-bottom: 0px">
                                             <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
                                             <div class="rotate-box-info" style="margin-top: 5px;">
                                                 <h4>${action.getCourse().getName()}</h4>
@@ -754,7 +754,7 @@
                                             </div>
                                         </a>
 
-                                        <a href="#" style="float: right; color: #6b819f"> More </a>
+                                        <a href="<c:url value="/weblink/action?action=${action.getId()}"/>" style="float: right; color: #6b819f"> More </a>
                                         <div style="clear: both;"></div>
 
                                     </div>

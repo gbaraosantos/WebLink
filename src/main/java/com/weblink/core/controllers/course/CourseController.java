@@ -54,8 +54,16 @@ public class CourseController {
         prepareModel(model);
 
         Action action = new CourseValidator().validateInput(request, user);
-
         if (action == null)  return "redirect:/weblink/courses?addCourse=false";
+
+        Map<String, Object> log = new HashMap<>();
+        log.put("ip" , request.getRemoteAddr());
+        log.put("createdBy" , getEmail());
+        log.put("type" , "Course Creation");
+        log.put("Course Name" , action.getCourse().getName());
+        log.put("Course Area" , action.getCourse().getArea());
+        logger.log(log, "INFO");
+
 
         courseManagementService.createCourse(action.getCourse());
         actionManagementService.createAction(action.setCourse(courseManagementService.getCourse(action.getCourse().getName())));
@@ -75,9 +83,27 @@ public class CourseController {
             if (action == null)  return "redirect:/weblink/courses?addCourse=false";
 
             actionManagementService.createAction(action);
+
+            Map<String, Object> log = new HashMap<>();
+            log.put("ip" , request.getRemoteAddr());
+            log.put("createdBy" , getEmail());
+            log.put("type" , "Action Creation");
+            log.put("Course Name" , action.getCourse().getName());
+            log.put("Start Date" , action.getStartDate());
+            logger.log(log, "INFO");
+
+
             return "redirect:/weblink/courses?addCourse=true";
 
         }catch (Exception e){
+            Map<String, Object> log = new HashMap<>();
+            log.put("ip" , request.getRemoteAddr());
+            log.put("createdBy" , getEmail());
+            log.put("type" , "Action Creation");
+            logger.log(log, "ERROR");
+
+
+
             return "redirect:/weblink/courses?addCourse=false";
         }
 
@@ -98,7 +124,17 @@ public class CourseController {
         prepareModel(model);
 
         Action action = actionManagementService.getAction(id);
-        if(action != null) actionManagementService.deleteAction(action);
+        if(action != null){
+            actionManagementService.deleteAction(action);
+
+            Map<String, Object> log = new HashMap<>();
+            log.put("DeletedBy" , getEmail());
+            log.put("type" , "Action Delete");
+            log.put("Course Name" , action.getCourse().getName());
+            log.put("Start Date" , action.getStartDate());
+            logger.log(log, "INFO");
+
+        }
 
     }
 
@@ -107,7 +143,17 @@ public class CourseController {
         prepareModel(model);
 
         Action action = actionManagementService.getAction(id);
-        if (action != null) actionManagementService.updateAction(action.changeVisibility());
+        if (action != null){
+            actionManagementService.updateAction(action.changeVisibility());
+
+            Map<String, Object> log = new HashMap<>();
+            log.put("ChangedBy" , getEmail());
+            log.put("type" , "VisibilityChange");
+            log.put("Course Name" , action.getCourse().getName());
+            log.put("Start Date" , action.getStartDate());
+            logger.log(log, "INFO");
+
+        }
         return "redirect:/weblink/courses";
     }
 
@@ -140,7 +186,6 @@ public class CourseController {
 
         ObjectMapper mapper = new ObjectMapper();
         String result = mapper.writeValueAsString(map);
-        System.out.println(result);
         return result;
     }
 
@@ -162,6 +207,15 @@ public class CourseController {
         Module module = new ModuleValidator().validateInput(request, user, course,null, position+1);
         if (module == null)  return "redirect:/coord/addModule?addModule=false";
 
+        Map<String, Object> log = new HashMap<>();
+        log.put("ip" , request.getRemoteAddr());
+        log.put("CreatedBy" , getEmail());
+        log.put("type" , "Module Creation");
+        log.put("Course Name" , module.getCourse().getName());
+        log.put("Module Name" , module.getName());
+        log.put("Percentage" , module.getPercentage());
+        logger.log(log, "INFO");
+
         moduleManagementService.addModule(module);
         return "redirect:/coord/addModule?addModule=true";
     }
@@ -176,6 +230,15 @@ public class CourseController {
         Module moduleToUpdate = new ModuleValidator().validateInput(request, user, module.getCourse() ,module, module.getPosition());
         if(moduleToUpdate == null) return "redirect:/coord/addModule?addModule=false";
 
+        Map<String, Object> log = new HashMap<>();
+        log.put("ip" , request.getRemoteAddr());
+        log.put("UpdatedBy" , getEmail());
+        log.put("type" , "Module Update");
+        log.put("Course Name" , moduleToUpdate.getCourse().getName());
+        log.put("Module Name" , moduleToUpdate.getName());
+        log.put("Percentage" , moduleToUpdate.getPercentage());
+        logger.log(log, "INFO");
+
         moduleManagementService.updateModule(moduleToUpdate);
         return "redirect:/coord/addModule?addModule=true";
     }
@@ -185,7 +248,16 @@ public class CourseController {
         prepareModel(model);
 
         if(addModule)   model.addAttribute("SuccessCreating", "Sucesso a Adicionar/Alterar Modulo");
-        else            model.addAttribute("FailureCreating", "Criação/Alteração de Modulo não foi bem sucedida");
+        else{
+            model.addAttribute("FailureCreating", "Criação/Alteração de Modulo não foi bem sucedida");
+
+            Map<String, Object> log = new HashMap<>();
+            log.put("CreatedBy" , getEmail());
+            log.put("type" , "Module Creation Failure");
+            logger.log(log, "ERROR");
+
+
+        }
 
         return "Courses";
     }
@@ -201,6 +273,14 @@ public class CourseController {
 
         Module module2 = moduleManagementService.getModule(module.getCourse(), module.getPosition() - 1);
         if(module2 == null)             return "Could Not Change";
+
+        Map<String, Object> log = new HashMap<>();
+        log.put("CreatedBy" , getEmail());
+        log.put("type" , "Module Position Change");
+        log.put("Module 1 Name" , module.getName());
+        log.put("Module 2 Name" , module2.getName());
+        logger.log(log, "INFO");
+
 
         moduleManagementService.updateModule(module.setPosition(module.getPosition() - 1));
         moduleManagementService.updateModule(module2.setPosition(module2.getPosition() + 1));
@@ -219,6 +299,13 @@ public class CourseController {
         Module module2 = moduleManagementService.getModule(module.getCourse(), module.getPosition() + 1);
         if(module2 == null)             return "Could Not Change";
 
+        Map<String, Object> log = new HashMap<>();
+        log.put("CreatedBy" , getEmail());
+        log.put("type" , "Module Position Change");
+        log.put("Module 1 Name" , module.getName());
+        log.put("Module 2 Name" , module2.getName());
+        logger.log(log, "INFO");
+
         moduleManagementService.updateModule(module.setPosition(module.getPosition() + 1));
         moduleManagementService.updateModule(module2.setPosition(module2.getPosition() - 1));
 
@@ -233,6 +320,13 @@ public class CourseController {
         if (module == null) return "Could not delete";
         moduleManagementService.deleteModule(module);
 
+        Map<String, Object> log = new HashMap<>();
+        log.put("DeletedBy" , getEmail());
+        log.put("type" , "Module Delete");
+        log.put("Course Name" , module.getCourse().getName());
+        log.put("Module Name" , module.getName());
+        log.put("Percentage" , module.getPercentage());
+        logger.log(log, "INFO");
 
         return "Deleted";
     }

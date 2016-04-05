@@ -2,6 +2,7 @@ package com.weblink.core.validators;
 
 
 import com.weblink.core.common.enums.CourseType;
+import com.weblink.core.common.enums.EvaluationType;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.User;
@@ -62,6 +63,7 @@ public class CourseValidator {
                     .setEndDate(null)
                     .setVisible(false)
                     .setStartDate(startDate)
+                    .setEvaluationType(EvaluationType.ONETOTWENTY.getEvaluationType())
                     .setCreatedBy(user);
         } catch (ParseException e) {
             return null;

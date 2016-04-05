@@ -2,8 +2,11 @@ package com.weblink.core.services.course_management_service;
 
 
 import com.weblink.core.dao.course_management_dao.ModuleManagementDao;
+import com.weblink.core.dao.user_management_dao.TeacherManagementDao;
+import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.Module;
+import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +16,8 @@ import java.util.List;
 @Service("moduleManagementService")
 @Transactional
 public class ModuleManagementServiceImpl implements ModuleManagementService{
-
+    @Autowired ModuleActionManagementService moduleActionManagementService;
+    @Autowired ActionManagementService actionManagementService;
     @Autowired private ModuleManagementDao moduleManagementDao;
 
     @Override
@@ -47,6 +51,10 @@ public class ModuleManagementServiceImpl implements ModuleManagementService{
     @Override
     public void addModule(Module module) {
         moduleManagementDao.addModule(module);
+
+        for(Action a: actionManagementService.getCourseActions(module.getCourse())){
+            moduleActionManagementService.addModulePerAction(module,a);
+        }
     }
 
     @Override

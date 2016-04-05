@@ -10,7 +10,7 @@ public class Teacher {
     private int id;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "teacher")
+    @JoinColumn(nullable = true, name = "teacher")
     private User teacher;
 
     @ManyToOne(targetEntity = ModulePerAction.class, fetch = FetchType.EAGER)
@@ -27,7 +27,7 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Student [id="       + this.id               +
+        return "teacher [id="       + this.id               +
                 "\n"                + this.getTeacher()     +
                 "\n"                + this.getModulePerAction()
                 ;

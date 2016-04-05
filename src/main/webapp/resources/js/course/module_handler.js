@@ -109,7 +109,6 @@ function prepareTable(module, i, len){
     newCell.setAttribute("colspan", "12");
     newCell.style.padding = 0;
     newCell.appendChild(child1);
-    console.log(row2)
 
 }
 
@@ -253,13 +252,16 @@ function validateNewModule(){
     var description = document.getElementById("moduleDescription");
     var percentage = document.getElementById("percentage");
 
-    if( !verifyNull(name) 								||
+
+    if(document.getElementById("titleModule").innerHTML == "Modificar um Módulo") return true;
+
+    if( !checkPercentage(percentage)                    ||
+        !verifyNull(name) 								||
         !verifyNull(description) 						||
         !verifyNull(percentage)						    ||
         !check_minSize(name, 3, "Name") 				||
-        !check_minSize(description, 6, "description")   ||
-        !checkDates(startDate, endDate)                 ||
-        !checkPercentage(percentage)
+        !check_minSize(description, 6, "description")
+
                                                             )return false;
 
     return true;
