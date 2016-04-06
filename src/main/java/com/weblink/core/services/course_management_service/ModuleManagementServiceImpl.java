@@ -6,6 +6,7 @@ import com.weblink.core.dao.user_management_dao.TeacherManagementDao;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.Module;
+import com.weblink.core.models.ModulePerAction;
 import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

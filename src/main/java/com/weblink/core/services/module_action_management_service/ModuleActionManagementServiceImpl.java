@@ -61,4 +61,22 @@ public class ModuleActionManagementServiceImpl implements ModuleActionManagement
         if(list==null || list.size() <= 0) return null;
         return list;
     }
+
+    @Override
+    public void delete(Module module) {
+        List<ModulePerAction> list = compositeCourseManagementDao.getMpas(module);
+
+        for(ModulePerAction m : list){
+            compositeCourseManagementDao.deleteModulePerAction(m);
+        }
+    }
+
+    @Override
+    public void delete(Action action) {
+        List<ModulePerAction> list = compositeCourseManagementDao.getMpas(action);
+
+        for(ModulePerAction m : list){
+            compositeCourseManagementDao.deleteModulePerAction(m);
+        }
+    }
 }

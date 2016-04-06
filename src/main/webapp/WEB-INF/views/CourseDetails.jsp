@@ -44,6 +44,7 @@
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/delete_confirmation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/module_handler.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/teacher_handler.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/action_validation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/course_validation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
@@ -119,8 +120,8 @@
 
 </head>
 
-<body style="overflow: auto">
-<section id="container" class="" style="overflow: auto">
+<body style="max-height: calc(100vh); overflow-y: auto">
+<section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
             <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
@@ -196,7 +197,7 @@
 
     <!-- Center Content -->
     <section id="main-content">
-        <section class="wrapper" >
+        <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="page-header"><i class="fa fa-laptop"></i>${action.getCourse().getName()}</h3>
@@ -208,6 +209,77 @@
                     </ol>
                 </div>
             </div>
+
+            <div class="row">
+                <div aria-hidden="true" aria-labelledby="myModelLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                    <div class="modal-dialog" style = "width: 800px; margin:0 -400px; height: auto; position: absolute; overflow: visible;" >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                <h4 class="modal-title">Criação de Cursos e Acções</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <ul class="nav nav-tabs nav-justified">
+                                    <li class="active"><a href="#module" aria-controls="module" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Alterar Modulo desta Acção</b></h5></a></li>
+                                    <d:choose>
+                                        <d:when test="${courses.size() != 0}">
+                                            <li><a href="#teacher" aria-controls="teacher" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Adicionar Formador</b> </h5></a></li>
+                                        </d:when>
+                                    </d:choose>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="module">
+                                        hello
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="teacher">
+                                        <form class="form-horizontal" role="form" action="<c:url value="/coord/addTeacher"/>" method="post">
+                                            <div class="form-group">
+                                                <div class = "col-lg-12" style="background-color: #f3f3f3">
+                                                    <d:forEach var="teachP" items="${listPossibleTeachers}">
+                                                        <center>
+                                                            <div class="col-lg-10" style="padding-top: 10px; padding-right: 5px; margin: 10px 10px 10px 60px; background-color: #f0f0f0; border-style:double ; border-width: 2px; border-color: #dadada" >
+                                                                <div class="col-lg-1">
+                                                                    <input type="checkbox" name = "teacherList[]" value="" style="margin-top: 50px">
+                                                                </div>
+
+                                                                <div class="col-lg-7" style="text-align: left;">
+                                                                    <p><b>Número de Utilizador:</b> ${teachP.getId()}</p>
+                                                                    <p><b>Nome: </b>${teachP.getName()}</p>
+                                                                    <p><b>Email: </b>${teachP.getEmail()}</p>
+                                                                    <p><b>Email: </b>${teachP.getState()}</p>
+                                                                </div>
+
+                                                                <div class="col-lg-4">
+                                                                    <span class="profile-ava">
+                                                                        <img alt="" style= "height:100px; width: 100px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${teachP.avatarLocation}" />">
+                                                                    </span>
+
+                                                                </div>
+                                                            </div>
+                                                        </center>
+                                                    </d:forEach>
+                                                </div>
+                                            </div>
+                                            <div style="padding-top: 20px">
+                                                <center>
+                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    <button type="submit" onclick="return verify_newAction();" class="btn btn-primary">Save</button>
+                                                </center>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
 
             <div class="col-lg-12">
@@ -249,18 +321,29 @@
 
                         <div class="col-lg-3 col-sm-6 follow-info weather-category" style="text-align: center; height: 175px;">
                             <div style="padding-top: 40px; padding-left: 70px">
-                                <div style="background-color: #e8882c; border-radius: 25%; text-align: center; border: thin double #ededed; width: 200px; height: 50px; padding-top: 8px">
-                                    <a href = "#" style="padding-top: 1px;cursor: pointer;"><i class="fa fa-money fa-2x" style="color:#ededed"> Comprar </i></a>
+                                <div style="text-align: center; width: 200px; height: 50px; padding-top: 8px">
+                                    <button formaction = "#" class="btn btn-error btn-lg"><i class="fa fa-money fa-2x"> Comprar </i></button>
                                 </div>
+
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="row" >
-                <div class="col-lg-12">
-                    <div class="panel-body bio-graph-info">
+            <script>
+                function recalculateHeight(){
+                    document.getElementById('container').style.display = 'none';
+                    document.getElementById('container').style.display = 'block';
+                    document.body.appendChild(document.createTextNode('teste!'));
+                }
+            </script>
+
+
+            <div class="row">
+                <div class="col-lg-12" >
+                    <div class="panel-body bio-graph-info" >
 
                         <section class="panel">
                             <table class="table table-striped table-advance table-hover">
@@ -280,8 +363,11 @@
 
                                 </tr>
 
+
                                 <d:forEach var="mpa" items="${MPAList}">
-                                    <tr   data-toggle="collapse" data-target="#demo${mpa.getModule().getId()}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${mpa.getModule().getId()}">
+
+
+                                    <tr id="tog" data-toggle="collapse" data-target="#demo${mpa.getModule().getId()}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${mpa.getModule().getId()}">
                                         <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                                         <td>${mpa.getModule().getId()}</td>
                                         <td>${mpa.getModule().getName()}</td>
@@ -291,15 +377,17 @@
                                         <td><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${mpa.getEndDate()}"/></td>
                                         <sec:authorize access="hasRole('Coordinator')">
                                             <td>
-                                                <span> <a class="btn btn-info" href="<c:url value="/admin/ban?user_id=${mpa.getModule().getId()}" />"><i class="fa fa-cog"></i> Edit</a></span>
-                                                <span> <a class="btn btn-danger" href="<c:url value="/admin/ban?user_id=${mpa.getModule().getId()}" />"><i class="fa fa-times"></i> Remove</a></span>
+                                                <span> <a onclick="setId(${mpa.getModule().getId()})" class="btn btn-info" data-toggle="modal" href="<c:url value="#myModal" />"><i class="fa fa-cog"></i> Edit</a></span>
+                                                <span> <a class="btn btn-danger" onclick="deleteModuleTrigger2(${mpa.getModule().getId()})"><i class="fa fa-times"></i> Remove</a></span>
                                             </td>
                                         </sec:authorize>
 
                                     </tr>
+
+
                                     <tr>
-                                        <td colspan="12" style="padding: 0; background-color:rgba(75, 75, 100, 0.14);" >
-                                            <div class="accordian-body collapse"  id="demo${mpa.getModule().getId()}" style="background-color:rgba(0, 0, 0, 0);">
+                                        <td colspan="12" style="padding: 0;  background-color:rgba(75, 75, 100, 0.14);" id="accordion" >
+                                            <div  class="accordian-body collapse" id="demo${mpa.getModule().getId()}" style="background-color:rgba(0, 0, 0, 0);">
                                                 <table class="table" style="background-color:rgba(0, 0, 0, 0);">
                                                     <thead>
                                                     <tr>
@@ -321,11 +409,19 @@
 
                                                             <td>
                                                                 <table class="table" style="background-color:rgba(0, 0, 0, 0); " >
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Nome</th>
+                                                                        <th>Email</th>
+                                                                        <th>Ações</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tr>
 
                                                                     <d:forEach var="teach" items="${mpa.getTeacherList()}">
                                                                         <d:choose>
                                                                             <d:when test="${teach.getTeacher()!= null}">
-                                                                                <td>${each.getTeacher().getName()}</td>
+                                                                                <td>${teach.getTeacher().getName()}</td>
                                                                                 <td>${teach.getTeacher().getEmail()}</td>
 
                                                                                 <sec:authorize access="hasRole('Coordinator')">
@@ -334,15 +430,13 @@
                                                                             </d:when>
                                                                         </d:choose>
                                                                     </d:forEach>
+                                                                    </tr>
 
-                                                                        <td>
-                                                                            <a data-toggle="modal" href="<c:url value="#myModal" />" style="float: right; color: #384dd1; margin-right: 20px; ">
-                                                                                <i style="color: green;" class="fa fa-plus-circle fa-3x"></i>
-                                                                            </a>
-                                                                        </td>
                                                                 </table>
+
                                                             </td>
                                                         </tr>
+
                                                     </tbody>
                                                 </table>
 

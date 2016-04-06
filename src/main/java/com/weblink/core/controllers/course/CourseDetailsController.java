@@ -1,10 +1,8 @@
 package com.weblink.core.controllers.course;
 
 
-import com.weblink.core.models.Action;
-import com.weblink.core.models.ModulePerAction;
-import com.weblink.core.models.Teacher;
-import com.weblink.core.models.User;
+import com.weblink.core.common.enums.UserProfileType;
+import com.weblink.core.models.*;
 import com.weblink.core.services.course_management_service.ActionManagementService;
 import com.weblink.core.services.course_management_service.CourseManagementService;
 import com.weblink.core.services.course_management_service.ModuleManagementService;
@@ -45,19 +43,19 @@ public class CourseDetailsController {
     private void prepareModel(Model model, int actionId) {
         Action a = actionManagementService.getAction(actionId);
         List<ModulePerAction> list = moduleActionManagementService.getMpa(a);
+        List<User> listUser = userService.getWithPermission(UserProfileType.TEACHER.getUserProfileType());
 
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
         model.addAttribute("action" , a);
 
+        if(listUser != null) model.addAttribute("listPossibleTeachers" , listUser);
 
 
         if(list == null){
             model.addAttribute("noMPA", "Não Existem Módulos para esta acção");
         }
         else{
-            System.out.println(list.get(0).getTeacherList());
-            System.out.println(list.get(1).getTeacherList());
             model.addAttribute("MPAList", list);
         }
 

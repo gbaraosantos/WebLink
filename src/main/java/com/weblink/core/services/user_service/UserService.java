@@ -19,4 +19,5 @@ public interface UserService {
     void deleteUser(String email);
     List getAllUsers();
     User getSingleUser(Integer id);
+    List<User> getWithPermission(String teacher);
 }

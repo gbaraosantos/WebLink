@@ -65,7 +65,7 @@
 
 </head>
 
-<body>
+<body style="max-height: calc(100vh); overflow-y: auto">
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
@@ -145,7 +145,7 @@
 
     <!-- Center Content -->
     <section id="main-content">
-        <section class="wrapper">
+        <section class="wrapper" >
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="page-header"><i class="fa fa-gavel"></i> User Management </h3>

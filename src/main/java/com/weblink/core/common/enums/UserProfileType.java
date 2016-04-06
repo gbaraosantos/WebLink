@@ -24,5 +24,13 @@ public enum UserProfileType {
             default:                return UserProfileType.USER;
         }
     }
+    public static int getProfileId(String type) {
+        switch (type) {
+            case "Admin":           return 4;
+            case "Coordinator":     return 3;
+            case "Teacher":         return 2;
+            default:                return 1;
+        }
+    }
 
 }

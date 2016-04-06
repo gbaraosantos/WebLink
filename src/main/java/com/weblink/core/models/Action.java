@@ -4,6 +4,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="Action")
@@ -49,6 +51,9 @@ public class Action {
     @Column(name = "finalPrice", nullable = false)
     private int finalPrice;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "action",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ModulePerAction> actionList = new HashSet<>();
+
 
     public int getId() { return id; }
     public Course getCourse() { return course; }
@@ -61,6 +66,7 @@ public class Action {
     public int getFinalPrice() { return finalPrice; }
     public User getCreatedBy() { return createdBy; }
     public String getEvaluationType() { return evaluationType; }
+    public Set<ModulePerAction> getActionList() { return actionList; }
 
     public Action setCourse(Course course) { this.course = course; return this; }
     public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }

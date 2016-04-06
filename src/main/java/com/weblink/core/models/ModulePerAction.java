@@ -31,7 +31,7 @@ public class ModulePerAction {
     @JoinColumn(nullable = false, name = "action")
     private Action action;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "modulePerAction")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "modulePerAction",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Teacher> teacherList = new HashSet<>();
 
     public int getId() { return id; }
@@ -49,7 +49,7 @@ public class ModulePerAction {
 
     @Override
     public String toString() {
-        return "Module [id="        + this.id               +
+        return "ModulePerAction [id="        + this.id               +
                 ", startDate="      + this.startDate        +
                 ", endDate="        + this.endDate          +
                 "\n"                + this.getModule()      +

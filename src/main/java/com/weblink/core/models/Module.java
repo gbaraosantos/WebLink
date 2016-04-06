@@ -5,6 +5,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Module")
@@ -43,6 +45,9 @@ public class Module {
     @Column(name = "creationDate", nullable = false)
     private Date creationDate;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "module",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ModulePerAction> moduleList = new HashSet<>();
+
 
     public int getId() { return id; }
     public String getName() { return name; }
@@ -53,6 +58,7 @@ public class Module {
     public Date getCreationDate() { return creationDate; }
     public User getCreatedBy() { return createdBy; }
     public Course getCourse() { return course; }
+    public Set<ModulePerAction> getModuleList() { return moduleList; }
 
     public Module setName(String name) { this.name = name; return this; }
     public Module setDescription(String description) { this.description = description; return this; }

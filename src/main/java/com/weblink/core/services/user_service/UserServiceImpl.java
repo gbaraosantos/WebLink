@@ -1,9 +1,12 @@
 package com.weblink.core.services.user_service;
 
 import com.weblink.core.common.enums.State;
+import com.weblink.core.common.enums.UserProfileType;
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
+import com.weblink.core.dao.user_profile_dao.UserProfileDao;
 import com.weblink.core.dao.verification_token_dao.VerificationTokenDao;
 import com.weblink.core.models.User;
+import com.weblink.core.models.UserProfile;
 import com.weblink.core.models.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;
@@ -14,10 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service("userService")
 @Transactional
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService{
     @Autowired private UserManagementDao dao;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private VerificationTokenDao verificationTokenDao;
+    @Autowired private UserProfileDao userProfileDao;
 
     public boolean checkAvailabiliy(String email) {
         return dao.getUserByEmail(email).size() <= 0;
@@ -91,6 +93,22 @@ public class UserServiceImpl implements UserService{
         List<User> userList = dao.getUser(id);
         if(userList==null || userList.size() <= 0) return null;
         return userList.get(0);
+    }
+
+    @Override
+    public List<User> getWithPermission(String perm) {
+        List<User> result = new LinkedList<>();
+        List<User> userList = dao.getAllUsers();
+
+        if(userList==null || userList.size() <= 0) return null;
+
+        result  .addAll(userList.stream()
+                .filter(u -> u.hasPermission(perm))
+                .collect(Collectors.toList()));
+
+
+        if(result.size() <= 0) return null;
+        return result;
     }
 
     @Override

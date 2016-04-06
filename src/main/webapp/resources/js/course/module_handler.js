@@ -194,6 +194,46 @@ function deleteModuleTrigger(id){
             swal("Sucesso!", "Modulo Apagado.", "success");
         });
 }
+
+function deleteModuleTrigger2(id){
+    swal({
+            title: "Apagar Modulo",
+            text: "Tem a certeza que quer apagar o Módulo?",
+            confirmButtonColor: "#DD6B55",
+            type: "warning",
+            confirmButtonText: "Sim, apagar!",
+            cancelButtonText: "Não, cancelar!",
+            showCancelButton: true,
+            closeOnConfirm: false
+        },
+        function(){
+            $.ajax({
+                type : "GET",
+                url : "/coord/deleteModuleTrigger?module=" + id,
+                dataType: "text",
+
+                error:function(){
+                    alert("Ajax Error Ocurred");
+                },
+
+                success:function(data) {
+
+                }
+
+            });
+
+            swal({
+                title: "Sucesso",
+                text: "Modulo Apagado",
+                type: "success"
+
+            },function(isConfirm){
+                if (isConfirm) document.location.reload();
+            })
+
+
+        });
+}
 function createButtons(button, id, len,i){
 
     var errorColor = "style='color: #d11c12;'";
