@@ -245,7 +245,7 @@
                                                                 </div>
 
                                                                 <div class="col-lg-7" style="text-align: left;">
-                                                                    <p><b>Número de Utilizador:</b> ${teachP.getId()}</p>
+                                                                    <p><b>Número de Utilizador: </b> ${teachP.getId()}</p>
                                                                     <p><b>Nome: </b>${teachP.getName()}</p>
                                                                     <p><b>Email: </b>${teachP.getEmail()}</p>
                                                                     <p><b>Email: </b>${teachP.getState()}</p>
