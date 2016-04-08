@@ -79,4 +79,11 @@ public class ModuleActionManagementServiceImpl implements ModuleActionManagement
             compositeCourseManagementDao.deleteModulePerAction(m);
         }
     }
+
+    @Override
+    public ModulePerAction getMpa(int mpaId) {
+        List<ModulePerAction> list = compositeCourseManagementDao.getMpa(mpaId);
+        if(list==null || list.size() <= 0) return null;
+        return list.get(0);
+    }
 }

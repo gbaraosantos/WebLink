@@ -11,7 +11,7 @@ public class StudentMPA {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne(targetEntity = Student.class, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Student.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "student")
     private Student student;
 

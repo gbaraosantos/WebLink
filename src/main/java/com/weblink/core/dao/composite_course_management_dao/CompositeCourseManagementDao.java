@@ -13,4 +13,6 @@ public interface CompositeCourseManagementDao {
     List<ModulePerAction> getMpas(Action action);
     List<ModulePerAction> getMpas(Module module);
     void deleteModulePerAction(ModulePerAction modulePerAction);
+
+    List<ModulePerAction> getMpa(int mpaId);
 }

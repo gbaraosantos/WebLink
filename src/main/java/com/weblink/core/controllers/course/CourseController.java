@@ -2,14 +2,13 @@ package com.weblink.core.controllers.course;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weblink.core.common.enums.EvaluationType;
-import com.weblink.core.models.Action;
-import com.weblink.core.models.Course;
-import com.weblink.core.models.Module;
-import com.weblink.core.models.User;
+import com.weblink.core.common.other.ModuleDateComparator;
+import com.weblink.core.models.*;
 import com.weblink.core.services.course_management_service.ActionManagementService;
 import com.weblink.core.services.course_management_service.CourseManagementService;
 import com.weblink.core.services.course_management_service.ModuleManagementService;
 import com.weblink.core.services.logger_service.LoggerService;
+import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.ActionValidator;
 import com.weblink.core.validators.CourseFilterValidator;
@@ -40,6 +39,7 @@ public class CourseController {
     @Autowired CourseManagementService courseManagementService;
     @Autowired ActionManagementService actionManagementService;
     @Autowired ModuleManagementService moduleManagementService;
+    @Autowired ModuleActionManagementService moduleActionManagementService;
 
     private volatile User user;
 
@@ -144,6 +144,14 @@ public class CourseController {
 
         Action action = actionManagementService.getAction(id);
         if (action != null){
+            if(!action.isVisible()){
+                if(!checkIfFullPercentage(action))          return "redirect:/weblink/courses?visibilityError=1";
+                if(!checkIfMpaDatesAreSet(action))          return "redirect:/weblink/courses?visibilityError=2";
+                if(!checkIfOrderIsRespectedByDate(action))  return "redirect:/weblink/courses?visibilityError=4";
+                if(!checkIfMpaDatesInterleave(action))      return "redirect:/weblink/courses?visibilityError=3";
+                setEndDate(action);
+            }
+
             actionManagementService.updateAction(action.changeVisibility());
 
             Map<String, Object> log = new HashMap<>();
@@ -154,7 +162,36 @@ public class CourseController {
             logger.log(log, "INFO");
 
         }
-        return "redirect:/weblink/courses";
+        return "redirect:/weblink/courses?visibilityError=0";
+    }
+
+    private void setEndDate(Action action) {
+        List<ModulePerAction> listModulesPerActions = moduleActionManagementService.getMpa(action);
+        ModulePerAction temp =listModulesPerActions.get(0);
+
+        if(listModulesPerActions.size() == 1){
+            action.setEndDate(temp.getEndDate());
+            return;
+
+        }else{
+            for(ModulePerAction a : listModulesPerActions){
+                if(temp.getEndDate().before(a.getEndDate()))
+                    temp = a;
+            }
+        }
+
+        action.setEndDate(temp.getEndDate());
+    }
+
+    @RequestMapping(value="/weblink/courses", method = RequestMethod.GET, params = {"visibilityError"})
+    public String visibilityError(@RequestParam("visibilityError") int visibilityError, Model model) {
+        prepareModel(model);
+
+        if(visibilityError != 0)
+            model.addAttribute("visibilityError", String.valueOf(visibilityError));
+
+        return "Courses";
+
     }
 
     @RequestMapping(value = "/coord/getModules" , method = RequestMethod.GET, params = {"Course"})
@@ -282,8 +319,8 @@ public class CourseController {
         logger.log(log, "INFO");
 
 
-        moduleManagementService.updateModule(module.setPosition(module.getPosition() - 1));
-        moduleManagementService.updateModule(module2.setPosition(module2.getPosition() + 1));
+        moduleManagementService.updateModule(module.setPosition(module.getPosition() - 1).setLastChangeDate(new Date()));
+        moduleManagementService.updateModule(module2.setPosition(module2.getPosition() + 1).setLastChangeDate(new Date()));
 
         return "Changed Up";
     }
@@ -306,8 +343,8 @@ public class CourseController {
         log.put("Module 2 Name" , module2.getName());
         logger.log(log, "INFO");
 
-        moduleManagementService.updateModule(module.setPosition(module.getPosition() + 1));
-        moduleManagementService.updateModule(module2.setPosition(module2.getPosition() - 1));
+        moduleManagementService.updateModule(module.setPosition(module.getPosition() + 1).setLastChangeDate(new Date()));
+        moduleManagementService.updateModule(module2.setPosition(module2.getPosition() - 1).setLastChangeDate(new Date()));
 
         return "Changed Down";
     }
@@ -384,6 +421,70 @@ public class CourseController {
 
     }
 
+    private boolean checkIfOrderIsRespectedByDate(Action action) {
+        int pos = 1;
+
+        List<ModulePerAction> listModulesPerActions = moduleActionManagementService.getMpa(action);
+        if(listModulesPerActions.size() == 1)   return true;
+
+        ModulePerAction temp = listModulesPerActions.get(0);
+        listModulesPerActions.remove(0);
+
+        if(temp.getModule().getPosition() != pos)   return false;
+
+        pos = 2;
+
+        for(ModulePerAction a : listModulesPerActions){
+            if(a.getModule().getPosition() != pos)              return false;
+            if(a.getStartDate().before(temp.getStartDate()))    return false;
+
+            temp = a;
+            pos++;
+        }
+
+        return true;
+    }
+
+    private boolean checkIfMpaDatesInterleave(Action action) {
+        List<ModulePerAction> listModulesPerActions = moduleActionManagementService.getMpa(action);
+        if(listModulesPerActions.size() == 1)   return true;
+
+        Collections.sort(listModulesPerActions, new ModuleDateComparator());
+
+        ModulePerAction temp = listModulesPerActions.get(0);
+        listModulesPerActions.remove(0);
+
+
+        for(ModulePerAction a : listModulesPerActions){
+            if(a.getStartDate().before(temp.getEndDate()))   return false;
+            temp = a;
+        }
+
+        return true;
+    }
+
+    private boolean checkIfMpaDatesAreSet(Action action) {
+        List<ModulePerAction> listModulesPerActions = moduleActionManagementService.getMpa(action);
+
+        if(listModulesPerActions == null)   return false;
+        for(ModulePerAction a : listModulesPerActions){
+            if(a.getStartDate() == null)    return false;
+            if(a.getEndDate() == null)      return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkIfFullPercentage(Action action) {
+        int count_percentage = 0;
+        List<ModulePerAction> listModulesPerActions = moduleActionManagementService.getMpa(action);
+
+        if(listModulesPerActions == null)   return false;
+        for(ModulePerAction a : listModulesPerActions)   count_percentage += a.getModule().getPercentage();
+        return count_percentage == 100;
+
+    }
+
     private String getEmail() {
         String userName;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -393,4 +494,7 @@ public class CourseController {
 
         return userName;
     }
+
+
+
 }

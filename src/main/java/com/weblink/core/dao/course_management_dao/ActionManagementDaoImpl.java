@@ -30,7 +30,7 @@ public class ActionManagementDaoImpl extends AbstractDao<Integer, Action> implem
 
     @Override
     public List<Action> getCourseActions(Course course) {
-        Query query = getSession().createQuery("FROM Action AS a WHERE a.course >= :course");
+        Query query = getSession().createQuery("FROM Action AS a WHERE a.course = :course");
         query.setParameter("course", course);
         return (List<Action>)query.list();
     }
@@ -83,7 +83,6 @@ public class ActionManagementDaoImpl extends AbstractDao<Integer, Action> implem
 
         if(query.length() > 0) query2.append(query);
 
-        System.out.println(query2);
         Query query3 = getSession().createQuery(query2.toString());
 
         return (List<Action>)query3.list();

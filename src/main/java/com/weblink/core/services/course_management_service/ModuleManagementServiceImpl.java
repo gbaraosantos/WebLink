@@ -39,9 +39,6 @@ public class ModuleManagementServiceImpl implements ModuleManagementService{
 
         List <Module> moduleList = moduleManagementDao.getModulesPosHigher(module.getCourse(), module.getPosition());
         for(Module m: moduleList) moduleManagementDao.updateModule(m.setPosition(m.getPosition() - 1));
-
-
-
     }
 
     @Override

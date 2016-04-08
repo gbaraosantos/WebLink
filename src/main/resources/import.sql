@@ -33,7 +33,7 @@ INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , la
 INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,position,createdBy,course_id) VALUES (DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),"Civil 1.0", 25, 1,1,4);
 INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,position,createdBy,course_id) VALUES (DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),"Civil 2.0", 25, 2,1,4);
 
-INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (DATE(now()),1,DATE(now()),4);
-INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (DATE(now()),2,DATE(now()),4);
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('18-06-2018', '%d-%m-%Y'),1,STR_TO_DATE('18-07-2018', '%d-%m-%Y'),4);
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('18-08-2018', '%d-%m-%Y'),2,STR_TO_DATE('18-09-2018', '%d-%m-%Y'),4);
 
 

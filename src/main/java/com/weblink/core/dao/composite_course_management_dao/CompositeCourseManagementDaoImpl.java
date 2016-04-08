@@ -29,6 +29,13 @@ public class CompositeCourseManagementDaoImpl extends AbstractDao<Integer, Modul
     }
 
     @Override
+    public List<ModulePerAction> getMpa(int mpaId) {
+        Query query = getSession().createQuery("FROM ModulePerAction AS m WHERE m.id = :id");
+        query.setParameter("id", mpaId);
+        return (List<ModulePerAction>)query.list();
+    }
+
+    @Override
     public List<ModulePerAction> getMpas(Action action) {
         Query query = getSession().createQuery("FROM ModulePerAction AS m WHERE m.action = :action");
         query.setParameter("action", action);

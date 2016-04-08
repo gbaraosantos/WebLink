@@ -15,4 +15,5 @@ public interface ModuleActionManagementService {
     List<Teacher> getTeacherList(Action a);
     void delete(Module module);
     void delete(Action action);
+    ModulePerAction getMpa(int mpaId);
 }

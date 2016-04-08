@@ -42,11 +42,7 @@
     <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg-custom.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/course/delete_confirmation.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/course/module_handler.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/teacher_handler.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/course/action_validation.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/course/course_validation.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
 
 
@@ -231,24 +227,86 @@
 
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="module">
-                                        hello
+                                        <form class="form-horizontal" role="form" action="<c:url value="/coord/editMpa"/>" method="post">
+                                            <div style="padding-top: 30px">
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Data Inicio: </label>
+                                                            <div class="col-lg-7" style="padding-left: 0px">
+                                                                <input type="date" class="form-control" name="startMPA" id="startMPA" autocomplete="off" placeholder="yyyy/mm/dd">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6" style="padding-left: 0">
+                                                            <label class="col-lg-5 control-label" style="text-align: left">Data Final: </label>
+                                                            <div class="col-lg-7" style="padding-left: 0px">
+                                                                <input type="date" class="form-control" name="endMPA" id="endMPA" autocomplete="off" placeholder="yyyy/mm/dd">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Nome:</label>
+                                                        <div class="col-lg-10" style="padding-left: 0">
+                                                            <input type="text" class="form-control" name="moduleName" id="moduleName" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Descrição </label>
+                                                        <div class="col-lg-10" style="padding-left: 0px">
+                                                            <textarea class="form-control" name="moduleDescription" id="moduleDescription"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class = "col-lg-12">
+                                                        <label class="col-lg-2 control-label" style="text-align: left">Percentagem: </label>
+                                                        <div class="col-lg-10" style="padding-left: 0px">
+                                                            <input type="number" class="form-control" name="percentage" id="percentage">
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <input type="hidden" id="MpaId2" name="MpaId">
+                                            <center>
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                <button onclick=" return checkMPA();" type="submit" class="btn btn-primary">Save</button>
+                                            </center>
+                                        </form>
                                     </div>
+
+
+
+
+
+
+
+
                                     <div role="tabpanel" class="tab-pane" id="teacher">
                                         <form class="form-horizontal" role="form" action="<c:url value="/coord/addTeacher"/>" method="post">
                                             <div class="form-group">
                                                 <div class = "col-lg-12" style="background-color: #f3f3f3">
+
                                                     <d:forEach var="teachP" items="${listPossibleTeachers}">
                                                         <center>
                                                             <div class="col-lg-10" style="padding-top: 10px; padding-right: 5px; margin: 10px 10px 10px 60px; background-color: #f0f0f0; border-style:double ; border-width: 2px; border-color: #dadada" >
                                                                 <div class="col-lg-1">
-                                                                    <input type="checkbox" name = "teacherList[]" value="" style="margin-top: 50px">
+                                                                    <input type="checkbox" name = "teacherList[]" value="${teachP.getId()}" style="margin-top: 50px">
                                                                 </div>
 
                                                                 <div class="col-lg-7" style="text-align: left;">
                                                                     <p><b>Número de Utilizador: </b> ${teachP.getId()}</p>
                                                                     <p><b>Nome: </b>${teachP.getName()}</p>
                                                                     <p><b>Email: </b>${teachP.getEmail()}</p>
-                                                                    <p><b>Email: </b>${teachP.getState()}</p>
+                                                                    <p><b>Estado: </b>${teachP.getState()}</p>
                                                                 </div>
 
                                                                 <div class="col-lg-4">
@@ -263,6 +321,7 @@
                                                 </div>
                                             </div>
                                             <div style="padding-top: 20px">
+                                                <input type="hidden" id="MpaId" name="MpaId">
                                                 <center>
                                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                     <button type="submit" onclick="return verify_newAction();" class="btn btn-primary">Save</button>
@@ -280,6 +339,17 @@
             </div>
 
 
+            <div style="text-align: center">
+                <h3 style="color: #8e0d01;">
+                    ${ErrorAddingTeacher}
+                </h3>
+            </div>
+
+            <div style="text-align: center">
+                <h3 style="color: #8e0d01;">
+                    ${ErrorEdtingMpa}
+                </h3>
+            </div>
 
 
             <div class="col-lg-12">
@@ -319,10 +389,12 @@
                             </h6>
                         </div>
 
+                        <form class="form-horizontal" role="form" action="<c:url value="/weblink/addStudent?action=${action.getId()}"/>" method="post">
                         <div class="col-lg-3 col-sm-6 follow-info weather-category" style="text-align: center; height: 175px;">
                             <div style="padding-top: 40px; padding-left: 70px">
                                 <div style="text-align: center; width: 200px; height: 50px; padding-top: 8px">
-                                    <button formaction = "#" class="btn btn-error btn-lg"><i class="fa fa-money fa-2x"> Comprar </i></button>
+                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    <button type="submit" class="btn btn-error btn-lg"><i class="fa fa-money fa-2x"> Comprar </i></button>
                                 </div>
 
 
@@ -331,15 +403,6 @@
                     </div>
                 </div>
             </div>
-
-            <script>
-                function recalculateHeight(){
-                    document.getElementById('container').style.display = 'none';
-                    document.getElementById('container').style.display = 'block';
-                    document.body.appendChild(document.createTextNode('teste!'));
-                }
-            </script>
-
 
             <div class="row">
                 <div class="col-lg-12" >
@@ -365,8 +428,6 @@
 
 
                                 <d:forEach var="mpa" items="${MPAList}">
-
-
                                     <tr id="tog" data-toggle="collapse" data-target="#demo${mpa.getModule().getId()}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${mpa.getModule().getId()}">
                                         <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
                                         <td>${mpa.getModule().getId()}</td>
@@ -377,7 +438,7 @@
                                         <td><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${mpa.getEndDate()}"/></td>
                                         <sec:authorize access="hasRole('Coordinator')">
                                             <td>
-                                                <span> <a onclick="setId(${mpa.getModule().getId()})" class="btn btn-info" data-toggle="modal" href="<c:url value="#myModal" />"><i class="fa fa-cog"></i> Edit</a></span>
+                                                <span> <a onclick="setId(${mpa.getId()}); setValues('${mpa.getModule().getName()}',${mpa.getModule().getPercentage()},'${mpa.getModule().getDescription()}','${mpa.getStartDate()}','${mpa.getEndDate()}');" class="btn btn-info" data-toggle="modal" href="<c:url value="#myModal" />"><i class="fa fa-cog"></i> Edit</a></span>
                                                 <span> <a class="btn btn-danger" onclick="deleteModuleTrigger2(${mpa.getModule().getId()})"><i class="fa fa-times"></i> Remove</a></span>
                                             </td>
                                         </sec:authorize>
@@ -416,21 +477,25 @@
                                                                         <th>Ações</th>
                                                                     </tr>
                                                                     </thead>
-                                                                    <tr>
+
 
                                                                     <d:forEach var="teach" items="${mpa.getTeacherList()}">
-                                                                        <d:choose>
-                                                                            <d:when test="${teach.getTeacher()!= null}">
-                                                                                <td>${teach.getTeacher().getName()}</td>
-                                                                                <td>${teach.getTeacher().getEmail()}</td>
+                                                                    <tr>
+                                                                        <div id="teach${teach.getId()}" >
+                                                                            <d:choose>
+                                                                                <d:when test="${teach.getTeacher()!= null}">
+                                                                                    <td>${teach.getTeacher().getName()}</td>
+                                                                                    <td>${teach.getTeacher().getEmail()}</td>
 
-                                                                                <sec:authorize access="hasRole('Coordinator')">
-                                                                                    <td><a class="btn btn-danger" href="<c:url value="/admin/remPermission?user_id=${user.id}&perm=Admin" />"><i class="icon_close_alt2"></i></a></td>
-                                                                                </sec:authorize>
-                                                                            </d:when>
-                                                                        </d:choose>
-                                                                    </d:forEach>
+                                                                                    <sec:authorize access="hasRole('Coordinator')">
+                                                                                        <td><a class="btn btn-danger" onclick="removeTeacherDialog(${teach.getId()})"><i class="icon_close_alt2"></i></a></td>
+                                                                                    </sec:authorize>
+                                                                                </d:when>
+                                                                            </d:choose>
+                                                                        </div>
                                                                     </tr>
+                                                                    </d:forEach>
+
 
                                                                 </table>
 

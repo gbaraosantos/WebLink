@@ -120,7 +120,7 @@
 
 </head>
 
-<body>
+<body  onload="triggerVisibleWarning()">
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
@@ -636,6 +636,11 @@
             </div>
 
 
+            <div style="display:none;" id="visibilityWarning">
+                ${visibilityError}
+            </div>
+
+
 
             <!--        Filter  END      -->
             <div style="text-align: center">
@@ -774,7 +779,6 @@
         </section>
     </section>
 </section>
-
 
 
 

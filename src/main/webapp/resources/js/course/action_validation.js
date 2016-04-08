@@ -47,3 +47,19 @@ function verifyNull(InputBox){
     }
     return true
 }
+
+function triggerVisibleWarning(){
+    var a = document.getElementById("visibilityWarning").innerHTML;
+
+    if(parseInt(a) == 1){
+        alerts("O total da percentagem desses Módulos não é 100%")
+    }else if (parseInt(a) == 2){
+        alerts("As Datas dos módulos desta acção não estão preenchidos");
+    }else if (parseInt(a) == 3){
+        alerts("As Datas dos módulos desta acção cruzam-se");
+    }else if (parseInt(a) == 4) {
+        alerts("Posição Não Respeitada");
+    }
+
+
+}
