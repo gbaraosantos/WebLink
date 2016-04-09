@@ -54,6 +54,8 @@ public class Action {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "action",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ModulePerAction> actionList = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "action",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Student> studentList = new HashSet<>();
 
     public int getId() { return id; }
     public Course getCourse() { return course; }
@@ -67,6 +69,7 @@ public class Action {
     public User getCreatedBy() { return createdBy; }
     public String getEvaluationType() { return evaluationType; }
     public Set<ModulePerAction> getActionList() { return actionList; }
+    public Set<Student> getStudentList() { return studentList; }
 
     public Action setCourse(Course course) { this.course = course; return this; }
     public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }
@@ -83,7 +86,6 @@ public class Action {
     }
 
 
-
     @Override
     public String toString() {
         return "Action [id="            + this.id +
@@ -94,6 +96,23 @@ public class Action {
                 ", End Date="           + this.endDate +
                 ", Last Change Date="   + this.lastChangeDate +
                 ", Discount="           + this.discount +"]";
+    }
+
+    public int percentageComplete(){
+        Date now = new Date();
+        long total, parcial;
+
+
+        if(endDate == null || startDate.after(now))         return 0;
+
+        total = endDate.getTime() - startDate.getTime();
+        parcial = endDate.getTime() - now.getTime();
+
+
+        return 100 - ((int) ((float)parcial/total*100));
+
+
+
     }
 
     public Action changeVisibility() {

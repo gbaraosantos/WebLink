@@ -2,8 +2,11 @@
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,17 +18,12 @@
     <link href="<c:url value="/resources/css/Bootstrap/bootstrap-theme.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Icons/elegant-icons-style.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/bootstrap-fullcalendar.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/fullcalendar.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/jquery.easy-pie-chart.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/owlCarrosel/owl.carousel.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/JQuery/jquery-jvectormap-1.2.2.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/fullcalendar.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/widgets.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/style.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/style-responsive.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/xCharts/xcharts.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/JQuery/jquery-ui-1.10.4.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/course_icons/icont2.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Input/component.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Input/normalize.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Loader/loader.css" />" rel="stylesheet">
 
     <!-- JS -->
     <script src="<c:url value="/resources/js/main/jquery.js" />" type="text/javascript"></script>
@@ -36,28 +34,13 @@
     <script src="<c:url value="/resources/js/main/jquery.scrollTo.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.sparkline.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.easy-pie-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/owl.carousel.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/fullcalendar.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/fullcalendar.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/calendar-custom.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.rateit.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.customSelect.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/Chart.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/scripts.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/sparkline-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/easy-pie-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-jvectormap-1.2.2.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-jvectormap-world-mill-en.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/xcharts.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.autosize.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.placeholder.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/gdp-data.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/morris.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/sparklines.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/charts.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.slimscroll.min.js" />" type="text/javascript"></script>
+
+    <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
+    <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
+
+    <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
+
 
 </head>
 
@@ -65,9 +48,7 @@
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Nav
-
-ation" data-placement="bottom"><i class="icon_menu"></i></div>
+            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
         <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
@@ -151,138 +132,48 @@ ation" data-placement="bottom"><i class="icon_menu"></i></div>
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+                    <h3 class="page-header"><i class="fa fa-laptop"></i> mpa.getModule().getName() </h3>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="<c:url value="/" />">Home</a></li>
-                        <li><i class="fa fa-laptop"></i>Dashboard</li>
+                        <li><i class="fa fa-laptop"></i><a href="<c:url value="/weblink" />">Dashboard</a></li>
+                        <li><i class="fa fa-unlock-alt"></i><a href="<c:url value="/weblink/myCourses" />">My Courses</a></li>
+                        <li><i class="fa fa-fa-bookmark-o"></i>${mpa.getModule().getName()}</li>
                     </ol>
                 </div>
             </div>
+
+            <div style="height: auto; text-align: center; margin-top: 30px">
+                <h3 style="color: #d16826"><b>${someError}</b></h3>
+            </div>
+
+            <div class="col-lg-12">
+                <p> Upload de um novo Material. </p>
+                <form:form action="/uploadMaterial?action=${mpa.getAction().getId()}&&${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
+                    <form:input path="file" onchange="this.form.submit();" type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4"/>
+                    <label for="file-5"><figure><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg></figure> <span>Choose a Material&hellip;</span></label>
+                </form:form>
+
+            </div>
+
+            <div class="col-lg-12">
+                <d:forEach var="material" items="${materials}">
+                    <p>${material.getFileType()} : ${material.getDirectory()}</p>
+                </d:forEach>
+
+            </div>
+
+
+
 
 
         </section>
     </section>
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<script src="<c:url value="/resources/js/Input/custom-file-input.js"/>" type="text/javascript"></script>
 <script>
     //knob
-    $(function() {
-        $(".knob").knob({
-            'draw' : function () {
-                $(this.i).val(this.cv + '%')
-            }
-        })
-    });
-
-    //carousel
-    $(document).ready(function() {
-        $("#owl-slider").owlCarousel({
-            navigation : true,
-            slideSpeed : 300,
-            paginationSpeed : 400,
-            singleItem : true
-
-        });
-    });
-
-    //custom select box
-
-    $(function(){
-        $('select.styled').customSelect();
-    });
-
-    /* ---------- Map ---------- */
-    $(function(){
-        $('#map').vectorMap({
-            map: 'world_mill_en',
-            series: {
-                regions: [{
-                    values: gdpData,
-                    scale: ['#000', '#000'],
-                    normalizeFunction: 'polynomial'
-                }]
-            },
-            backgroundColor: '#eef3f7',
-            onLabelShow: function(e, el, code){
-                el.html(el.html()+' (GDP - '+gdpData[code]+')');
-            }
-        });
-    });
-
-
+    $(".knob").knob();
 
 </script>
 </body>

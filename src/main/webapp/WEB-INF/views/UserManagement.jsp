@@ -118,6 +118,12 @@
                             <span>&nbsp; Cursos</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="" href="<c:url value="/weblink/myCourses" />">
+                            <i class="fa fa-unlock-alt"></i>
+                            <span>&nbsp; Meus Cursos</span>
+                        </a>
+                    </li>
                 </sec:authorize>
 
 

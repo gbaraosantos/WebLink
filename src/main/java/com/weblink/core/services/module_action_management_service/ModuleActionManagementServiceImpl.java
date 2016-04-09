@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("moduleActionManagementService")
@@ -84,6 +85,20 @@ public class ModuleActionManagementServiceImpl implements ModuleActionManagement
     public ModulePerAction getMpa(int mpaId) {
         List<ModulePerAction> list = compositeCourseManagementDao.getMpa(mpaId);
         if(list==null || list.size() <= 0) return null;
+        return list.get(0);
+    }
+
+    @Override
+    public ModulePerAction getCurrentModule(Action action) {
+        List<ModulePerAction> list = compositeCourseManagementDao.getMpas(action);
+        if(list==null || list.size() <= 0) return null;
+
+        for(ModulePerAction mpa: list){
+            if(mpa.getStartDate().after(new Date())) list.remove(mpa);
+            else if(mpa.getEndDate().before(new Date())) list.remove(mpa);
+        }
+
+        if(list.size() <= 0) return null;
         return list.get(0);
     }
 }

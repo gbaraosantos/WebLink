@@ -48,6 +48,9 @@ public class Module {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "module",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ModulePerAction> moduleList = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "module",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Material> materialList = new HashSet<>();
+
 
     public int getId() { return id; }
     public String getName() { return name; }
@@ -59,6 +62,7 @@ public class Module {
     public User getCreatedBy() { return createdBy; }
     public Course getCourse() { return course; }
     public Set<ModulePerAction> getModuleList() { return moduleList; }
+    public Set<Material> getMaterialList() { return materialList; }
 
     public Module setName(String name) { this.name = name; return this; }
     public Module setDescription(String description) { this.description = description; return this; }

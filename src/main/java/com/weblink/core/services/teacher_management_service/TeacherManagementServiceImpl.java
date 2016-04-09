@@ -2,6 +2,7 @@ package com.weblink.core.services.teacher_management_service;
 
 import com.weblink.core.dao.user_management_dao.TeacherManagementDao;
 import com.weblink.core.dao.user_management_dao.UserManagementDao;
+import com.weblink.core.models.Action;
 import com.weblink.core.models.Teacher;
 import com.weblink.core.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,12 @@ public class TeacherManagementServiceImpl implements TeacherManagementService{
     @Override
     public void deleteTeacher(Teacher teach) {
         teacherManagementDao.deleteTeacher(teach);
+    }
+
+    @Override
+    public List<Action> getTeaching(User user) {
+        List<Action> list = teacherManagementDao.getTeaching(user);
+        if(list==null || list.size() <= 0) return null;
+        return list;
     }
 }

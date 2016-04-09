@@ -4,6 +4,7 @@ package com.weblink.core.dao.user_management_dao;
 import com.weblink.core.dao.AbstractDao;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Teacher;
+import com.weblink.core.models.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -33,5 +34,12 @@ public class TeacherManagementDaoImpl extends AbstractDao<Integer, Teacher> impl
     @Override
     public void deleteTeacher(Teacher teach) {
         delete(teach);
+    }
+
+    @Override
+    public List<Action> getTeaching(User user) {
+        Query query = getSession().createQuery("SELECT DISTINCT s.modulePerAction.action FROM Teacher AS s WHERE s.teacher = :user");
+        query.setParameter("user", user);
+        return (List<Action>)query.list();
     }
 }

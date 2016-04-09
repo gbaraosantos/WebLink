@@ -8,6 +8,7 @@ import com.weblink.core.services.course_management_service.CourseManagementServi
 import com.weblink.core.services.course_management_service.ModuleManagementService;
 import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
+import com.weblink.core.services.student_management_service.StudentManagementService;
 import com.weblink.core.services.teacher_management_service.TeacherManagementService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.ModuleValidator;
@@ -26,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class CourseDetailsController {
@@ -37,6 +37,7 @@ public class CourseDetailsController {
     @Autowired  ModuleManagementService moduleManagementService;
     @Autowired  ModuleActionManagementService moduleActionManagementService;
     @Autowired  TeacherManagementService teacherManagementService;
+    @Autowired  StudentManagementService studentManagementService;
 
     private volatile User user;
 
@@ -196,7 +197,7 @@ public class CourseDetailsController {
                 .setFinalGrade(0)
                 .setUser(user);
 
-        System.out.println(temp);
+        studentManagementService.addStudent(temp);
 
 
         return "CourseDetails";
