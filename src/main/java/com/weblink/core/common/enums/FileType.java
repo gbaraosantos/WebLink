@@ -28,13 +28,14 @@ public enum FileType {
     }
 
     public static FileType tellByExtension(Extension extension) {
-        if(Extension.AVI == extension)  return FileType.VIDEO;
-        if(Extension.MKV == extension)  return FileType.VIDEO;
-        if(Extension.MPEG == extension)  return FileType.VIDEO;
-        if(Extension.MPG == extension)  return FileType.VIDEO;
-        if(Extension.MP4 == extension)  return FileType.VIDEO;
+        if(Extension.AVI == extension)  return FileType.OTHER;
+        if(Extension.MKV == extension)  return FileType.OTHER;
+        if(Extension.MPEG == extension)  return FileType.OTHER;
+        if(Extension.MPG == extension)  return FileType.OTHER;
+        if(Extension.MP4 == extension)  return FileType.OTHER;
+        if(Extension.WEBM == extension)  return FileType.VIDEO;
         if(Extension.MP3 == extension)  return FileType.SOUND;
-        if(Extension.FLAC == extension)  return FileType.SOUND;
+        if(Extension.FLAC == extension)  return FileType.OTHER;
         if(Extension.PNG == extension)  return FileType.IMAGE;
         if(Extension.JPEG == extension)  return FileType.IMAGE;
         if(Extension.JPG == extension)  return FileType.IMAGE;

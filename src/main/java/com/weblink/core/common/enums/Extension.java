@@ -16,7 +16,9 @@ public enum Extension {
     MP4(".mp4"),
     PDF(".pdf"),
     RAR(".rar"),
-    ZIP(".zip");
+    ZIP(".zip"),
+    WEBM(".webm");
+
 
     private String extension;
 

@@ -50,16 +50,16 @@ public class MainCourseController {
     @RequestMapping(value = "/uploadMaterial", method = RequestMethod.POST, params = {"action"})
     public String uploadMaterial(@Valid FileBucket fileBucket, BindingResult result, Model model,@RequestParam("action") int actionId){
         prepareModel(model, actionId);
-        if (result.hasErrors()) return "redirect:/weblink/inCourse?uploadSuccess=false";
+        if (result.hasErrors()) return "redirect:/weblink/inCourse?action=" +actionId + "&&uploadSuccess=false";
 
         Extension ext = new FileValidator().validateFile(fileBucket, FileType.ANY);
-        if(ext == null) return "redirect:/weblink/inCourse?uploadSuccess=false";
+        if(ext == null) return "redirect:/weblink/inCourse?action=" +actionId + "&&uploadSuccess=false";
 
         Action action = actionManagementService.getAction(actionId);
-        if(action == null)  return "redirect:/weblink/inCourse?uploadSuccess=false";
+        if(action == null)  return "redirect:/weblink/inCourse?action=" +actionId + "&&uploadSuccess=false";
 
         ModulePerAction mpa = moduleActionManagementService.getCurrentModule(action);
-        if(mpa == null)  return "redirect:/weblink/inCourse?uploadSuccess=false";
+        if(mpa == null)  return "redirect:/weblink/inCourse?action=" +actionId + "&&uploadSuccess=false";
 
         if(!fileSystemService.createMaterial("Module",mpa.getModule(),"Teste","FileTeste",ext,fileBucket,user)) return "redirect:/weblink/inCourse?uploadSuccess=false";
         return "redirect:/weblink/inCourse?action=" +actionId + "&&uploadSuccess=true";

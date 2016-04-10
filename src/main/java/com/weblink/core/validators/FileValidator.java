@@ -35,6 +35,7 @@ public class FileValidator {
         if(originalFilename.endsWith(Extension.JPEG.getExtension())) return Extension.JPEG;
         if(originalFilename.endsWith(Extension.PNG.getExtension())) return Extension.PNG;
         if(originalFilename.endsWith(Extension.JPG.getExtension())) return Extension.JPG;
+        if(originalFilename.endsWith(Extension.WEBM.getExtension())) return Extension.WEBM;
         return null;
     }
 
