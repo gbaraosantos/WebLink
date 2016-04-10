@@ -12,4 +12,5 @@ public interface FileSystemManagementDao {
     List<Material> getFileList(Module module);
 
 
+    void updateMaterial(Material material);
 }

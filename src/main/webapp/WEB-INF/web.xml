@@ -10,5 +10,4 @@
         <location>/WEB-INF/views/404.jsp</location>
     </error-page>
 
-
 </web-app>

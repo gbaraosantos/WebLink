@@ -100,7 +100,10 @@ public class FileSystemServiceImpl implements  FileSystemService{
         int materialId = fileSystemManagementDao.addFile(newMaterial);
         String finalName = String.valueOf(materialId) + extension;
 
+        List<Material> temp = fileSystemManagementDao.getFile(materialId);
 
+        if(temp==null || temp.size() <= 0) return null;
+        fileSystemManagementDao.updateMaterial(temp.get(0).setDirectory(path + finalName));
         if (!prepareDirectory(path,finalName) || !putFile(fileBucket,path + finalName)) return false;
 
 

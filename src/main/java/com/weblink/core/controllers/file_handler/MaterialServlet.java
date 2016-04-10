@@ -9,13 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 
 @Controller
 public class MaterialServlet {
     @RequestMapping(value = "/materialLoader" ,method = RequestMethod.GET)
-    public void getImage(@RequestParam("dir") String path, HttpServletResponse response, HttpServletRequest request) throws MalformedURLException {
+    public void getMaterial(@RequestParam("dir") String path, HttpServletResponse response, HttpServletRequest request) throws MalformedURLException {
+        File material = new File(path);
 
+        response.reset();
+        response.setHeader("Content-Length", String.valueOf(material.length()));
+
+        try {
+            Files.copy(material.toPath(), response.getOutputStream());
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }

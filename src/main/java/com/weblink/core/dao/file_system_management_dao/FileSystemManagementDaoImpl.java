@@ -40,4 +40,9 @@ public class FileSystemManagementDaoImpl extends AbstractDao<Integer,Material> i
         return (List<Material>)query.list();
 
     }
+
+    @Override
+    public void updateMaterial(Material material) {
+        update(material);
+    }
 }

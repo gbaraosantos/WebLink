@@ -68,7 +68,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
     @Bean(name="multipartResolver")
     public CommonsMultipartResolver getResolver() throws IOException{
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSize(52428800); //50MB
+        resolver.setMaxUploadSize(524288000); //50MB
         return resolver;
     }
 
