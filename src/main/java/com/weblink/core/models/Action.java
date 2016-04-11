@@ -57,6 +57,9 @@ public class Action {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "action",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Student> studentList = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "action",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostWall> postList = new HashSet<>();
+
     public int getId() { return id; }
     public Course getCourse() { return course; }
     public Date getStartDate() { return startDate; }
@@ -70,6 +73,7 @@ public class Action {
     public String getEvaluationType() { return evaluationType; }
     public Set<ModulePerAction> getActionList() { return actionList; }
     public Set<Student> getStudentList() { return studentList; }
+    public Set<PostWall> getPostList() { return postList; }
 
     public Action setCourse(Course course) { this.course = course; return this; }
     public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }

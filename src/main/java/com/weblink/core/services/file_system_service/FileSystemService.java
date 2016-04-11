@@ -16,4 +16,5 @@ public interface FileSystemService {
     List<Material> getMaterialList(Module module);
     Material getMaterial(int id);
     Boolean createMaterial(String type, Module module, String name, String description, Extension extension, FileBucket fileBucket, User user);
+    void deleteMaterial(int materialId);
 }

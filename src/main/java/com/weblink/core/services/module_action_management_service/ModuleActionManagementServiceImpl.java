@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("moduleActionManagementService")
 @Transactional
@@ -91,14 +93,20 @@ public class ModuleActionManagementServiceImpl implements ModuleActionManagement
     @Override
     public ModulePerAction getCurrentModule(Action action) {
         List<ModulePerAction> list = compositeCourseManagementDao.getMpas(action);
+        List<ModulePerAction> newList = new LinkedList<>();
+
         if(list==null || list.size() <= 0) return null;
 
-        for(ModulePerAction mpa: list){
-            if(mpa.getStartDate().after(new Date())) list.remove(mpa);
-            else if(mpa.getEndDate().before(new Date())) list.remove(mpa);
-        }
+        newList.addAll(list.stream()
+                .filter(mpa ->
+                        !(mpa.getEndDate() == null) &&
+                        !mpa.getStartDate().after(new Date()) &&
+                        !mpa.getEndDate().before(new Date()))
+                .collect(Collectors.toList()));
 
-        if(list.size() <= 0) return null;
-        return list.get(0);
+
+
+        if(newList.size() <= 0) return null;
+        return newList.get(0);
     }
 }

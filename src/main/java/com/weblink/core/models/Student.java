@@ -35,6 +35,9 @@ public class Student {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "student",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<StudentMPA> studentMPAs = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PostWall> postList = new HashSet<>();
+
     public int getId() { return id; }
     public User getUser() { return user; }
     public int getFinalGrade() {
@@ -51,6 +54,7 @@ public class Student {
     public Date getBuyDate() { return buyDate; }
     public int getBuyPrice() { return buyPrice; }
     public Set<StudentMPA> getStudentMPAs() { return studentMPAs; }
+    public Set<PostWall> getPostList() { return postList; }
 
     public Student setUser(User user) { this.user = user; return this; }
     public Student setFinalGrade(int finalGrade) { this.finalGrade = finalGrade; return this; }

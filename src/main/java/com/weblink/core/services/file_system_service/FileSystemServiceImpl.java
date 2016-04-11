@@ -118,6 +118,13 @@ public class FileSystemServiceImpl implements  FileSystemService{
 
     }
 
+    @Override
+    public void deleteMaterial(int materialId) {
+        Material material = getMaterial(materialId);
+
+        if(material != null) fileSystemManagementDao.removeFile(material);
+    }
+
     private Boolean prepareDirectory(String path, String name) {
         File directory = new File(path);
         File file = new File(path + name);

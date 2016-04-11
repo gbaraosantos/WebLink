@@ -46,6 +46,13 @@ public class MainCourseController {
         return "inCourse";
     }
 
+    @RequestMapping(value = "/teacher/deleteMaterial", method = RequestMethod.GET, params = {"actionId", "materialId"})
+    public String deleteMaterial(Model model,@RequestParam("actionId") int actionId, @RequestParam("materialId") int materialId){
+        prepareModel(model, actionId);
+
+        fileSystemService.deleteMaterial(materialId);
+        return "redirect:/weblink/inCourse?action=" +actionId;
+    }
 
     @RequestMapping(value = "/uploadMaterial", method = RequestMethod.POST, params = {"action"})
     public String uploadMaterial(@Valid FileBucket fileBucket, BindingResult result, Model model,@RequestParam("action") int actionId){
@@ -85,8 +92,18 @@ public class MainCourseController {
         if(action == null)  model.addAttribute("someError", "Some Error Ocurred");
 
         ModulePerAction mpa = moduleActionManagementService.getCurrentModule(action);
-        if(mpa == null)  model.addAttribute("someError", "Nao se Encontra nenhum modulo a decorrer de momento");
-        else             model.addAttribute("materials", fileSystemService.getMaterialList(mpa.getModule()));
+
+        if(mpa == null)  {
+            model.addAttribute("running", "false");
+            model.addAttribute("someError", "Nao se Encontra nenhum modulo a decorrer de momento");
+        }
+        else{
+            model.addAttribute("running", "true");
+            model.addAttribute("materials", fileSystemService.getMaterialList(mpa.getModule()));
+        }
+
+        if (teacherManagementService.isTeacher(mpa, user)) model.addAttribute("isTeacher", "true");
+        else model.addAttribute("isTeacher", "false");
 
         model.addAttribute("mpa", mpa);
 

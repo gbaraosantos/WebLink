@@ -11,19 +11,32 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.net.URLConnection;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Controller
 public class MaterialServlet {
     @RequestMapping(value = "/materialLoader" ,method = RequestMethod.GET)
-    public void getMaterial(@RequestParam("dir") String path, HttpServletResponse response, HttpServletRequest request) throws MalformedURLException {
+    public void getMaterial(@RequestParam("dir") String path, HttpServletResponse response, HttpServletRequest request){
         File material = new File(path);
 
-        response.reset();
-        response.setHeader("Content-Length", String.valueOf(material.length()));
+        String mimeType = URLConnection.guessContentTypeFromName(material.getName());
+        String contentDisposition = String.format("attachment; filename=%s", material.getName());
+        int fileSize = Long.valueOf(material.length()).intValue();
 
-        try {
-            Files.copy(material.toPath(), response.getOutputStream());
-        } catch (IOException e) { e.printStackTrace(); }
+        response.setContentType(mimeType);
+        response.setHeader("Content-Disposition", contentDisposition);
+        response.setContentLength(fileSize);
+
+
+        try (OutputStream out = response.getOutputStream()) {
+            Path path1 = material.toPath();
+            Files.copy(path1, out);
+            out.flush();
+        } catch (IOException e) {
+            System.out.println("Well hello there  :(");
+        }
+
     }
 }

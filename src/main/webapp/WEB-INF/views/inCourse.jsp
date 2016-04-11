@@ -35,15 +35,38 @@
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/materialType.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/scripts.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/inCourse.js" />" type="text/javascript"></script>
 
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
+
+
+
 
     <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 
 </head>
 
 <body>
+<script src="<c:url value="https://static.opentok.com/v2/js/opentok.js"/>" charset="utf-8"></script>
+<script>
+    var apiKey = '45558122';
+    var sessionId = '2_MX40NTU1ODEyMn5-MTQ2MDM4NjcwOTczM35rdDQzQ256U2RRa1hVa2lHTHJQYmlvZW1-fg';
+    var token ='T1==cGFydG5lcl9pZD00NTU1ODEyMiZzaWc9NDg0YzVkZDE1ZWQ1NDMwMTM1Yjk4OWNlY2NhNjQ0MWRhZTM3ZWJmMjpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5UVTFPREV5TW41LU1UUTJNRE00Tmpjd09UY3pNMzVyZERRelEyNTZVMlJSYTFoVmEybEhUSEpRWW1sdlpXMS1mZyZjcmVhdGVfdGltZT0xNDYwMzg2NzU2Jm5vbmNlPTAuNjg3OTk5OTY3ODUwMjcyNiZleHBpcmVfdGltZT0xNDYwMzkwMjk1JmNvbm5lY3Rpb25fZGF0YT0=';
+
+    var session = OT.initSession(apiKey, sessionId)
+            .on('streamCreated', function(event) {
+                session.subscribe(event.stream);
+            })
+            .connect(token, function(error) {
+                var publisher = OT.initPublisher();
+                session.publish(publisher);
+            });
+
+</script>
+
+
+
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
@@ -136,12 +159,17 @@
                         <div style="float:left">
                             <h3 class="page-header"><i class="fa fa-laptop"></i>${mpa.getModule().getName()} </h3>
                         </div>
-                        <div style="float:right">
-                            <form:form action="/uploadMaterial?action=${mpa.getAction().getId()}&&${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
-                                <form:input path="file" onchange="this.form.submit();" type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4"/>
-                                <label for="file-5" style="margin-top: 0"><figure style="height: 50px; width: 50px"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg></figure></label>
-                            </form:form>
-                        </div>
+                        <d:choose>
+                            <d:when test="${(running == 'true') && (isTeacher == 'true')}">
+                                <div style="float:right">
+                                    <form:form action="/uploadMaterial?action=${mpa.getAction().getId()}&&${_csrf.parameterName}=${_csrf.token}"  modelAttribute="fileBucket" method="post" enctype="multipart/form-data">
+                                        <form:input path="file" onchange="this.form.submit();" type="file" name="file-5[]" id="file-5" class="inputfile inputfile-4"/>
+                                        <label for="file-5" style="margin-top: 0"><figure style="height: 50px; width: 50px"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg></figure></label>
+                                    </form:form>
+                                </div>
+                            </d:when>
+                        </d:choose>
+
                         <div style="float: clear"></div>
 
                     </div>
@@ -159,164 +187,243 @@
                 <h3 style="color: #d16826"><b>${someError}</b></h3>
             </div>
 
-
-            <div class="col-lg-12">
-                <div class="panel">
-
-
-                    <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
-                        <ul class="nav nav-tabs nav-justified" style="margin: 0">
-                            <li class="active"><a href="#Informacao" aria-controls="Informacao" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Informacao</b> </h5></a></li>
-                            <li><a href="#Materiais" aria-controls="Materiais" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Materiais</b></h5></a></li>
-                            <li><a href="#Avaliacoes" aria-controls="Avaliacoes" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Avaliacoes</b> </h5></a></li>
-                        </ul>
-                    </div>
-
-
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="Informacao">
-                            <div class="panel-body">
-                                aslhdaikshd
+            <d:choose>
+                <d:when test="${(running == 'true')}">
+                    <div class="col-lg-12">
+                        <div class="panel">
+                            <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
+                                <ul class="nav nav-tabs nav-justified" style="margin: 0">
+                                    <li class="active"><a href="#Informacao" aria-controls="Informacao" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Informacao</b> </h5></a></li>
+                                    <li><a href="#Materiais" aria-controls="Materiais" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Materiais</b></h5></a></li>
+                                    <li><a href="#Avaliacoes" aria-controls="Avaliacoes" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Avaliacoes</b> </h5></a></li>
+                                    <li><a href="#Social" aria-controls="Social" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Social</b> </h5></a></li>
+                                </ul>
                             </div>
-                        </div>
 
-                        <div role="tabpanel" class="tab-pane" id="Materiais">
-                            <div class="panel-body" style="padding: 0">
-                                <center>
-                                    <div class="btn-row">
-                                        <div class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-default active">
-                                                <input type="radio" name="options" id="option1" onchange="activateVideos();"> Videos
-                                            </label>
-                                            <label class="btn btn-default">
-                                                <input type="radio" name="options" id="option2" onchange="activateSound();"> Audio
-                                            </label>
-                                            <label class="btn btn-default">
-                                                <input type="radio" name="options" id="option3" onchange="activateImages();"> Imagens
-                                            </label>
-                                            <label class="btn btn-default">
-                                                <input type="radio" name="options" id="option4"  onchange="activateDownloadables();"> Descarregaveis
-                                            </label>
-                                        </div>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="Informacao">
+                                    <div class="panel-body">
+                                        aslhdaikshd
                                     </div>
-                                </center>
                                 </div>
 
-                                <div class="col-lg-12" id="Videos">
-                                    <d:forEach var="material" items="${materials}">
-                                        <d:choose>
-                                            <d:when test="${material.getFileType() == 'video'}">
-                                                <div class="col-lg-4">
-
-                                                    <video width="400" controls>
-                                                        <source src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" type='video/webm;' />
-                                                        Your browser does not support HTML5 video.
-                                                    </video>
-                                                </div>
-
-                                            </d:when>
-                                        </d:choose>
-                                    </d:forEach>
-                                </div>
-
-                                <div class="col-lg-12" id="Sounds" style="display: none; padding: 0; margin-left: 0; margin-right: 0">
-                                    <d:forEach var="material" items="${materials}">
-                                        <d:choose>
-                                            <d:when test="${material.getFileType() == 'sound'}">
-
-                                                <div class="col-lg-4" style="border: solid #b5b5b5 thin; padding-top: 10px;">
-                                                    <div class="col-lg-12" style="background-color: #dfdfdf">
-                                                        <div class="col-lg-9">
-                                                            <b>Id: </b> ${material.getId()}
-                                                        </div>
-                                                        <div class="col-lg-1">
-                                                            <a href="#"><i class="fa fa-cog"></i></a>
-                                                        </div>
-                                                        <div class="col-lg-1">
-                                                            <a href="#"><i class="fa fa-times"></i></a>
-                                                        </div>
-                                                        <div class="col-lg-1">
-                                                            <a href="#"><i class="fa fa-arrow-down"></i></a>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-12">
-                                                        <div class="col-lg-12">
-                                                            <p><b>Name: </b> ${material.getName()}</p>
-                                                            <p><b>Description: </b> ${material.getDescription()}</p>
-
-                                                            <center>
-                                                            <audio controls>
-                                                                <source src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" type="audio/ogg">
-                                                                <source src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" type="audio/mpeg">
-                                                                Your browser does not support the audio element.
-                                                            </audio>
-                                                            </center>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </d:when>
-                                        </d:choose>
-                                    </d:forEach>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-12" id="Images" style="display: none">
-                                <d:forEach var="material" items="${materials}">
-                                    <d:choose>
-                                        <d:when test="${material.getFileType() == 'image'}">
-
-                                            <div class="col-lg-4" style="border: solid #b5b5b5 thin; padding-top: 10px;">
-                                                <div class="col-lg-12" style="background-color: #dfdfdf">
-                                                    <div class="col-lg-9">
-                                                        <b>Id: </b> ${material.getId()}
-                                                    </div>
-                                                    <div class="col-lg-1">
-                                                        <a href="#"><i class="fa fa-cog"></i></a>
-                                                    </div>
-                                                    <div class="col-lg-1">
-                                                        <a href="#"><i class="fa fa-times"></i></a>
-                                                    </div>
-                                                    <div class="col-lg-1">
-                                                        <a href="#"><i class="fa fa-arrow-down"></i></a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="col-lg-12" style="max-height: 600px; padding-bottom: 10px">
-                                                        <p><b>Name: </b> ${material.getName()}</p>
-                                                        <center>
-                                                        <a href="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />">
-                                                            <img width="300" height="150" id="img${material.getId()}" src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />"  alt="Skaret View"/></a>
-                                                        </center>
-                                                    </div>
+                                <div role="tabpanel" class="tab-pane" id="Materiais">
+                                    <div class="panel-body" style="padding: 0">
+                                        <center>
+                                            <div class="btn-row">
+                                                <div class="btn-group" data-toggle="buttons">
+                                                    <label class="btn btn-default active">
+                                                        <input type="radio" name="options" id="option1" onchange="activateVideos();"> Videos
+                                                    </label>
+                                                    <label class="btn btn-default">
+                                                        <input type="radio" name="options" id="option2" onchange="activateSound();"> Audio
+                                                    </label>
+                                                    <label class="btn btn-default">
+                                                        <input type="radio" name="options" id="option3" onchange="activateImages();"> Imagens
+                                                    </label>
+                                                    <label class="btn btn-default">
+                                                        <input type="radio" name="options" id="option4"  onchange="activateDownloadables();"> Descarregaveis
+                                                    </label>
                                                 </div>
                                             </div>
-                                        </d:when>
-                                    </d:choose>
-                                </d:forEach>
+                                        </center>
+
+
+                                        <div class="col-lg-12" id="Videos">
+                                            <d:forEach var="material" items="${materials}">
+                                                <d:choose>
+                                                    <d:when test="${material.getFileType() == 'video'}">
+                                                        <div class="col-lg-4" style="border: solid #b5b5b5 thin; padding-top: 10px;">
+                                                            <div class="col-lg-12" style="background-color: #dfdfdf">
+                                                                <div class="col-lg-9">
+                                                                    <b>Id: </b> ${material.getId()}
+                                                                </div>
+
+                                                                <d:choose>
+                                                                    <d:when test="${(isTeacher == 'true')}">
+                                                                        <div class="col-lg-1">
+                                                                            <a style="color: #91280c" onclick="return deleteMaterial(${material.getId()},${mpa.getAction().getId()})"><i class="fa fa-times"></i></a>                                                                        </div>
+
+                                                                    </d:when>
+                                                                </d:choose>
+
+                                                                <div class="col-lg-1">
+                                                                    <a href="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" download="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" ><i class="fa fa-arrow-down"></i></a>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12">
+                                                                <div class="col-lg-12">
+                                                                    <p><b>Name: </b> ${material.getName()}</p>
+                                                                </div>
+                                                            </div>
+
+                                                            <video width="400" height="250" controls preload="metadata">
+                                                                <source src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" type='video/webm;' />
+                                                                Your browser does not support HTML5 video.
+                                                            </video>
+                                                        </div>
+                                                    </d:when>
+                                                </d:choose>
+                                            </d:forEach>
+                                        </div>
+
+                                        <div class="col-lg-12" id="Sounds" style="display: none; padding: 0; margin-left: 0; margin-right: 0">
+                                            <d:forEach var="material" items="${materials}">
+                                                <d:choose>
+                                                    <d:when test="${material.getFileType() == 'sound'}">
+
+                                                        <div class="col-lg-4" style="border: solid #b5b5b5 thin; padding-top: 10px;">
+                                                            <div class="col-lg-12" style="background-color: #dfdfdf">
+                                                                <div class="col-lg-9">
+                                                                    <b>Id: </b> ${material.getId()}
+                                                                </div>
+                                                                <d:choose>
+                                                                    <d:when test="${(isTeacher == 'true')}">
+                                                                        <div class="col-lg-1">
+                                                                            <a style="color: #91280c" onclick="return deleteMaterial(${material.getId()},${mpa.getAction().getId()})"><i class="fa fa-times"></i></a>                                                                        </div>
+                                                                    </d:when>
+                                                                </d:choose>
+                                                                <div class="col-lg-1">
+                                                                    <a href="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" download="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" ><i class="fa fa-arrow-down"></i></a>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-12">
+                                                                <div class="col-lg-12">
+                                                                    <p><b>Name: </b> ${material.getName()}</p>
+
+                                                                    <center>
+                                                                        <audio controls preload="none">
+                                                                            <source src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" type="audio/mpeg">
+                                                                            Your browser does not support the audio element.
+                                                                        </audio>
+                                                                    </center>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </d:when>
+                                                </d:choose>
+                                            </d:forEach>
+                                        </div>
+
+                                        <div class="col-lg-12" id="Images" style="display: none">
+                                            <d:forEach var="material" items="${materials}">
+
+                                                <d:choose>
+                                                    <d:when test="${material.getFileType() == 'image'}">
+                                                        <div class="col-lg-4" style="border: solid #b5b5b5 thin; padding-top: 10px;">
+                                                            <div class="col-lg-12" style="background-color: #dfdfdf">
+                                                                <div class="col-lg-9">
+                                                                    <b>Id: </b> ${material.getId()}
+                                                                </div>
+                                                                <d:choose>
+                                                                    <d:when test="${(isTeacher == 'true')}">
+                                                                        <div class="col-lg-1">
+                                                                            <a style="color: #91280c" onclick="return deleteMaterial(${material.getId()},${mpa.getAction().getId()})"><i class="fa fa-times"></i></a>
+                                                                        </div>
+                                                                    </d:when>
+                                                                </d:choose>
+                                                                <div class="col-lg-1">
+                                                                    <a href="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" download="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" ><i class="fa fa-arrow-down"></i></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="col-lg-12" style="max-height: 600px; padding-bottom: 10px">
+                                                                    <p><b>Name: </b> ${material.getName()}</p>
+                                                                    <center>
+                                                                        <a href="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />">
+                                                                            <img width="300" height="150" id="img${material.getId()}" src="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />"  alt="Skaret View"/></a>
+                                                                    </center>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </d:when>
+                                                </d:choose>
+                                            </d:forEach>
+                                        </div>
+                                        <div class="col-lg-12" id="Downloadables" style="display: none">
+                                            <d:forEach var="material" items="${materials}">
+
+                                                <d:choose>
+                                                    <d:when test="${material.getFileType() == 'other'}">
+                                                        <div class="col-lg-12" style="border: solid #b5b5b5 thin; margin: 5px;">
+                                                            <div class="col-lg-2">
+                                                                <h4><b>Id: </b> ${material.getId()}</h4>
+                                                            </div>
+
+                                                            <div class="col-lg-3">
+                                                                <h4><b>Data de upload: </b> <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${material.getCreationDate()}"/></h4>
+                                                            </div>
+
+                                                            <div class="col-lg-4">
+                                                                <h4><b>Name: </b> ${material.getName()}</h4>
+                                                            </div>
+                                                            <d:choose>
+                                                                <d:when test="${(isTeacher == 'true')}">
+                                                                    <div class="col-lg-1" style="margin-top: 5px">
+                                                                        <a style="color: #91280c" onclick="return deleteMaterial(${material.getId()},${mpa.getAction().getId()})"><i class="fa fa-times-circle-o fa-3x"></i></a>
+                                                                    </div>
+                                                                </d:when>
+                                                            </d:choose>
+                                                            <div class="col-lg-2" style="margin-top: 5px">
+                                                                <a href="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" download="<c:url value="${pageContext.request.contextPath}/materialLoader?dir=${material.getDirectory()}" />" ><i class="fa fa-arrow-circle-down fa-3x"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </d:when>
+                                                </d:choose>
+                                            </d:forEach>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="Avaliacoes">
+                                </div>
+
+
+                                <div role="tabpanel" class="tab-pane" id="Social">
+                                    <div class="panel-body">
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-12" style="height: 350px; overflow-y: auto; border: solid 3px #ababab; background-color: #f4f4f4; margin-bottom: 5px" >
+                                                    <div id='myPublisherDiv'></div>
+                                                    <div id='subscribersDiv'></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <form>
+                                                    <div class="col-lg-11">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-12">
+                                                                <input type="text" class="form-control" name="message" id="message" autocomplete="off" placeholder="Write your message here!">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-1">
+                                                        <button class="btn btn-info">Send!</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-12" id="Downloadables" style="display: none">
-                                down
-
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="Avaliacoes">
-                        </div>
-
                     </div>
-                </div>
-            </div>
-
-
-
+                </d:when>
+            </d:choose>
         </section>
     </section>
 </section>
 
 
-
 <script src="<c:url value="/resources/js/Input/custom-file-input.js"/>" type="text/javascript"></script>
 <script>
+
+
+    session.publish('myPublisherDiv', {width: 320, height: 240});
     //knob
     $(".knob").knob();
 
