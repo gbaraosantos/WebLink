@@ -46,3 +46,4 @@ INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_
 INSERT INTO Teacher(modulePerAction, teacher) VALUES (3,1);
 INSERT INTO Teacher(modulePerAction, teacher) VALUES (4,1);
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (1,2,0,60,Date(now()));
+INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,2,0,60,Date(now()));
