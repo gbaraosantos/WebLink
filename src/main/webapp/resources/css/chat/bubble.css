@@ -1,0 +1,66 @@
+.bubbleWrapper{
+    width: 100%;
+    height: auto;
+    display: inline-block;
+
+}
+
+.greetingDiv{
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    font-size: medium;
+    font-style: italic;
+}
+
+.footing{
+    margin-top:25px;
+    margin-bottom:3px;
+    font-style: italic;
+    font-size: x-small;
+    text-align: right;
+}
+
+.greetingWrapper{
+    width: 100%;
+    margin: 3px;
+    height: auto;
+    display: inline-block;
+}
+
+
+.mine{
+    background:#075698;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    max-width: 50%;
+    float:left;
+    color:#fff;
+    padding: 6px 10px 2px;
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#2e88c4), to(#075698));
+    background:-moz-linear-gradient(#2e88c4, #075698);
+    background:-o-linear-gradient(#2e88c4, #075698);
+    background:linear-gradient(#2e88c4, #075698);
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+}
+
+.theirs{
+    background:#f3961c;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    max-width: 50%;
+    float: right;
+    padding: 6px 10px 2px;
+    color:#000;
+    background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9d835), to(#f3961c));
+    background:-moz-linear-gradient(#f9d835, #f3961c);
+    background:-o-linear-gradient(#f9d835, #f3961c);
+    background:linear-gradient(#f9d835, #f3961c);
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    border-radius:10px;
+}

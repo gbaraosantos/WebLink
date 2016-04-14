@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@taglib prefix="d" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,63 +14,49 @@
     <title>Weblink :: eLearning</title>
 
     <!-- CSS -->
-    <link href="<c:url value="/resources/css/Bootstrap/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Bootstrap/bootstrap.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Bootstrap/bootstrap-theme.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Icons/elegant-icons-style.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/bootstrap-fullcalendar.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/fullcalendar.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/jquery.easy-pie-chart.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/owlCarrosel/owl.carousel.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/JQuery/jquery-jvectormap-1.2.2.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/fullcalendar.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/main/widgets.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/style.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/style-responsive.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/xCharts/xcharts.min.css" />" rel="stylesheet">
-    <link href="<c:url value="/resources/css/JQuery/jquery-ui-1.10.4.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Input/component.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Input/normalize.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/Loader/loader.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/course_icons/icons.css" />" rel="stylesheet">
+
+    <link href="<c:url value="/resources/css/iconpicker/bootstrap-iconpicker.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/chat/bubble.css" />" rel="stylesheet">
 
     <!-- JS -->
-    <script src="<c:url value="/resources/js/main/jquery.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-ui-1.10.4.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-1.8.3.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-ui-1.9.2.custom.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/bootstrap.min.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/jQuery/jquery-1.10.2.min.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/Bootstrap/bootstrap.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.scrollTo.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.sparkline.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.easy-pie-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/owl.carousel.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/fullcalendar.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/fullcalendar.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/calendar-custom.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.rateit.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.customSelect.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/Chart.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/scripts.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/sparkline-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/easy-pie-chart.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-jvectormap-1.2.2.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery-jvectormap-world-mill-en.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/xcharts.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.autosize.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.placeholder.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/gdp-data.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/morris.min.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/sparklines.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/charts.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/jquery.slimscroll.min.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/ga.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/jquery.hotkeys.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/jquery.tagsinput.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap-switch.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/bootstrap-wysiwyg-custom.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/teacher_handler.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
+
 
 </head>
 
 <body>
+<script src="<c:url value="https://static.opentok.com/v2/js/opentok.js"/>" charset="utf-8"></script>
+
+
+
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
-            <div class="icon-reorder tooltips" data-original-title="Toggle Nav
-
-ation" data-placement="bottom"><i class="icon_menu"></i></div>
+            <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i class="icon_menu"></i></div>
         </div>
 
         <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
@@ -159,6 +148,59 @@ ation" data-placement="bottom"><i class="icon_menu"></i></div>
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-8 portlets">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Global Chat
+                        </div>
+                        <div class="panel-body">
+                            <div style="height: 100%">
+                                <div class = "col-lg-2" style="border: solid 3px #e0e0e0; overflow-y: visible">
+                                    <div class="col-lg-12" style="margin-bottom: 10px"> <center> <h4><b>Online Users</b> </h4></center></div>
+                                    <!--
+                                    <d:forEach var="user" items="${Online}">
+                                        <div style=" width: 100%">
+                                            <img alt="" style= "float:left; height:25px; width: 25px; margin-top: 5px " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${user.avatarLocation}" />">
+                                            <h5 style=" float: right; margin-top: 5px; font-size: x-small">${user.getName()}</h5>
+
+                                        </div>
+                                    </d:forEach>
+                            </div>
+-->
+
+                            </div>
+
+                            <div class="col-lg-10">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-12" style="height: 350px; overflow-y: auto; border: solid 3px #e0e0e0; background-color: #fbfbfb; margin-bottom: 5px" >
+                                        <center>
+                                            <p id="history">
+                                            </p>
+                                        </center>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <form id="formChat">
+                                        <div class="col-lg-11">
+                                            <div class="form-group">
+                                                <div class="col-lg-12">
+                                                    <input type="text" class="form-control" name="msgTxt" id="msgTxt" autocomplete="off" placeholder="Write your message here!">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-1">
+                                            <button id="myButton" class="btn btn-info">Send!</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </section>
     </section>
@@ -224,66 +266,123 @@ ation" data-placement="bottom"><i class="icon_menu"></i></div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
-    //knob
-    $(function() {
-        $(".knob").knob({
-            'draw' : function () {
-                $(this.i).val(this.cv + '%')
-            }
-        })
-    });
+    var sessionId = '${sessionId}';
+    var tokenId = '${tokenId}';
+    var apiKey = '${apiKey}';
+    var username = '${User.getName()}';
+    var form = document.getElementById('formChat');
+    var session;
 
-    //carousel
-    $(document).ready(function() {
-        $("#owl-slider").owlCarousel({
-            navigation : true,
-            slideSpeed : 300,
-            paginationSpeed : 400,
-            singleItem : true
+    document.getElementById("myButton").onclick = function(event){
+        var msgTxt = document.querySelector('#msgTxt');
+        event.preventDefault();
+
+        session.signal({
+                    type: 'chat',
+                    data: msgTxt.value
+                },
+                function(error) {
+                    if (!error) {
+                        console.log("Success Sending");
+                        msgTxt.value = '';
+                    }
+                    else{
+                        console.log("Error Sending");
+                    }
+                }
+        )};
+
+
+    jQuery(document).ready(function () {
+        var msgHistory = document.getElementById('history');
+        session = OT.initSession(apiKey, sessionId);
+
+        session.on('signal:chat', function(event) {
+            var msg = document.createElement('p');
+            var footingText = document.createElement('p');
+            var bubble = document.createElement('div');
+            var bubbleWrapper = document.createElement('div');
+            var footing = document.createElement('div');
+
+            bubbleWrapper.className = 'bubbleWrapper';
+            footing.className = 'footing';
+
+            msg.innerHTML = event.data;
+            bubble.className = event.from.connectionId === session.connection.connectionId ? 'mine' : 'theirs';
+
+            var date = new Date().toString();
+
+
+
+            var dayStart = ("0" +  new Date().getDate()).slice(-2);
+            var monthStart = ("0" + (new Date().getMonth() +1)).slice(-2);
+
+
+
+            footingText.innerHTML = "De: " + username +  " Em: " + dayStart + "-" + monthStart + "-" + new Date().getFullYear();
+            footing.appendChild(footingText);
+            bubble.appendChild(msg);
+
+            bubbleWrapper.appendChild(bubble);
+            bubble.appendChild(footing);
+
+            msgHistory.appendChild(bubbleWrapper);
+            msg.scrollIntoView();
 
         });
-    });
 
-    //custom select box
 
-    $(function(){
-        $('select.styled').customSelect();
-    });
+        session.on('signal:chatInfo', function(event) {
+            var msg = document.createElement('p');
+            var greetingDiv = document.createElement('div');
+            var greetingWrapper = document.createElement('div');
 
-    /* ---------- Map ---------- */
-    $(function(){
-        $('#map').vectorMap({
-            map: 'world_mill_en',
-            series: {
-                regions: [{
-                    values: gdpData,
-                    scale: ['#000', '#000'],
-                    normalizeFunction: 'polynomial'
-                }]
-            },
-            backgroundColor: '#eef3f7',
-            onLabelShow: function(e, el, code){
-                el.html(el.html()+' (GDP - '+gdpData[code]+')');
+            greetingDiv.className = 'greetingDiv';
+            greetingWrapper.className = 'greetingWrapper';
+            msg.innerHTML = event.data;
+
+            greetingDiv.appendChild(msg);
+            greetingWrapper.appendChild(greetingDiv);
+            msgHistory.appendChild(greetingWrapper);
+
+            msg.scrollIntoView();
+        });
+
+        session.connect(tokenId, function(error) {
+            if (!error) {
+                welcomeSignal();
+            }
+            else{
+                console.log("Error Connecting");
             }
         });
+
     });
 
 
-
+    function welcomeSignal(){
+        var username = '${User.getName()}';
+        session.signal({
+                    type: 'chatInfo',
+                    data: username + " entrou online"
+                },
+                function(error) {
+                    if (!error) {
+                        console.log("Success Sending Greeting");
+                    }
+                    else{
+                        console.log("Error Sending Greeting");
+                    }
+                });
+    }
 </script>
+
+
+
+
+
+
+
 </body>
 </html>
