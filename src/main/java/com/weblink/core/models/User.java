@@ -61,6 +61,18 @@ public class User{
     @Column(name = "lastChangeDate", nullable = false)
     private Date lastChangeDate;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userFrom",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EmailApp> sentList = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userTo",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EmailApp> receiveList = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userA",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FriendRequest> friendRequestsA = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "userB",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FriendRequest> friendRequestsB = new HashSet<>();
+
 
     @Column(name="state", nullable=false)
     private String state;
@@ -104,6 +116,10 @@ public class User{
     public Set<UserProfile> getUserProfiles() { return userProfiles; }
     public String getState() { return state; }
     public String getVerificationToken() { return verificationToken; }
+    public Set<EmailApp> getSentList() { return sentList; }
+    public Set<EmailApp> getReceiveList() { return receiveList; }
+    public Set<FriendRequest> getFriendRequestsA() { return friendRequestsA; }
+    public Set<FriendRequest> getFriendRequestsB() { return friendRequestsB; }
 
     @Override
     public int hashCode() {

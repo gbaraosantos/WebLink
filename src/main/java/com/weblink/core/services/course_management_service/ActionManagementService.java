@@ -15,4 +15,5 @@ public interface ActionManagementService {
     Action getAction(int id);
     List<Action> getCourseActions(Course course);
     List<Action> getFiltered(Map<String, String> filterRequest);
+    int nrActions();
 }

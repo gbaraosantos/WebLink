@@ -40,7 +40,9 @@ public class ActionManagementServiceImpl implements ActionManagementService{
 
     @Override
     public List<Action> getUpcoming() {
-        return actionManagementDao.getUpcoming();
+        List<Action> list = actionManagementDao.getUpcoming();
+        if(list==null || list.size() <= 0) return null;
+        return list;
     }
 
     @Override
@@ -62,5 +64,14 @@ public class ActionManagementServiceImpl implements ActionManagementService{
         List<Action> list = actionManagementDao.filterActions(filterRequest);
         if(list==null || list.size() <= 0) return null;
         return list;
+    }
+
+    @Override
+    public int nrActions() {
+        List<Action> list = actionManagementDao.getUpcoming();
+
+        if(list == null) return 0;
+
+        return list.size();
     }
 }

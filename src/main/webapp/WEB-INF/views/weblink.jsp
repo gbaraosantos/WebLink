@@ -44,7 +44,8 @@
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/teacher_handler.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
-
+    <script src="<c:url value="/resources/js/main/Chart.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/main/chartjs-custom.js" />" type="text/javascript"></script>
 
 </head>
 
@@ -100,6 +101,13 @@
 
                 <sec:authorize access="hasRole('User')">
                     <li>
+                        <a class="" href="<c:url value="/weblink" />">
+                            <i class="fa fa-laptop"></i>
+                            <span>&nbsp; Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a class="" href="<c:url value="/weblink/courses" />">
                             <i class="fa fa-lightbulb-o"></i>
                             <span>&nbsp; Cursos</span>
@@ -110,6 +118,20 @@
                         <a class="" href="<c:url value="/weblink/myCourses" />">
                             <i class="fa fa-unlock-alt"></i>
                             <span>&nbsp; Meus Cursos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="" href="<c:url value="/weblink/social" />">
+                            <i class="fa fa-wechat"></i>
+                            <span>&nbsp; Social</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="" href="<c:url value="/weblink/completedCourses" />">
+                            <i class="fa fa-trophy"></i>
+                            <span>&nbsp; Cursos Completos</span>
                         </a>
                     </li>
 
@@ -149,239 +171,246 @@
             </div>
 
             <div class="row">
-                <div class="col-md-8 portlets">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Global Chat
-                        </div>
-                        <div class="panel-body">
-                            <div style="height: 100%">
-                                <div class = "col-lg-2" style="border: solid 3px #e0e0e0; overflow-y: visible">
-                                    <div class="col-lg-12" style="margin-bottom: 10px"> <center> <h4><b>Online Users</b> </h4></center></div>
-                                    <!--
-                                    <d:forEach var="user" items="${Online}">
-                                        <div style=" width: 100%">
-                                            <img alt="" style= "float:left; height:25px; width: 25px; margin-top: 5px " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${user.avatarLocation}" />">
-                                            <h5 style=" float: right; margin-top: 5px; font-size: x-small">${user.getName()}</h5>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box blue-bg">
+                        <i class="fa fa-cloud-download"></i>
+                        <div class="count">${nrLoginsMonth}</div>
+                        <div class="title">Nr Logins este Mês</div>
+                    </div><!--/.info-box-->
+                </div><!--/.col-->
 
-                                        </div>
-                                    </d:forEach>
-                            </div>
--->
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box green-bg">
+                        <i class="fa fa-cubes"></i>
+                        <div class="count">${nrUsers}</div>
+                        <div class="title">Número de Utilizadores</div>
+                    </div><!--/.info-box-->
+                </div><!--/.col-->
 
-                            </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box brown-bg">
+                        <i class="fa fa-shopping-cart"></i>
+                        <div class="count">${nrStudents}</div>
+                        <div class="title">Número de estudantes</div>
+                    </div><!--/.info-box-->
+                </div><!--/.col-->
 
-                            <div class="col-lg-10">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-12" style="height: 350px; overflow-y: auto; border: solid 3px #e0e0e0; background-color: #fbfbfb; margin-bottom: 5px" >
-                                        <center>
-                                            <p id="history">
-                                            </p>
-                                        </center>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <form id="formChat">
-                                        <div class="col-lg-11">
-                                            <div class="form-group">
-                                                <div class="col-lg-12">
-                                                    <input type="text" class="form-control" name="msgTxt" id="msgTxt" autocomplete="off" placeholder="Write your message here!">
-                                                </div>
-                                            </div>
-                                        </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box dark-bg">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        <div class="count">${nrActions}</div>
+                        <div class="title">Número de Cursos</div>
+                    </div><!--/.info-box-->
+                </div><!--/.col-->
 
-                                        <div class="col-lg-1">
-                                            <button id="myButton" class="btn btn-info">Send!</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+            </div><!--/.row-->
+
+            <div class="col-lg-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Movimentação ultimos 20 dias
+                    </header>
+                    <div class="panel-body text-center">
+                        <canvas id="myChart" height="300" width="500"></canvas>
                     </div>
-                </div>
+                </section>
             </div>
-
 
         </section>
     </section>
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
-    var sessionId = '${sessionId}';
-    var tokenId = '${tokenId}';
-    var apiKey = '${apiKey}';
-    var username = '${User.getName()}';
-    var form = document.getElementById('formChat');
-    var session;
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var array=${eventsPerDay}.reverse();
+    var labelArray = [];
+    var x;
 
-    document.getElementById("myButton").onclick = function(event){
-        var msgTxt = document.querySelector('#msgTxt');
-        event.preventDefault();
+    for(x = 0; x < array.length ; x++){
+        labelArray[x] = "";
 
-        session.signal({
-                    type: 'chat',
-                    data: msgTxt.value
-                },
-                function(error) {
-                    if (!error) {
-                        console.log("Success Sending");
-                        msgTxt.value = '';
-                    }
-                    else{
-                        console.log("Error Sending");
-                    }
-                }
-        )};
+        if(x == array.length - 1)
+            labelArray[x] = "Recente";
 
-
-    jQuery(document).ready(function () {
-        var msgHistory = document.getElementById('history');
-        session = OT.initSession(apiKey, sessionId);
-
-        session.on('signal:chat', function(event) {
-            var msg = document.createElement('p');
-            var footingText = document.createElement('p');
-            var bubble = document.createElement('div');
-            var bubbleWrapper = document.createElement('div');
-            var footing = document.createElement('div');
-
-            bubbleWrapper.className = 'bubbleWrapper';
-            footing.className = 'footing';
-
-            msg.innerHTML = event.data;
-            bubble.className = event.from.connectionId === session.connection.connectionId ? 'mine' : 'theirs';
-
-            var date = new Date().toString();
-
-
-
-            var dayStart = ("0" +  new Date().getDate()).slice(-2);
-            var monthStart = ("0" + (new Date().getMonth() +1)).slice(-2);
-
-
-
-            footingText.innerHTML = "De: " + username +  " Em: " + dayStart + "-" + monthStart + "-" + new Date().getFullYear();
-            footing.appendChild(footingText);
-            bubble.appendChild(msg);
-
-            bubbleWrapper.appendChild(bubble);
-            bubble.appendChild(footing);
-
-            msgHistory.appendChild(bubbleWrapper);
-            msg.scrollIntoView();
-
-        });
-
-
-        session.on('signal:chatInfo', function(event) {
-            var msg = document.createElement('p');
-            var greetingDiv = document.createElement('div');
-            var greetingWrapper = document.createElement('div');
-
-            greetingDiv.className = 'greetingDiv';
-            greetingWrapper.className = 'greetingWrapper';
-            msg.innerHTML = event.data;
-
-            greetingDiv.appendChild(msg);
-            greetingWrapper.appendChild(greetingDiv);
-            msgHistory.appendChild(greetingWrapper);
-
-            msg.scrollIntoView();
-        });
-
-        session.connect(tokenId, function(error) {
-            if (!error) {
-                welcomeSignal();
-            }
-            else{
-                console.log("Error Connecting");
-            }
-        });
-
-    });
-
-
-    function welcomeSignal(){
-        var username = '${User.getName()}';
-        session.signal({
-                    type: 'chatInfo',
-                    data: username + " entrou online"
-                },
-                function(error) {
-                    if (!error) {
-                        console.log("Success Sending Greeting");
-                    }
-                    else{
-                        console.log("Error Sending Greeting");
-                    }
-                });
     }
+
+    var data = {
+        labels: labelArray,
+        datasets: [
+            {
+                label: "Movimento Ultimos 20 dias",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data:array
+            }
+        ]
+    };
+
+    var myNewChart = new Chart(ctx).Line(data,
+            {
+                scaleShowGridLines : true,
+
+                //String - Colour of the grid lines
+                scaleGridLineColor : "rgba(0,0,0,.05)",
+
+                //Number - Width of the grid lines
+                scaleGridLineWidth : 1,
+
+                //Boolean - Whether to show horizontal lines (except X axis)
+                scaleShowHorizontalLines: false,
+
+                //Boolean - Whether to show vertical lines (except Y axis)
+                scaleShowVerticalLines: true,
+
+                //Boolean - Whether the line is curved between points
+                bezierCurve : true,
+
+                //Number - Tension of the bezier curve between points
+                bezierCurveTension : 0.4,
+
+                //Boolean - Whether to show a dot for each point
+                pointDot : true,
+
+                //Number - Radius of each point dot in pixels
+                pointDotRadius : 5,
+
+                //Number - Pixel width of point dot stroke
+                pointDotStrokeWidth : 1,
+
+                //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+                pointHitDetectionRadius : 20,
+
+                //Boolean - Whether to show a stroke for datasets
+                datasetStroke : true,
+
+                //Number - Pixel width of dataset stroke
+                datasetStrokeWidth : 2,
+
+                //Boolean - Whether to fill the dataset with a colour
+                datasetFill : true,
+
+                showTooltips: true,
+                customTooltips: false,
+                tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+
+                // String - Tooltip background colour
+                tooltipFillColor: "rgba(0,0,0,0.8)",
+
+                // String - Tooltip label font declaration for the scale label
+                tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+                // Number - Tooltip label font size in pixels
+                tooltipFontSize: 14,
+
+                // String - Tooltip font weight style
+                tooltipFontStyle: "normal",
+
+                // String - Tooltip label font colour
+                tooltipFontColor: "#fff",
+
+                // String - Tooltip title font declaration for the scale label
+                tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+                // Number - Tooltip title font size in pixels
+                tooltipTitleFontSize: 14,
+
+                // String - Tooltip title font weight style
+                tooltipTitleFontStyle: "bold",
+
+                // String - Tooltip title font colour
+                tooltipTitleFontColor: "#fff",
+
+                // Number - pixel width of padding around tooltip text
+                tooltipYPadding: 6,
+
+                // Number - pixel width of padding around tooltip text
+                tooltipXPadding: 6,
+
+                // Number - Size of the caret on the tooltip
+                tooltipCaretSize: 8,
+
+                // Number - Pixel radius of the tooltip border
+                tooltipCornerRadius: 6,
+
+                // Number - Pixel offset from point x to tooltip edge
+                tooltipXOffset: 10,
+
+                animationSteps: 60,
+
+                // String - Animation easing effect
+                // Possible effects are:
+                // [easeInOutQuart, linear, easeOutBounce, easeInBack, easeInOutQuad,
+                //  easeOutQuart, easeOutQuad, easeInOutBounce, easeOutSine, easeInOutCubic,
+                //  easeInExpo, easeInOutBack, easeInCirc, easeInOutElastic, easeOutBack,
+                //  easeInQuad, easeInOutExpo, easeInQuart, easeOutQuint, easeInOutCirc,
+                //  easeInSine, easeOutExpo, easeOutCirc, easeOutCubic, easeInQuint,
+                //  easeInElastic, easeInOutSine, easeInOutQuint, easeInBounce,
+                //  easeOutElastic, easeInCubic]
+                animationEasing: "easeOutQuart",
+
+                // Boolean - If we should show the scale at all
+                showScale: true,
+
+                // Boolean - If we want to override with a hard coded scale
+                scaleOverride: false,
+
+                // ** Required if scaleOverride is true **
+                // Number - The number of steps in a hard coded scale
+                scaleSteps: null,
+                // Number - The value jump in the hard coded scale
+                scaleStepWidth: null,
+                // Number - The scale starting value
+                scaleStartValue: null,
+
+                // String - Colour of the scale line
+                scaleLineColor: "rgba(0,0,0,.1)",
+
+                // Number - Pixel width of the scale line
+                scaleLineWidth: 1,
+
+                // Boolean - Whether to show labels on the scale
+                scaleShowLabels: true,
+
+                // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
+                scaleIntegersOnly: true,
+
+                // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+                scaleBeginAtZero: false,
+
+                // String - Scale label font declaration for the scale label
+                scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+                // Number - Scale label font size in pixels
+                scaleFontSize: 12,
+
+                // String - Scale label font weight style
+                scaleFontStyle: "normal",
+
+                // String - Scale label font colour
+                scaleFontColor: "#666",
+
+                // Boolean - whether or not the chart should be responsive and resize when the browser does.
+                responsive: false,
+
+                // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+                maintainAspectRatio: true,
+
+
+                // Function - Will fire on animation progression.
+                onAnimationProgress: function(){},
+
+                // Function - Will fire on animation completion.
+                onAnimationComplete: function(){},
+
+                responsive: false
+
+            });
+
 </script>
-
-
-
-
-
 
 
 </body>

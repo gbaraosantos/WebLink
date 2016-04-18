@@ -114,6 +114,12 @@
 
                 <sec:authorize access="hasRole('User')">
                     <li>
+                        <a class="" href="<c:url value="/weblink" />">
+                            <i class="fa fa-laptop"></i>
+                            <span>&nbsp; Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="" href="<c:url value="/weblink/courses" />">
                             <i class="fa fa-lightbulb-o"></i>
                             <span>&nbsp; Cursos</span>
@@ -127,6 +133,19 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a class="" href="<c:url value="/weblink/social" />">
+                            <i class="fa fa-wechat"></i>
+                            <span>&nbsp; Social</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="" href="<c:url value="/weblink/completedCourses" />">
+                            <i class="fa fa-trophy"></i>
+                            <span>&nbsp; Cursos Completos</span>
+                        </a>
+                    </li>
                 </sec:authorize>
 
 
