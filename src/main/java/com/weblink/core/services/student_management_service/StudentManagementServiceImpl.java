@@ -67,4 +67,11 @@ public class StudentManagementServiceImpl implements StudentManagementService{
         if(list==null || list.size() <= 0) return null;
         return list;
     }
+
+    @Override
+    public List<Action> getAttendingPending(User user) {
+        List<Action> list = studentManagementDao.getStudentActionsUpcoming(user);
+        if(list==null || list.size() <= 0) return null;
+        return list;
+    }
 }

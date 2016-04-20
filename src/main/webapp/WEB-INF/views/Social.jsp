@@ -24,6 +24,8 @@
     <link href="<c:url value="/resources/css/Input/normalize.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Loader/loader.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/course_icons/icons.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/main/widgets.css" />" rel="stylesheet">
 
     <link href="<c:url value="/resources/css/iconpicker/bootstrap-iconpicker.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/chat/bubble.css" />" rel="stylesheet">
@@ -44,11 +46,12 @@
     <script src="<c:url value="/resources/js/main/form-component.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/teacher_handler.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/social/friendRequest.js" />" type="text/javascript"></script>
 
 
 </head>
 
-<body>
+<body style="max-height: calc(100vh); overflow-y: auto">
 <script src="<c:url value="https://static.opentok.com/v2/js/opentok.js"/>" charset="utf-8"></script>
 
 
@@ -65,12 +68,75 @@
         <div class="top-nav notification-row">
             <ul class="nav pull-right top-menu">
 
+
+                <li id="task_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-users"></i>
+                        <span class="badge bg-important">${nrRequestsPending}</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-blue"></div>
+                        <li>
+                            <p class="blue">Tem ${nrRequestsPending} pedidos de amizade</p>
+                        </li>
+
+                        <d:forEach var="toUser" items="${toMePending}">
+
+                            <span class="label label-primary"><i class="icon_profile"></i></span>
+                            <b style="color: #585858">${toUser.getUserA().getName()}</b>
+                                <span class="small italic pull-right" style="color:#585858">
+                                    <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${toUser.getRequestDate()}"/>
+                                </span>
+
+                            <div class="col-lg-12" style="margin-top: 0; margin-bottom: 10px">
+                                <div class="col-lg-6" style="text-align: center;">
+                                    <a style="color: #36c838" onclick="acceptRequestAjax(${toUser.getId()})"><i class="fa fa-check-circle-o fa-2x"></i></a>
+                                </div>
+
+                                <div class="col-lg-6" style="text-align: center;">
+                                    <a style="color: #c84e27" onclick="deleteRequestAjax(${toUser.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                </div>
+                            </div>
+
+                        </d:forEach>
+
+
+                        <li>
+                            <a href="<c:url value="/weblink/social" />">Ver todos</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id="mail_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge bg-important">${nrMessages}</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+
+                    </ul>
+                </li>
+
+
+                <li id="alert_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-bell"></i>
+                        <span class="badge bg-important">7</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+
+                    </ul>
+                </li>
+
                 <!-- START Person Icon, Name Menu -->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <div class="parent">
                             <span class="profile-ava">
-                                <img alt="" style= "height:45px; width: 45px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
+                                <img alt="" style= "height:34px; width: 34px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
 
                             </span>
                             <span class="username">${User.email}</span>
@@ -161,7 +227,7 @@
         <section class="wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-laptop"></i> Dashboard</h3>
+                    <h3 class="page-header"><i class="fa fa-laptop"></i>Social</h3>
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="<c:url value="/" />">Home</a></li>
                         <li><i class="fa fa-laptop"></i><a href="<c:url value="/weblink" />">Dashboard</a></li>
@@ -170,12 +236,20 @@
                 </div>
             </div>
 
+
+            <div style="text-align: center">
+                <h3 style="color: #8e0d01;">
+                    ${errorRequest}
+                </h3>
+            </div>
+
+
             <div class="row">
                 <div class="col-md-6 portlets">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
                             <ul class="nav nav-tabs nav-justified" style="margin: 0">
-                                <li class="active"><a href="#FriendList" aria-controls="FriendList" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>List de Amigos</b> </h5></a></li>
+                                <li class="active"><a href="#FriendList" aria-controls="FriendList" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Lista de Amigos</b> </h5></a></li>
                                 <li><a href="#FriendRequest" aria-controls="FriendRequest" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Pedidos de amizade</b></h5></a></li>
                             </ul>
                         </div>
@@ -183,31 +257,212 @@
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="FriendList">
                                 <div class="panel-body">
-                                    aslhdaikshd
+                                    <h4>Amigos</h4>
+                                    <d:forEach var="friend" items="${friendListing}">
+                                        <d:choose>
+                                            <d:when test="${friend.getUserB().getEmail() == User.getEmail()}">
+                                                <div class="col-lg-12" style="background-color: #f8f8f8">
+
+                                                    <div class="col-lg-2" style="margin-top: 10px">
+                                                        <img height="50px" width="50px" src="<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${friend.getUserA().avatarLocation}" />"/>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>To: </b>
+                                                                    ${friend.getUserA().getEmail()}
+                                                            </h5>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>Name: </b>
+                                                                    ${friend.getUserA().getName()}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>State:</b> Friend
+                                                            </h5>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>At: </b>
+                                                                <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${friend.getRequestDate()}"/>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-1" style="margin-top: 10px;">
+                                                        <div class="col-lg-3">
+                                                            <a style="color: #c84e27" onclick="deleteRequestAjax(${friend.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </d:when>
+                                            <d:otherwise>
+                                                <div class="col-lg-12" style="background-color: #f8f8f8">
+
+                                                    <div class="col-lg-2" style="margin-top: 10px">
+                                                        <img height="50px" width="50px" src="<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${friend.getUserB().avatarLocation}" />"/>
+                                                    </div>
+                                                    <div class="col-lg-5">
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>To: </b>
+                                                                    ${friend.getUserB().getEmail()}
+                                                            </h5>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>Name: </b>
+                                                                    ${friend.getUserB().getName()}
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>State:</b> Friend
+                                                            </h5>
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <h5>
+                                                                <b>At: </b>
+                                                                <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${friend.getAccepteDate()}"/>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-1" style="margin-top: 10px;">
+                                                        <div class="col-lg-3">
+                                                            <a style="color: #c84e27" onclick="deleteRequestAjax(${friend.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </d:otherwise>
+                                        </d:choose>
+
+                                    </d:forEach>
+
                                 </div>
                             </div>
 
                             <div role="tabpanel" class="tab-pane" id="FriendRequest">
 
                                 <div class="panel-body bio-graph-info">
-                                        <h4 style="margin-bottom: 20px;">Pending Friend Requests</h4>
-                                        <p>A</p>
-                                        <p>B</p>
-                                        <h4 style="margin-top: 20px; margin-bottom: 20px">New Friend Requests</h4>
+                                    <h4 style="margin-bottom: 20px;">Pending Friend Requests</h4>
+                                    <d:forEach var="fromUser" items="${fromMePending}">
+                                            <div class="col-lg-12" style="background-color: #f8f8f8; margin-bottom: 30px">
 
-                                    <form class="form-horizontal" role="form" action="<c:url value="/weblink/newFriendRequest"/>" method="post">
-                                        <div class="form-group">
-                                            <label class="col-lg-2 control-label">Email</label>
-                                            <div class="col-lg-9">
-                                                <input type="text" class="form-control" name="requestEmail" id="requestEmail" autocomplete="off" placeholder="abcde@hotmail.com">
+                                                <div class="col-lg-2" style="margin-top: 10px">
+                                                    <img height="50px" width="50px" src="<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${fromUser.getUserB().avatarLocation}" />"/>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>To: </b>
+                                                            ${fromUser.getUserB().getEmail()}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>Name: </b>
+                                                            ${fromUser.getUserB().getName()}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>State:</b> Pending
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>At: </b>
+                                                            <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${fromUser.getRequestDate()}"/>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-1" style="margin-top: 22px;">
+                                                    <a style="color: #c84e27" onclick="deleteRequestAjax(${fromUser.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                                </div>
+                                            </div>
+                                    </d:forEach>
+
+                                    <d:forEach var="toUser" items="${toMePending}">
+                                        <div class="col-lg-12" style="background-color: #f8f8f8; margin-bottom: 30px">
+
+                                            <div class="col-lg-2" style="margin-top: 10px">
+                                                <img height="50px" width="50px" src="<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${toUser.getUserA().avatarLocation}" />"/>
+                                            </div>
+                                            <div class="col-lg-5">
+                                                <div class="col-lg-12">
+                                                    <h5>
+                                                        <b>To: </b>
+                                                            ${toUser.getUserA().getEmail()}
+                                                    </h5>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h5>
+                                                        <b>Name: </b>
+                                                            ${toUser.getUserA().getName()}
+                                                    </h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="col-lg-12">
+                                                    <h5>
+                                                        <b>State:</b> Pending
+                                                    </h5>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <h5>
+                                                        <b>At: </b>
+                                                        <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${toUser.getRequestDate()}"/>
+                                                    </h5>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-1" style="margin-top: 10px;">
+                                                <div class="col-lg-3">
+                                                    <a style="color: #36c838" onclick="acceptRequestAjax(${toUser.getId()})"><i class="fa fa-check-circle-o fa-2x"></i></a>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <a style="color: #c84e27" onclick="deleteRequestAjax(${toUser.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                                </div>
                                             </div>
                                         </div>
+                                    </d:forEach>
 
-                                        <center>
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                            <button type="submit"  class="btn btn-primary">Send</button>
-                                        </center>
-                                    </form>
+                                    <div style="margin-top: 30px">
+                                        <h4 style="margin-bottom: 20px">New Friend Requests</h4>
+
+                                        <form class="form-horizontal" role="form" action="<c:url value="/weblink/newFriendRequest"/>" method="post">
+                                            <div class="form-group">
+                                                <label class="col-lg-2 control-label">Email</label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="requestEmail" id="requestEmail" autocomplete="off" placeholder="abcde@hotmail.com">
+                                                </div>
+                                            </div>
+
+                                            <center>
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                <button type="submit"  class="btn btn-primary">Send</button>
+                                            </center>
+                                        </form>
+
+                                    </div>
+
 
 
                                 </div>
@@ -217,34 +472,153 @@
 
                 </div>
 
+
+
+
+
+
+
+
+
+
+
+
                 <div class="col-md-6 portlets">
-                    <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
-                        <ul class="nav nav-tabs nav-justified" style="margin: 0">
-                            <li class="active"><a href="#OfferCourse" aria-controls="OfferCourse" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Oferecer um curso</b> </h5></a></li>
-                            <li><a href="#Mail" aria-controls="Mail" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Mensagem privada</b></h5></a></li>
-                        </ul>
-                    </div>
-
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="OfferCourse">
-                            <div class="panel-body">
-                                aslhdaikshd
-                            </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
+                            <ul class="nav nav-tabs nav-justified" style="margin: 0">
+                                <li class="active"><a href="#OfferCourse" aria-controls="OfferCourse" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Oferecer um curso</b> </h5></a></li>
+                                <li><a href="#Mail" aria-controls="Mail" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Mensagem privada</b></h5></a></li>
+                            </ul>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane" id="Mail">
-                            <div class="panel-body">
-                                ghsdsfd
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="OfferCourse">
+                                <div class="panel-body">
+                                    <div class="col-lg-12">
+                                        <form class="form-horizontal" role="form" action="<c:url value="/weblink/offerCourse"/>" method="post">
+                                            <div class="form-group">
+                                                <div class="col-lg-6">
+                                                    <label class="col-lg-6 control-label">Curso a oferecer</label>
+                                                    <div class="col-lg-5">
+                                                        <select name="friendToOffer" id="actionToOffer">
+                                                            <d:forEach var="action" items="${myActions}">
+                                                                <option value="${action.getId()}">${action.getCourse().getName()}</option>
+                                                            </d:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <label class="col-lg-6 control-label">Amigo a oferecer</label>
+                                                    <div class="col-lg-5">
+                                                        <select name="friendToOffer" id="friendToOffer">
+                                                            <d:forEach var="friend" items="${friendListing}">
+                                                                <d:choose>
+                                                                    <d:when test="${friend.getUserB().getEmail() == User.getEmail()}">
+                                                                        <option value="${friend.getUserA().getId()}">${friend.getUserA().getName()}</option>
+                                                                    </d:when>
+                                                                    <d:otherwise>
+                                                                        <option value="${friend.getUserB().getId()}">${friend.getUserB().getName()}</option>
+                                                                    </d:otherwise>
+                                                                </d:choose>
+                                                            </d:forEach>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <center>
+                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                <a onclick="checkOfferCourse()" class="btn btn-primary">Send</a>
+                                            </center>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="Mail">
+                                <div class="panel-body">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-6 control-label">Destinatário</label>
+                                                <div class="col-lg-5">
+                                                    <select name="friendToOffer" id="messageDestination">
+                                                        <d:forEach var="friend" items="${friendListing}">
+                                                            <d:choose>
+                                                                <d:when test="${friend.getUserB().getEmail() == User.getEmail()}">
+                                                                    <option value="${friend.getUserA().getId()}">${friend.getUserA().getName()}</option>
+                                                                </d:when>
+                                                                <d:otherwise>
+                                                                    <option value="${friend.getUserB().getId()}">${friend.getUserB().getName()}</option>
+                                                                </d:otherwise>
+                                                            </d:choose>
+                                                        </d:forEach>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <label class="col-lg-3 control-label">Assunto</label>
+                                                <div class="col-lg-8">
+                                                    <input class="form-control" type="text" name="subject" id="subject" placeholder="Assunto">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group" style="margin-top:30px">
+                                            <div class="col-lg-12">
+                                                <label class="col-lg-2 control-label" style="text-align: left">Descrição: </label>
+                                                <div class="col-lg-9">
+                                                    <textarea class="form-control" name="privateMessage" id="privateMessage" placeholder="Mensagem"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   <center><a onclick="sendPrivate()" class="btn btn-primary">Send</a></center>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-
-
             </div>
 
+
+            <div class="row">
+                <div class="col-md-12 portlets">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
+                            <ul class="nav nav-tabs nav-justified" style="margin: 0">
+                                <li class="active"><a href="#Inbox" aria-controls="Inbox" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Mensagens Recebidas</b> </h5></a></li>
+                                <li><a href="#OutBox" aria-controls="OutBox" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Mensagens Enviadas</b></h5></a></li>
+                            </ul>
+                        </div>
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="Inbox">
+                                <div class="panel-body">
+                                    <d:forEach var="message" items="${receivedList}">
+                                        ${message.getSubject()}
+                                    </d:forEach>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane" id="OutBox">
+                                <div class="panel-body">
+                                    <d:forEach var="message" items="${sentList}">
+                                        --->${message.getSubject()}
+                                    </d:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
@@ -463,8 +837,6 @@
             msgHistory.appendChild(wrapero);
             msgHistory.appendChild(footing);
 
-            msg.scrollIntoView();
-
         });
 
 
@@ -505,8 +877,6 @@
             greetingDiv.appendChild(msg);
             greetingWrapper.appendChild(greetingDiv);
             msgHistory.appendChild(greetingWrapper);
-
-            msg.scrollIntoView();
         });
 
         session.connect(tokenId, function(error) {

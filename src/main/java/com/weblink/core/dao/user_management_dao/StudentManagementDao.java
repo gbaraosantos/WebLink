@@ -15,4 +15,6 @@ public interface StudentManagementDao {
     List<Student> getStudentList(int id);
     List<Student> getAllStudents();
     List<Action>  getStudentActions(User user);
+
+    List<Action> getStudentActionsUpcoming(User user);
 }

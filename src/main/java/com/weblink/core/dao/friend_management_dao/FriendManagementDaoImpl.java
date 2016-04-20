@@ -28,7 +28,7 @@ public class FriendManagementDaoImpl extends AbstractDao<Integer, FriendRequest>
 
     @Override
     public List<FriendRequest> getFriends(User user) {
-        Query query = getSession().createQuery("FROM FriendRequest AS f WHERE f.userB = :user OR f.userA = user");
+        Query query = getSession().createQuery("FROM FriendRequest AS f WHERE (f.userB = :user OR f.userA = :user) AND f.accepted=true");
         query.setParameter("user", user);
         return (List<FriendRequest>)query.list();
     }

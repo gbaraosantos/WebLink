@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -63,7 +64,11 @@ public class FriendServiceImpl implements FriendService{
     public void acceptFriendRequest(int id) {
         List<FriendRequest> friendRequests = friendManagementDao.getFriend(id);
         if(friendRequests != null && friendRequests.size() != 0){
-            friendManagementDao.acceptFriendRequest(friendRequests.get(0));
+            friendManagementDao.acceptFriendRequest(
+                    friendRequests.get(0)
+                            .setAccepteDate(new Date())
+                            .setAccepted(true)
+            );
         }
 
 
