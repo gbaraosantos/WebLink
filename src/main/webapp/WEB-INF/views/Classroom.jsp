@@ -133,7 +133,7 @@
             }
         });
 
-        OT.registerScreenSharingExtension("chrome", "ijbkhjejgepojjgohccmpeehkcaoiogk", 1);
+        OT.registerScreenSharingExtension("chrome", "pfkofnaekbboegekpeocdciibaplnokn", 2);
 
         function changeStreams(){
 
