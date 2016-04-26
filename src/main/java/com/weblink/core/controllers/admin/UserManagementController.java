@@ -2,10 +2,14 @@ package com.weblink.core.controllers.admin;
 
 import com.weblink.core.common.enums.State;
 import com.weblink.core.common.enums.UserProfileType;
+import com.weblink.core.models.EmailApp;
+import com.weblink.core.models.FriendRequest;
 import com.weblink.core.models.User;
 import com.weblink.core.models.UserProfile;
 import com.weblink.core.services.logger_service.LoggerService;
+import com.weblink.core.services.messaging_service.MessageService;
 import com.weblink.core.services.user_profile_service.UserProfileService;
+import com.weblink.core.services.user_service.FriendService;
 import com.weblink.core.services.user_service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +29,8 @@ public class UserManagementController {
     @Autowired UserService userService;
     @Autowired UserProfileService userProfileService;
     @Autowired LoggerService logger;
+    @Autowired FriendService friendService;
+    @Autowired MessageService messageService;
 
     private volatile User user;
 
@@ -33,6 +39,7 @@ public class UserManagementController {
     public String getUserManagement(Model model){
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
+        prepareModel(model);
 
         List listUsers = userService.getAllUsers();
 
@@ -43,8 +50,10 @@ public class UserManagementController {
         return "UserManagement";
     }
 
+
     @RequestMapping(value = "/admin/ban", params = {"user_id"})
     public String banUser(@RequestParam(value = "user_id") Integer userId, Model model){
+        prepareModel(model);
         User user = userService.getSingleUser(userId);
 
         user.setState(State.LOCKED.getState());
@@ -67,6 +76,7 @@ public class UserManagementController {
 
     @RequestMapping(value = "/admin/unban", params = {"user_id"})
     public String unBanUser(@RequestParam(value = "user_id") Integer userId, Model model){
+        prepareModel(model);
         User user = userService.getSingleUser(userId);
 
         if(user.getState().equals(State.ACTIVE.getState())){
@@ -99,6 +109,7 @@ public class UserManagementController {
     @RequestMapping(value = "/admin/addPermission", params = {"user_id", "perm"})
     public String addPermission(@RequestParam(value = "user_id") Integer userId, @RequestParam(value = "perm") String perm, Model model){
         User user = userService.getSingleUser(userId);
+        prepareModel(model);
         model.addAttribute("User", this.user);
 
         if(perm == null)                    model.addAttribute("ErrorMessage" , "Permissao Vazia");
@@ -130,6 +141,7 @@ public class UserManagementController {
     @RequestMapping(value = "/admin/remPermission", params = {"user_id", "perm"})
     public String remPermission(@RequestParam(value = "user_id") Integer userId, @RequestParam(value = "perm") String perm, Model model){
         User user = userService.getSingleUser(userId);
+        prepareModel(model);
         model.addAttribute("User", this.user);
 
         if(perm == null)                        model.addAttribute("ErrorMessage" , "Permissao Vazia");
@@ -167,4 +179,22 @@ public class UserManagementController {
 
         return userName;
     }
+
+    private void prepareModel(Model model) {
+        List<FriendRequest> list = friendService.getToMePending(user);
+        List<EmailApp> sentList = messageService.sentMessages(user);
+        List<EmailApp> receivedList = messageService.receivedMessage(user);
+        List<EmailApp> receivedUnreadList = messageService.receivedUnreadMessage(user);
+
+        model.addAttribute("fromMePending", friendService.getFromMePending(user));
+        model.addAttribute("toMePending", list );
+        model.addAttribute("friendListing" , friendService.getFriends(user));
+        model.addAttribute("sentList" , sentList);
+        model.addAttribute("receivedList", receivedList);
+
+        if(list != null) model.addAttribute("nrRequestsPending" , list.size());
+        if(receivedUnreadList != null) model.addAttribute("nrMessages", receivedUnreadList.size());
+
+    }
+
 }

@@ -117,4 +117,40 @@ function sendPrivate(){
     });
 }
 
+function markAsRead(id){
+    $.ajax({
+        type : "GET",
+        url : "/weblink/messageCheck?id=" + id,
+        dataType: "text",
+
+        error:function(){
+            alert("Ajax Error Ocurred");
+        },
+
+        success:function(data) {
+            swal("Sucesso!", "Mensagem Marcada como lida", "success");
+        }
+
+    });
+}
+
+function deleteMessage(id){
+    $.ajax({
+        type : "GET",
+        url : "/weblink/messageDelete?id=" + id,
+        dataType: "text",
+
+        error:function(){
+            alert("Ajax Error Ocurred");
+        },
+
+        success:function(data) {
+            swal("Sucesso!", "Mensagem Apagada", "success");
+        }
+
+    });
+}
+
+
+
 

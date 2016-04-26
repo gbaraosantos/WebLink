@@ -20,9 +20,6 @@ public class PlatformServiceImpl implements PlatformService{
     @Autowired PlatformManagementDao platformManagementDao;
     @Autowired private Environment environment;
 
-
-
-
     @Override
     public String registerGlobalChat() {
         List<Platform> platforms = platformManagementDao.getPlatforms();

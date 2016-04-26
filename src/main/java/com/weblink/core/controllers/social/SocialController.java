@@ -83,6 +83,22 @@ public class SocialController {
         return "Social";
     }
 
+    @RequestMapping(value ="/weblink/messageCheck", method = RequestMethod.GET, params = {"id"})
+    public @ResponseBody String messageCheck(@RequestParam("id") int id,Model model, HttpServletRequest request) {
+        prepareModel(model);
+        EmailApp message = messageService.getMessage(id);
+        messageService.readMessage(message.setBeenRead(true));
+        return "Social";
+    }
+
+    @RequestMapping(value ="/weblink/messageDelete", method = RequestMethod.GET, params = {"id"})
+    public @ResponseBody String messageDelete(@RequestParam("id") int id,Model model, HttpServletRequest request) {
+        prepareModel(model);
+        EmailApp message = messageService.getMessage(id);
+        messageService.remove(message);
+        return "Social";
+    }
+
     @RequestMapping(value ="/weblink/message", method = RequestMethod.GET, params = {"friend" , "message", "subject"})
     public @ResponseBody String message(@RequestParam("friend") int friend,@RequestParam("subject") String subject, @RequestParam("message") String message, Model model, HttpServletRequest request) {
         prepareModel(model);
@@ -93,6 +109,7 @@ public class SocialController {
                 .setBody(message)
                 .setFrom(user)
                 .setSubject(subject)
+                .setSentDate(new Date())
                 .setTo(destination);
 
         messageService.sendMessage(newMessage);
@@ -185,8 +202,7 @@ public class SocialController {
         model.addAttribute("receivedList", receivedList);
 
         if(list != null) model.addAttribute("nrRequestsPending" , list.size());
-        if(receivedList != null) model.addAttribute("nrMessages", receivedUnreadList.size());
-
+        if(receivedUnreadList != null) model.addAttribute("nrMessages", receivedUnreadList.size());
 
         platformService.registerGlobalChat();
         tokenId = platformService.getTokenId();

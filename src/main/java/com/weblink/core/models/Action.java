@@ -41,6 +41,10 @@ public class Action {
     @Column(name = "discount", nullable = false)
     private int discount;
 
+    @Column(name = "classroomSession", nullable = false)
+    private String classroomSession;
+
+
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "createdBy")
     private User createdBy;
@@ -74,6 +78,7 @@ public class Action {
     public Set<ModulePerAction> getActionList() { return actionList; }
     public Set<Student> getStudentList() { return studentList; }
     public Set<PostWall> getPostList() { return postList; }
+    public String getClassroomSession() { return classroomSession; }
 
     public Action setCourse(Course course) { this.course = course; return this; }
     public Action setStartDate(Date startDate) { this.startDate = startDate; return this; }
@@ -83,6 +88,7 @@ public class Action {
     public Action setVisible(boolean visible) { this.visible = visible; return this; }
     public Action setCreatedBy(User createdBy) { this.createdBy = createdBy; return this; }
     public Action setEvaluationType(String evaluationType) { this.evaluationType = evaluationType; return this; }
+    public Action setClassroomSession(String classroomSession) { this.classroomSession = classroomSession; return this; }
 
     public Action setDiscount(int discount) {
         this.finalPrice = this.course.getPrice() * (100-discount) / 100;

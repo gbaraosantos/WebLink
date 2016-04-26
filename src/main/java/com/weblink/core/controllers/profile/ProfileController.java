@@ -3,9 +3,13 @@ package com.weblink.core.controllers.profile;
 import com.weblink.core.common.enums.Extension;
 import com.weblink.core.common.enums.FileType;
 import com.weblink.core.common.file.FileBucket;
+import com.weblink.core.models.EmailApp;
+import com.weblink.core.models.FriendRequest;
 import com.weblink.core.models.User;
 import com.weblink.core.services.file_system_service.FileSystemService;
 import com.weblink.core.services.logger_service.LoggerService;
+import com.weblink.core.services.messaging_service.MessageService;
+import com.weblink.core.services.user_service.FriendService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.FileValidator;
 import com.weblink.core.validators.ProfileUpdateValidator;
@@ -24,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -34,12 +39,15 @@ public class ProfileController {
     @Autowired private Environment environment;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired LoggerService logger;
+    @Autowired MessageService messageService;
+    @Autowired FriendService friendService;
 
     private volatile User user;
 
     @RequestMapping(value = "/weblink/profile", method = RequestMethod.GET)
     public String getProfile(Model model){
         user = userService.getSingleUser(getEmail());
+        prepareModel(model);
         model.addAttribute("User", user);
         model.addAttribute("fileBucket" , new FileBucket());
         return "Profile";
@@ -49,6 +57,7 @@ public class ProfileController {
     public String UploadProfilePicture(@Valid FileBucket fileBucket, BindingResult result, ModelMap model){
         if (result.hasErrors()) return "redirect:/weblink/profile?uploadSuccess=false";
         model.addAttribute("User" , user);
+
 
         String initialPath = environment.getProperty("file.system.path");
         Extension ext = new FileValidator().validateFile(fileBucket, FileType.IMAGE);
@@ -64,11 +73,12 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/weblink/profile", method = RequestMethod.GET, params = {"uploadSuccess"})
-    public String UploadProfilePictureSuccess(ModelMap model, @RequestParam("uploadSuccess") Boolean success){
+    public String UploadProfilePictureSuccess(Model model, @RequestParam("uploadSuccess") Boolean success){
         if(success) model.addAttribute("Success", "The Requested image was uploaded successfully");
         else model.addAttribute("ErrorUpload", "The Requested image was not uploaded successfully");
         model.addAttribute("fileBucket" , new FileBucket());
         model.addAttribute("User", user);
+        prepareModel(model);
         return "Profile";
 
     }
@@ -76,7 +86,7 @@ public class ProfileController {
 
 
     @RequestMapping(value = "/weblink/profileUpdate", method = RequestMethod.POST)
-    public String UpdateProfile(ModelMap model, HttpServletRequest request){
+    public String UpdateProfile(Model model, HttpServletRequest request){
         Map<String,Object> log = new HashMap<>();
 
         user = new ProfileUpdateValidator().validateInput(request,user,passwordEncoder);
@@ -87,6 +97,7 @@ public class ProfileController {
 
         userService.updateUser(user);
 
+        prepareModel(model);
         model.addAttribute("Success", "Update de perfil foi bem sucedido");
         model.addAttribute("fileBucket" , new FileBucket());
         model.addAttribute("User", user);
@@ -113,6 +124,21 @@ public class ProfileController {
         else userName = principal.toString();
 
         return userName;
+    }
+    private void prepareModel(Model model) {
+        List<FriendRequest> list = friendService.getToMePending(user);
+        List<EmailApp> sentList = messageService.sentMessages(user);
+        List<EmailApp> receivedList = messageService.receivedMessage(user);
+        List<EmailApp> receivedUnreadList = messageService.receivedUnreadMessage(user);
+
+        model.addAttribute("fromMePending", friendService.getFromMePending(user));
+        model.addAttribute("toMePending", list );
+        model.addAttribute("friendListing" , friendService.getFriends(user));
+        model.addAttribute("sentList" , sentList);
+        model.addAttribute("receivedList", receivedList);
+
+        if(list != null) model.addAttribute("nrRequestsPending" , list.size());
+        if(receivedUnreadList != null) model.addAttribute("nrMessages", receivedUnreadList.size());
     }
 
 }

@@ -52,4 +52,9 @@ public class MessageServiceImpl  implements MessageService{
     public void readMessage(EmailApp email) {
         messageManagementDao.read(email);
     }
+
+    @Override
+    public void remove(EmailApp email) {
+        messageManagementDao.remove(email);
+    }
 }

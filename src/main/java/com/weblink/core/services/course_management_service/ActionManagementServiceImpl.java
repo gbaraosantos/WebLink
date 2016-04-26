@@ -1,11 +1,16 @@
 package com.weblink.core.services.course_management_service;
 
+import com.opentok.OpenTok;
+import com.opentok.Session;
+import com.opentok.exception.OpenTokException;
 import com.weblink.core.dao.course_management_dao.ActionManagementDao;
 import com.weblink.core.models.Action;
 import com.weblink.core.models.Course;
 import com.weblink.core.models.Module;
 import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,19 +18,35 @@ import java.util.List;
 import java.util.Map;
 
 @Service("actionManagementService")
+@PropertySource(value = { "classpath:weblink.properties" })
 @Transactional
 public class ActionManagementServiceImpl implements ActionManagementService{
     @Autowired ModuleActionManagementService moduleActionManagementService;
     @Autowired ModuleManagementService moduleManagementService;
     @Autowired ActionManagementDao actionManagementDao;
+    @Autowired private Environment environment;
 
     @Override
     public void createAction(Action action) {
-        actionManagementDao.createAction(action);
+        OpenTok openTok = new OpenTok(Integer.parseInt(environment.getRequiredProperty("opentok.apikey")), environment.getRequiredProperty("opentok.secretkey"));
 
-        for(Module a: moduleManagementService.getCourseModules(action.getCourse())){
-            moduleActionManagementService.addModulePerAction(a,action);
-        }
+        try {
+            Session session = openTok.createSession();
+
+            actionManagementDao.createAction(action
+                    .setClassroomSession(session.getSessionId())
+            );
+
+            for(Module a: moduleManagementService.getCourseModules(action.getCourse())){
+                moduleActionManagementService.addModulePerAction(a,action);
+            }
+
+        } catch (OpenTokException e) { e.printStackTrace(); }
+
+
+
+
+
     }
 
     @Override

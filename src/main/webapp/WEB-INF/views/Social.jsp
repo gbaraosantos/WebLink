@@ -115,7 +115,25 @@
                         <span class="badge bg-important">${nrMessages}</span>
                     </a>
                     <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-blue"></div>
+                        <li>
+                            <p class="blue">Tem ${nrMessages} novas mensages</p>
+                        </li>
 
+                        <d:forEach var="message" items="${receivedList}">
+
+                            <span class="label label-primary"><i class="icon_envelope"></i></span>
+                            <b style="color: #585858">${message.getFrom().getName()}</b>
+                            <span class="small italic pull-right" style="color:#585858">
+                                <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${message.getSentDate()}"/>
+                            </span>
+
+                        </d:forEach>
+
+
+                        <li>
+                            <a href="<c:url value="/weblink/social" />">Ver todos</a>
+                        </li>
                     </ul>
                 </li>
 
@@ -560,20 +578,20 @@
                                                 </div>
                                             </div>
 
+
                                             <div class="col-lg-6">
                                                 <label class="col-lg-3 control-label">Assunto</label>
-                                                <div class="col-lg-8">
+                                                <div class="col-lg-8" style="margin-bottom: 10px">
                                                     <input class="form-control" type="text" name="subject" id="subject" placeholder="Assunto">
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="form-group" style="margin-top:30px">
-                                            <div class="col-lg-12">
-                                                <label class="col-lg-2 control-label" style="text-align: left">Descrição: </label>
-                                                <div class="col-lg-9">
-                                                    <textarea class="form-control" name="privateMessage" id="privateMessage" placeholder="Mensagem"></textarea>
-                                                </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label" style="text-align: left">Descrição: </label>
+                                            <div class="col-lg-9">
+                                                <textarea class="form-control" name="privateMessage" id="privateMessage" placeholder="Mensagem"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -600,18 +618,114 @@
                             <div role="tabpanel" class="tab-pane active" id="Inbox">
                                 <div class="panel-body">
                                     <d:forEach var="message" items="${receivedList}">
-                                        ${message.getSubject()}
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-12" style="background-color: #f8f8f8; margin-bottom: 0px">
+                                                <div class="col-lg-2" style="margin-top: 10px">
+                                                    <img height="50px" width="50px" src="<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${message.getFrom().avatarLocation}" />"/>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>From: </b>
+                                                                ${message.getFrom().getEmail()}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>Subject: </b>
+                                                                ${message.getSubject()}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>Read:</b>  ${message.isBeenRead()}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>At: </b>
+                                                            <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${message.getSentDate()}"/>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-1" style="margin-top: 10px;">
+                                                    <div class="col-lg-3">
+                                                        <a style="color: #36c838" onclick="markAsRead(${message.getId()})"><i class="fa fa-check-circle-o fa-2x"></i></a>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <a style="color: #c84e27" onclick="deleteMessage(${message.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12" style="background-color: #f8f8f8; margin-bottom: 30px; margin-top: 0px; text-align: center">
+                                                <h3>Message: </h3>
+                                                <div style="background-color: #efefef; width: 70%; margin: 0 auto; text-align: left">
+                                                        ${message.getBody()}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
                                     </d:forEach>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="tab-content">
+
                             <div role="tabpanel" class="tab-pane" id="OutBox">
                                 <div class="panel-body">
                                     <d:forEach var="message" items="${sentList}">
-                                        --->${message.getSubject()}
+                                        <div class="col-lg-12">
+                                            <div class="col-lg-12" style="background-color: #f8f8f8; margin-bottom: 0px">
+                                                <div class="col-lg-2" style="margin-top: 10px">
+                                                    <img height="50px" width="50px" src="<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${message.getTo().avatarLocation}" />"/>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>To: </b>
+                                                                ${message.getTo().getEmail()}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>Subject: </b>
+                                                                ${message.getSubject()}
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-4">
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>Read:</b>  ${message.isBeenRead()}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <h5>
+                                                            <b>At: </b>
+                                                            <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${message.getSentDate()}"/>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-lg-12" style="background-color: #f8f8f8; margin-bottom: 30px; margin-top: 0px; text-align: center">
+                                                <h3>Message: </h3>
+                                                <div style="background-color: #efefef; width: 70%; margin: 0 auto; text-align: left">
+                                                        ${message.getBody()}
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
                                     </d:forEach>
                                 </div>
                             </div>

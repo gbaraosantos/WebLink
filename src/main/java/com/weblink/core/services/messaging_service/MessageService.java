@@ -13,4 +13,5 @@ public interface MessageService {
     List<EmailApp> receivedMessage (User user);
     List<EmailApp> receivedUnreadMessage(User user);
     void readMessage(EmailApp email);
+    void remove(EmailApp email);
 }

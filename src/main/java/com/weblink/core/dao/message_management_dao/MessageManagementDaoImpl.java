@@ -48,4 +48,9 @@ public class MessageManagementDaoImpl extends AbstractDao<Integer, EmailApp> imp
         query.setParameter("user", user);
         return (List<EmailApp>)query.list();
     }
+
+    @Override
+    public void remove(EmailApp email) {
+        delete(email);
+    }
 }

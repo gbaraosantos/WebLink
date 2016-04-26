@@ -36,6 +36,7 @@
     <script src="<c:url value="/resources/js/course/materialType.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/scripts.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/course/inCourse.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/social/friendRequest.js" />" type="text/javascript"></script>
 
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
@@ -48,25 +49,6 @@
 </head>
 
 <body>
-<script src="<c:url value="https://static.opentok.com/v2/js/opentok.js"/>" charset="utf-8"></script>
-<script>
-    var apiKey = '45558122';
-    var sessionId = '2_MX40NTU1ODEyMn5-MTQ2MDM4NjcwOTczM35rdDQzQ256U2RRa1hVa2lHTHJQYmlvZW1-fg';
-    var token ='T1==cGFydG5lcl9pZD00NTU1ODEyMiZzaWc9NDg0YzVkZDE1ZWQ1NDMwMTM1Yjk4OWNlY2NhNjQ0MWRhZTM3ZWJmMjpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTJfTVg0ME5UVTFPREV5TW41LU1UUTJNRE00Tmpjd09UY3pNMzVyZERRelEyNTZVMlJSYTFoVmEybEhUSEpRWW1sdlpXMS1mZyZjcmVhdGVfdGltZT0xNDYwMzg2NzU2Jm5vbmNlPTAuNjg3OTk5OTY3ODUwMjcyNiZleHBpcmVfdGltZT0xNDYwMzkwMjk1JmNvbm5lY3Rpb25fZGF0YT0=';
-
-    var session = OT.initSession(apiKey, sessionId)
-            .on('streamCreated', function(event) {
-                session.subscribe(event.stream);
-            })
-            .connect(token, function(error) {
-                var publisher = OT.initPublisher();
-                session.publish(publisher);
-            });
-
-</script>
-
-
-
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
@@ -75,16 +57,98 @@
 
         <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
 
+
         <!-- START Buttons top right -->
         <div class="top-nav notification-row">
             <ul class="nav pull-right top-menu">
+
+
+                <li id="task_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-users"></i>
+                        <span class="badge bg-important">${nrRequestsPending}</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-blue"></div>
+                        <li>
+                            <p class="blue">Tem ${nrRequestsPending} pedidos de amizade</p>
+                        </li>
+
+                        <d:forEach var="toUser" items="${toMePending}">
+
+                            <span class="label label-primary"><i class="icon_profile"></i></span>
+                            <b style="color: #585858">${toUser.getUserA().getName()}</b>
+                                <span class="small italic pull-right" style="color:#585858">
+                                    <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${toUser.getRequestDate()}"/>
+                                </span>
+
+                            <div class="col-lg-12" style="margin-top: 0; margin-bottom: 10px">
+                                <div class="col-lg-6" style="text-align: center;">
+                                    <a style="color: #36c838" onclick="acceptRequestAjax(${toUser.getId()})"><i class="fa fa-check-circle-o fa-2x"></i></a>
+                                </div>
+
+                                <div class="col-lg-6" style="text-align: center;">
+                                    <a style="color: #c84e27" onclick="deleteRequestAjax(${toUser.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                </div>
+                            </div>
+
+                        </d:forEach>
+
+
+                        <li>
+                            <a href="<c:url value="/weblink/social" />">Ver todos</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id="mail_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge bg-important">${nrMessages}</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-blue"></div>
+                        <li>
+                            <p class="blue">Tem ${nrMessages} novas mensages</p>
+                        </li>
+
+                        <d:forEach var="message" items="${receivedList}">
+
+                            <span class="label label-primary"><i class="icon_envelope"></i></span>
+                            <b style="color: #585858">${message.getFrom().getName()}</b>
+                            <span class="small italic pull-right" style="color:#585858">
+                                <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${message.getSentDate()}"/>
+                            </span>
+
+                        </d:forEach>
+
+
+                        <li>
+                            <a href="<c:url value="/weblink/social" />">Ver todos</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li id="alert_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-bell"></i>
+                        <span class="badge bg-important">7</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+
+                    </ul>
+                </li>
 
                 <!-- START Person Icon, Name Menu -->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <div class="parent">
                             <span class="profile-ava">
-                                <img alt="" style= "height:45px; width: 45px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
+                                <img alt="" style= "height:34px; width: 34px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
 
                             </span>
                             <span class="username">${User.email}</span>
@@ -201,6 +265,11 @@
                     </ol>
                 </div>
             </div>
+
+            <center>
+                <a href="<c:url value="/weblink/classroom?mpa=${mpa.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i> Sala de Aula</a>
+            </center>
+
 
             <div style="height: auto; text-align: center; margin-top: 30px">
                 <h3 style="color: #d16826"><b>${someError}</b></h3>

@@ -35,6 +35,7 @@
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/scripts.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/social/friendRequest.js" />" type="text/javascript"></script>
 
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
@@ -50,16 +51,98 @@
 
         <a href="<c:url value="/weblink" />" class="logo">WEB<span class="lite">LINK</span></a>
 
+
         <!-- START Buttons top right -->
         <div class="top-nav notification-row">
             <ul class="nav pull-right top-menu">
+
+
+                <li id="task_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-users"></i>
+                        <span class="badge bg-important">${nrRequestsPending}</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-blue"></div>
+                        <li>
+                            <p class="blue">Tem ${nrRequestsPending} pedidos de amizade</p>
+                        </li>
+
+                        <d:forEach var="toUser" items="${toMePending}">
+
+                            <span class="label label-primary"><i class="icon_profile"></i></span>
+                            <b style="color: #585858">${toUser.getUserA().getName()}</b>
+                                <span class="small italic pull-right" style="color:#585858">
+                                    <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${toUser.getRequestDate()}"/>
+                                </span>
+
+                            <div class="col-lg-12" style="margin-top: 0; margin-bottom: 10px">
+                                <div class="col-lg-6" style="text-align: center;">
+                                    <a style="color: #36c838" onclick="acceptRequestAjax(${toUser.getId()})"><i class="fa fa-check-circle-o fa-2x"></i></a>
+                                </div>
+
+                                <div class="col-lg-6" style="text-align: center;">
+                                    <a style="color: #c84e27" onclick="deleteRequestAjax(${toUser.getId()})"><i class="fa fa-times-circle-o fa-2x"></i></a>
+                                </div>
+                            </div>
+
+                        </d:forEach>
+
+
+                        <li>
+                            <a href="<c:url value="/weblink/social" />">Ver todos</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id="mail_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge bg-important">${nrMessages}</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+                        <div class="notify-arrow notify-arrow-blue"></div>
+                        <li>
+                            <p class="blue">Tem ${nrMessages} novas mensages</p>
+                        </li>
+
+                        <d:forEach var="message" items="${receivedList}">
+
+                            <span class="label label-primary"><i class="icon_envelope"></i></span>
+                            <b style="color: #585858">${message.getFrom().getName()}</b>
+                            <span class="small italic pull-right" style="color:#585858">
+                                <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${message.getSentDate()}"/>
+                            </span>
+
+                        </d:forEach>
+
+
+                        <li>
+                            <a href="<c:url value="/weblink/social" />">Ver todos</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li id="alert_notificatoin_bar" class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                        <i class="fa fa-bell"></i>
+                        <span class="badge bg-important">7</span>
+                    </a>
+                    <ul class="dropdown-menu extended notification">
+
+                    </ul>
+                </li>
 
                 <!-- START Person Icon, Name Menu -->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <div class="parent">
                             <span class="profile-ava">
-                                <img alt="" style= "height:45px; width: 45px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
+                                <img alt="" style= "height:34px; width: 34px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${User.avatarLocation}" />">
 
                             </span>
                             <span class="username">${User.email}</span>

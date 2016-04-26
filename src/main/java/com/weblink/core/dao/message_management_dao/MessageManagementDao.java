@@ -12,4 +12,5 @@ public interface MessageManagementDao {
     List<EmailApp> receivedMessage (User user);
     void read(EmailApp email);
     List<EmailApp> receivedUnreadMessage(User user);
+    void remove(EmailApp email);
 }

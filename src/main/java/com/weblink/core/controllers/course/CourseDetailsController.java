@@ -7,9 +7,11 @@ import com.weblink.core.services.course_management_service.ActionManagementServi
 import com.weblink.core.services.course_management_service.CourseManagementService;
 import com.weblink.core.services.course_management_service.ModuleManagementService;
 import com.weblink.core.services.logger_service.LoggerService;
+import com.weblink.core.services.messaging_service.MessageService;
 import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
 import com.weblink.core.services.student_management_service.StudentManagementService;
 import com.weblink.core.services.teacher_management_service.TeacherManagementService;
+import com.weblink.core.services.user_service.FriendService;
 import com.weblink.core.services.user_service.UserService;
 import com.weblink.core.validators.ModuleValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,8 @@ public class CourseDetailsController {
     @Autowired  ModuleActionManagementService moduleActionManagementService;
     @Autowired  TeacherManagementService teacherManagementService;
     @Autowired  StudentManagementService studentManagementService;
+    @Autowired  MessageService messageService;
+    @Autowired  FriendService friendService;
 
     private volatile User user;
 
@@ -209,6 +213,21 @@ public class CourseDetailsController {
         Action a = actionManagementService.getAction(actionId);
         List<ModulePerAction> list = moduleActionManagementService.getMpa(a);
         List<User> listUser = userService.getWithPermission(UserProfileType.TEACHER.getUserProfileType());
+
+        List<FriendRequest> list1 = friendService.getToMePending(user);
+        List<EmailApp> sentList = messageService.sentMessages(user);
+        List<EmailApp> receivedList = messageService.receivedMessage(user);
+        List<EmailApp> receivedUnreadList = messageService.receivedUnreadMessage(user);
+
+        model.addAttribute("fromMePending", friendService.getFromMePending(user));
+        model.addAttribute("toMePending", list1 );
+        model.addAttribute("friendListing" , friendService.getFriends(user));
+        model.addAttribute("sentList" , sentList);
+        model.addAttribute("receivedList", receivedList);
+
+        if(list1 != null) model.addAttribute("nrRequestsPending" , list1.size());
+        if(receivedUnreadList != null) model.addAttribute("nrMessages", receivedUnreadList.size());
+
 
         user = userService.getSingleUser(getEmail());
         model.addAttribute("User", user);
