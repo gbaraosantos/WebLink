@@ -160,7 +160,7 @@
                             videoSource: 'screen',
                             resolution: '1280x720',
                             width: '100%',
-                            mirror: true,
+                            mirror: false,
                             height: '100%'
 
                         });
