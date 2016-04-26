@@ -91,7 +91,7 @@
 
     <script src="<c:url value="https://static.opentok.com/v2/js/opentok.js"/>" charset="utf-8"></script>
     <script>
-        var stream = 0;
+        var stream = false;
         var sessionId = '${sessionId}';
         var tokenId = '${tokenId}';
         var apiKey = '${apiKey}';
@@ -136,28 +136,42 @@
         OT.registerScreenSharingExtension("chrome", "pfkofnaekbboegekpeocdciibaplnokn", 2);
 
         function changeStreams(){
+            if(stream){
+                var publisher = OT.initPublisher('subscriberDiv', {
+                    resolution: '1280x720',
+                    width: '100%',
+                    height: '100%'
+                });
 
-            OT.checkScreenSharingCapability(function(response) {
-                if (!response.supported || response.extensionRegistered === false) {
-                    alert('This browser does not support screen sharing.');
-                } else if (response.extensionInstalled === false) {
-                    alert('Please install the screen sharing extension and load your app over https.');
-                } else {
-                    // Screen sharing is available. Publish the screen.
-                    var screenSharingPublisher = OT.initPublisher('subscriberDiv', {
-                        videoSource: 'screen',
-                        resolution: '1280x720',
-                        width: '100%',
-                        height: '100%'
+                session.publish(publisher);
 
-                    });
-                    session.publish(screenSharingPublisher, function(error) {
-                        if (error) {
-                            alert('Could not share the screen: ' + error.message);
-                        }
-                    });
-                }
-            });
+                stream = false;
+            }
+            else{
+                stream = true;
+                OT.checkScreenSharingCapability(function(response) {
+                    if (!response.supported || response.extensionRegistered === false) {
+                        alert('This browser does not support screen sharing.');
+                    } else if (response.extensionInstalled === false) {
+                        alert('Please install the screen sharing extension and load your app over https.');
+                    } else {
+                        // Screen sharing is available. Publish the screen.
+                        var screenSharingPublisher = OT.initPublisher('subscriberDiv', {
+                            videoSource: 'screen',
+                            resolution: '1280x720',
+                            width: '100%',
+                            height: '100%'
+
+                        });
+                        session.publish(screenSharingPublisher, function(error) {
+                            if (error) {
+                                alert('Could not share the screen: ' + error.message);
+                            }
+                        });
+                    }
+                });
+            }
+
         }
 
     </script>
