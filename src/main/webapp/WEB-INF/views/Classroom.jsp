@@ -144,7 +144,13 @@
                     alert('Please install the screen sharing extension and load your app over https.');
                 } else {
                     // Screen sharing is available. Publish the screen.
-                    var screenSharingPublisher = OT.initPublisher('subscriberDiv', {videoSource: 'screen'});
+                    var screenSharingPublisher = OT.initPublisher('subscriberDiv', {
+                        videoSource: 'screen',
+                        resolution: '1280x720',
+                        width: '100%',
+                        height: '100%'
+
+                    });
                     session.publish(screenSharingPublisher, function(error) {
                         if (error) {
                             alert('Could not share the screen: ' + error.message);
