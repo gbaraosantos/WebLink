@@ -40,7 +40,7 @@ public class ClassroomController {
     private volatile User user;
 
     @RequestMapping(value ="/weblink/classroom", method = RequestMethod.GET, params = {"mpa"})
-    public String deleteRequest(@RequestParam("mpa") int id, Model model, HttpServletRequest request) throws OpenTokException {
+    public String classroom(@RequestParam("mpa") int id, Model model, HttpServletRequest request) throws OpenTokException {
         OpenTok openTok = new OpenTok(Integer.parseInt(environment.getRequiredProperty("opentok.apikey")), environment.getRequiredProperty("opentok.secretkey"));
         user = userService.getSingleUser(getEmail());
 
@@ -76,6 +76,31 @@ public class ClassroomController {
 
         return "Classroom";
     }
+
+    @RequestMapping(value ="/weblink/conference", method = RequestMethod.GET, params = {"mpa"})
+    public String conference(@RequestParam("mpa") int id, Model model, HttpServletRequest request) throws OpenTokException {
+        OpenTok openTok = new OpenTok(Integer.parseInt(environment.getRequiredProperty("opentok.apikey")), environment.getRequiredProperty("opentok.secretkey"));
+        user = userService.getSingleUser(getEmail());
+
+        model.addAttribute("User", user);
+
+        ModulePerAction mpa = moduleActionManagementService.getMpa(id);
+        if(mpa == null) return "redirect:/weblink";
+
+        TokenOptions tokenOptionsMod = new TokenOptions.Builder()
+                .data(Integer.toString(user.getId()))
+                .role(Role.PUBLISHER)
+                .build();
+
+        model.addAttribute("mpa", mpa);
+        model.addAttribute("tokenId", openTok.generateToken(mpa.getAction().getClassroomSession(),tokenOptionsMod));
+
+        model.addAttribute("apiKey", environment.getRequiredProperty("opentok.apikey"));
+        model.addAttribute("sessionId", mpa.getAction().getClassroomSession());
+
+        return "Conference";
+    }
+
 
     @RequestMapping(value ="/weblink/classroomUsers", method = RequestMethod.GET, params = {"id" , "data"})
     public @ResponseBody String addUser(@RequestParam("id") int id,@RequestParam("data") String metadata, Model model, HttpServletRequest request) {

@@ -266,9 +266,23 @@
                 </div>
             </div>
 
-            <center>
-                <a href="<c:url value="/weblink/classroom?mpa=${mpa.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i> Sala de Aula</a>
-            </center>
+
+            <div class="col-lg-12">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-1">
+                    <a href="<c:url value="/weblink/classroom?mpa=${mpa.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i> Sala de Aula</a>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+                <div class="col-lg-1">
+                    <a href="<c:url value="/weblink/conference?mpa=${mpa.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-desktop"></i> Sala de Conferência</a>
+                </div>
+                <div class="col-lg-4"></div>
+
+            </div>
+
+
 
 
             <div style="height: auto; text-align: center; margin-top: 30px">
