@@ -60,16 +60,12 @@
         <div class="col-lg-12" style="height: 20%">
             <div class="col-lg-5"></div>
             <div class="col-lg-2" style="height: 100%">
-                <div id="publisherDiv"></div>
+                <div id="publisherDiv" style="height: 100%"></div>
             </div>
             <div class="col-lg-5"></div>
         </div>
 
-        <div class="col-lg-12" style="height: 80%">
-            <div class="col-lg-3" style="height: 40%; margin: 20px">
-                <div id="subscriberDiv"></div>
-            </div>
-        </div>
+        <div class="col-lg-12" id="subscriberDiv" style="height: 80%; margin-top: 30px;"></div>
 
 
 
@@ -79,6 +75,7 @@
 
 <script src="<c:url value="https://static.opentok.com/v2/js/opentok.js"/>" charset="utf-8"></script>
 <script>
+    var count = 0;
     var stream = false;
     var sessionId = '${sessionId}';
     var tokenId = '${tokenId}';
@@ -89,11 +86,25 @@
     var session = OT.initSession(apiKey, sessionId);
 
     session.on('streamCreated', function(event) {
-        session.subscribe(event.stream, 'subscriberDiv', {
+        var div = document.createElement("div");
+        var divParent = document.getElementById("subscriberDiv");
+        div.id = "div" + count;
+        div.className = "col-lg-4";
+        div.marginBottom = "300px";
+
+        divParent.appendChild(div);
+
+
+        session.subscribe(event.stream, "div" + count, {
             resolution: '640x480',
-            width: '100%',
-            height: '100%'
+            insertMode: 'append',
+            width: '400px',
+            height: '250px'
         });
+
+        count++;
+
+
     });
 
     session.connect(tokenId, function(error) {
