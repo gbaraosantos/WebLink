@@ -78,10 +78,12 @@
 
                 <div class="col-lg-12" style="height: 50%">
                     <div class="col-lg-12" >
-                        <div class="col-lg-6" style="text-align: center;  margin-top: 30px">
-                            <a onclick="changeStreams()" href="#" class="btn btn-large btn-info">Mudar Stream</a>
-                        </div>
-                        <div class="col-lg-6" style="text-align: center;  margin-top: 30px">
+                        <sec:authorize access="hasRole('Admin')">
+                            <div class="col-lg-12" style="text-align: center;  margin-top: 30px">
+                                <a onclick="changeStreams()" href="#" class="btn btn-large btn-info">Mudar Stream</a>
+                            </div>
+                        </sec:authorize>
+                        <div class="col-lg-12" style="text-align: center;  margin-top: 30px">
                             <a href="<c:url value="/weblink/inCourse?action=${mpa.getAction().getId()}" />" class="btn btn-large btn-danger">Sair</a>
                         </div>
                     </div>
