@@ -1,13 +1,13 @@
 package com.weblink.core.controllers.classroom;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opentok.OpenTok;
 import com.opentok.Role;
 import com.opentok.TokenOptions;
 import com.opentok.exception.OpenTokException;
-import com.weblink.core.models.Action;
-import com.weblink.core.models.FriendRequest;
-import com.weblink.core.models.ModulePerAction;
-import com.weblink.core.models.User;
+import com.weblink.core.models.*;
+import com.weblink.core.services.class_management_service.ClassService;
 import com.weblink.core.services.course_management_service.ActionManagementService;
 import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
 import com.weblink.core.services.teacher_management_service.TeacherManagementService;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @Controller
 @PropertySource(value = { "classpath:weblink.properties" })
@@ -34,6 +35,8 @@ public class ClassroomController {
     @Autowired UserService userService;
     @Autowired ModuleActionManagementService moduleActionManagementService;
     @Autowired private Environment environment;
+    @Autowired ClassService classService;
+
     private volatile User user;
 
     @RequestMapping(value ="/weblink/classroom", method = RequestMethod.GET, params = {"mpa"})
@@ -41,16 +44,23 @@ public class ClassroomController {
         OpenTok openTok = new OpenTok(Integer.parseInt(environment.getRequiredProperty("opentok.apikey")), environment.getRequiredProperty("opentok.secretkey"));
         user = userService.getSingleUser(getEmail());
 
+        model.addAttribute("User", user);
+
         ModulePerAction mpa = moduleActionManagementService.getMpa(id);
         if(mpa == null) return "redirect:/weblink";
 
         TokenOptions tokenOptionsMod = new TokenOptions.Builder()
+                .data(Integer.toString(user.getId()))
                 .role(Role.PUBLISHER)
                 .build();
 
         TokenOptions tokenOptionsSub = new TokenOptions.Builder()
+                .data(Integer.toString(user.getId()))
                 .role(Role.SUBSCRIBER)
                 .build();
+
+        model.addAttribute("usersInRoom", classService.getUsers(id) );
+        model.addAttribute("mpa", mpa);
 
         if (teacherService.isTeacher(mpa,user)){
             model.addAttribute("isTeacher", "True");
@@ -66,6 +76,78 @@ public class ClassroomController {
 
         return "Classroom";
     }
+
+    @RequestMapping(value ="/weblink/classroomUsers", method = RequestMethod.GET, params = {"id" , "data"})
+    public @ResponseBody String addUser(@RequestParam("id") int id,@RequestParam("data") String metadata, Model model, HttpServletRequest request) {
+        classService.addUser(metadata, id);
+        return "Social";
+    }
+
+    @RequestMapping(value ="/weblink/classroomUsersRemove", method = RequestMethod.GET, params = {"id" , "data"})
+    public @ResponseBody String removeUser(@RequestParam("id") int id,@RequestParam("data") String metadata, Model model, HttpServletRequest request) {
+        classService.removeUser(metadata, id);
+        return "Social";
+    }
+
+    @RequestMapping(value ="/weblink/classroomMessageAdd", method = RequestMethod.GET, params = {"data" , "userId"})
+    public @ResponseBody String addMessage(@RequestParam("data") String data,@RequestParam("userId") int userId, Model model, HttpServletRequest request) {
+        classService.persistMessage(data, userId);
+        return "Social";
+    }
+
+    @RequestMapping(value ="/weblink/classroomMessageGet", method = RequestMethod.GET)
+    public @ResponseBody String getAllMessages(Model model, HttpServletRequest request) throws JsonProcessingException {
+        return   new ObjectMapper().writeValueAsString(classService.getAllMessages());
+    }
+
+
+
+    @RequestMapping(value ="/weblink/getUsers", method = RequestMethod.GET, params = {"data"})
+    public @ResponseBody String addUser(@RequestParam("data") String metadata, Model model, HttpServletRequest request) throws JsonProcessingException {
+        List<Map<String, String>> map = new LinkedList<>();
+
+
+        List<User> userList = classService.getUsers(Integer.parseInt(metadata));
+
+        for(User user: userList){
+            Map<String, String> temp = new HashMap<>();
+
+            temp.put("id" , String.valueOf(user.getId()));
+            temp.put("name" , user.getName());
+            temp.put("avatarLocation" , user.getAvatarLocation());
+            temp.put("email" , user.getEmail());
+
+
+            map.add(temp);
+
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        String result = mapper.writeValueAsString(map);
+
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private String getEmail() {
         String userName;
