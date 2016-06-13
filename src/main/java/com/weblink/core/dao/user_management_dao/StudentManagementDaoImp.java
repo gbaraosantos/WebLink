@@ -60,8 +60,9 @@ public class StudentManagementDaoImp extends AbstractDao<Integer, Student> imple
 
     @Override
     public List<Action> getStudentActions(User user) {
-        Query query = getSession().createQuery("SELECT DISTINCT s.action FROM Student AS s WHERE s.user = :user");
+        Query query = getSession().createQuery("SELECT DISTINCT s.action FROM Student AS s WHERE s.user = :user AND s.action.endDate >= :now");
         query.setParameter("user", user);
+        query.setParameter("now", new Date());
         return (List<Action>)query.list();
     }
 

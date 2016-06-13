@@ -9,6 +9,7 @@ import com.weblink.core.models.User;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository("teacherManagementDao")
@@ -39,8 +40,9 @@ public class TeacherManagementDaoImpl extends AbstractDao<Integer, Teacher> impl
 
     @Override
     public List<Action> getTeaching(User user) {
-        Query query = getSession().createQuery("SELECT DISTINCT s.modulePerAction.action FROM Teacher AS s WHERE s.teacher = :user");
+        Query query = getSession().createQuery("SELECT DISTINCT s.modulePerAction.action FROM Teacher AS s WHERE s.teacher = :user AND s.modulePerAction.action.endDate >= :now");
         query.setParameter("user", user);
+        query.setParameter("now", new Date());
         return (List<Action>)query.list();
     }
 

@@ -43,7 +43,7 @@
 </head>
 
 <body style="background-color: #414141; max-height: calc(100vh); " >
-<div class="col-lg-12" style="height: calc(5vh)">
+<div class="col-lg-12" style="height: calc(15vh)">
     <div class="col-lg-12" style="text-align: center">
         <h1 style="font-size:xx-large; color: #ff5500"><i class="fa fa-monitor"></i> <b>Sala de conferências</b> </h1>
         <div class="col-lg-12" style="text-align: center;  margin-top: 30px">

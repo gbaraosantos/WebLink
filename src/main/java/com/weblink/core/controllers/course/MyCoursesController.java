@@ -44,6 +44,8 @@ public class MyCoursesController {
         List<Action> attending = studentManagementService.getAttending(user);
         List<Action> teaching = teacherManagementService.getTeaching(user);
 
+        System.out.println(teaching);
+
         List<FriendRequest> list = friendService.getToMePending(user);
         List<EmailApp> sentList = messageService.sentMessages(user);
         List<EmailApp> receivedList = messageService.receivedMessage(user);
