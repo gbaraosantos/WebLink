@@ -5,6 +5,7 @@ import com.weblink.core.models.CertificateRequest;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+
 import java.util.List;
 
 @Repository("certificateRequestManagementDao")

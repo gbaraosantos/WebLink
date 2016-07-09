@@ -396,9 +396,6 @@
 
 
 
-
-
-
                                     <div role="tabpanel" class="tab-pane" id="teacher">
                                         <form class="form-horizontal" role="form" action="<c:url value="/coord/addTeacher"/>" method="post">
                                             <div class="form-group">
@@ -499,11 +496,13 @@
                         </div>
 
                         <form class="form-horizontal" role="form" action="<c:url value="/weblink/addStudent?action=${action.getId()}"/>" method="post">
+
+
                         <div class="col-lg-3 col-sm-6 follow-info weather-category" style="text-align: center; height: 175px;">
                             <div style="padding-top: 40px; padding-left: 70px">
                                 <div style="text-align: center; width: 200px; height: 50px; padding-top: 8px">
                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                    <button type="submit" class="btn btn-error btn-lg"><i class="fa fa-money fa-2x"> Comprar </i></button>
+                                    <button type="submit" onclick="return testePay()" class="btn btn-error btn-lg"><i class="fa fa-money fa-2x"> Comprar </i></button>
                                 </div>
 
 
@@ -716,6 +715,26 @@
 
 
 <script>
+
+    function testePay(){
+        $.ajax({
+            url: 'https://stage.wepayapi.com/v2/checkout/create',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", "PRODUCTION_9e43e380dbd60268a5a29e111c396bcda901b0f9af9bdea27606969aa0d22aa0")
+                xhr.setRequestHeader("account_id", "100238")
+                xhr.setRequestHeader("amount", "60")
+                xhr.setRequestHeader("short_description", "Compra de curso")
+                xhr.setRequestHeader("type", "service")
+                xhr.setRequestHeader("currency", "USD")
+            }, success: function(data){
+                alert(data);
+
+            }
+        })
+
+        return false;
+    }
+
     //knob
     $(function() {
         $(".knob").knob({
