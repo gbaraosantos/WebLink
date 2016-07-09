@@ -17,4 +17,6 @@ public interface StudentManagementDao {
     List<Action>  getStudentActions(User user);
 
     List<Action> getStudentActionsUpcoming(User user);
+
+    List<Action> getStudentCompleted(User user);
 }

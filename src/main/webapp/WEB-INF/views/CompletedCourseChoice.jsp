@@ -237,7 +237,7 @@
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="<c:url value="/" />">Home</a></li>
                         <li><i class="fa fa-laptop"></i><a href="<c:url value="/weblink" />">Dashboard</a></li>
-                        <li><i class="fa fa-unlock-alt"></i>My Courses</li>
+                        <li><i class="fa fa-unlock-alt"></i>My Completed Courses</li>
                     </ol>
                 </div>
             </div>
@@ -246,94 +246,43 @@
                 <h3 style="color: #d16826"><b>${NoActionsSubbed}</b></h3>
             </div>
 
-            <d:choose>
-                <d:when test="${teaching != null}">
-                    <center><h2>Formador</h2></center>
-                    <div class="devider"></div>
 
-                    <d:forEach var="action" items="${teaching}">
+            <d:forEach var="action" items="${attending}">
 
-                        <div style="width:90%; margin: 0 auto;">
-                            <div class="panel">
-                                <div class = "panel-body" >
-                                    <div class="col-lg-1" >
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 14px; margin-bottom: 0">
-                                            <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Nome Curso: </b>${action.getCourse().getName()}</h4></span>
-                                        <span><h4><b>Area: </b>${action.getCourse().getArea()}</h4></span>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Data Inicio: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h4></span>
-                                        <span><h4><b>Data Fim: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getEndDate()}"/></h4></span>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="progress" style="height: 45px; margin-top: 14px">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="${action.percentageComplete()}" aria-valuemin="0" aria-valuemax="100" style="width:${action.percentageComplete()}% ">
-                                                    ${action.percentageComplete()}% do curso completado
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" style="float:right; margin-top: 12px"> <i class="fa fa-arrow-right fa-3x"></i></a>
-                                    </div>
-
-                                </div>
-
+                <div style="width:90%; margin: 0 auto;">
+                    <div class="panel">
+                        <div class = "panel-body" >
+                            <div class="col-lg-1" >
+                                <a href="<c:url value="/weblink/completedCourse?action=${action.getId()}" />" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 14px; margin-bottom: 0">
+                                    <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
+                                </a>
                             </div>
+
+                            <div class="col-lg-3">
+                                <span><h4><b>Nome Curso: </b>${action.getCourse().getName()}</h4></span>
+                                <span><h4><b>Area: </b>${action.getCourse().getArea()}</h4></span>
+                            </div>
+                            <div class="col-lg-3">
+                                <span><h4><b>Data Inicio: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h4></span>
+                                <span><h4><b>Data Fim: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getEndDate()}"/></h4></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="progress" style="height: 45px; margin-top: 14px">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:${action.percentageComplete()}% ">
+                                            100% do curso completado
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1">
+                                <a href="<c:url value="/weblink/completedCourse?action=${action.getId()}" />" style="float:right; margin-top: 12px"> <i class="fa fa-arrow-right fa-3x"></i></a>
+                            </div>
+
                         </div>
 
-                    </d:forEach>
-                </d:when>
-            </d:choose>
+                    </div>
+                </div>
 
-            <d:choose>
-                <d:when test="${attending != null}">
-                    <center><h2>Estudante</h2></center>
-                    <div class="devider"></div>
-
-                    <d:forEach var="action" items="${attending}">
-
-                        <div style="width:90%; margin: 0 auto;">
-                            <div class="panel">
-                                <div class = "panel-body" >
-                                    <div class="col-lg-1" >
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 14px; margin-bottom: 0">
-                                            <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Nome Curso: </b>${action.getCourse().getName()}</h4></span>
-                                        <span><h4><b>Area: </b>${action.getCourse().getArea()}</h4></span>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Data Inicio: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h4></span>
-                                        <span><h4><b>Data Fim: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getEndDate()}"/></h4></span>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="progress" style="height: 45px; margin-top: 14px">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="${action.percentageComplete()}" aria-valuemin="0" aria-valuemax="100" style="width:${action.percentageComplete()}% ">
-                                                    ${action.percentageComplete()}% do curso completado
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" style="float:right; margin-top: 12px"> <i class="fa fa-arrow-right fa-3x"></i></a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </d:forEach>
-
-                </d:when>
-            </d:choose>
+            </d:forEach>
 
 
 
@@ -359,4 +308,3 @@
 </script>
 </body>
 </html>
-

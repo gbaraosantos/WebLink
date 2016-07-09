@@ -33,6 +33,7 @@ INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , la
 INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id, createdBy,classroomSession) VALUES ('1 to 20',DATE(now()),0,null, 60,DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),false, 3,1,'1_MX40NTYwNjA4Mn5-MTQ2NTg0OTQ2ODU0M34rRjV3QjZDK0FNN2VxRVpPVWZLOVhYcyt-fg');
 INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id, createdBy,classroomSession) VALUES ('1 to 20',DATE(now()),0,null, 60,DATE(now()),STR_TO_DATE('18-06-2017', '%d-%m-%Y'),false, 4,1,'1_MX40NTYwNjA4Mn5-MTQ2NTg0OTQ2ODU0M34rRjV3QjZDK0FNN2VxRVpPVWZLOVhYcyt-fg');
 INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id, createdBy,classroomSession) VALUES ('1 to 20',DATE(now()),0,STR_TO_DATE('30-08-2016', '%d-%m-%Y'), 60,DATE(now()),STR_TO_DATE('01-04-2016', '%d-%m-%Y'),true, 1,1,'1_MX40NTYwNjA4Mn5-MTQ2NTg0OTQ2ODU0M34rRjV3QjZDK0FNN2VxRVpPVWZLOVhYcyt-fg');
+INSERT INTO Action(evaluationType,creationDate,discount, endDate,finalPrice , lastChangeDate, startDate, visible, course_id, createdBy,classroomSession) VALUES ('1 to 20',DATE(now()),0,STR_TO_DATE('30-06-2016', '%d-%m-%Y'), 60,DATE(now()),STR_TO_DATE('01-04-2016', '%d-%m-%Y'),true, 1,1,'1_MX40NTYwNjA4Mn5-MTQ2NTg0OTQ2ODU0M34rRjV3QjZDK0FNN2VxRVpPVWZLOVhYcyt-fg');
 
 INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,position,createdBy,course_id) VALUES (DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),"Civil 1.0", 25, 1,1,4);
 INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,position,createdBy,course_id) VALUES (DATE(now()),"Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem Ipsy Lorem ",DATE(now()),"Civil 2.0", 25, 2,1,4);
@@ -42,9 +43,11 @@ INSERT INTO Module(creationDate, description,lastChangeDate, name, percentage,po
 INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('18-06-2018', '%d-%m-%Y'),1,STR_TO_DATE('18-07-2018', '%d-%m-%Y'),4);
 INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('18-08-2018', '%d-%m-%Y'),2,STR_TO_DATE('18-09-2018', '%d-%m-%Y'),4);
 INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('01-04-2016', '%d-%m-%Y'),3,STR_TO_DATE('08-06-2016', '%d-%m-%Y'),5);
-INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('09-04-2016', '%d-%m-%Y'),4,STR_TO_DATE('30-08-2016', '%d-%m-%Y'),5);
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('09-06-2016', '%d-%m-%Y'),4,STR_TO_DATE('30-08-2016', '%d-%m-%Y'),5);
 INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('01-05-2016', '%d-%m-%Y'),3,STR_TO_DATE('08-05-2016', '%d-%m-%Y'),1);
 INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('09-05-2016', '%d-%m-%Y'),4,STR_TO_DATE('30-05-2016', '%d-%m-%Y'),1);
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('01-04-2016', '%d-%m-%Y'),3,STR_TO_DATE('08-06-2016', '%d-%m-%Y'),6);
+INSERT INTO ModulePerAction(startDate, module , endDate, action) VALUES (STR_TO_DATE('09-06-2016', '%d-%m-%Y'),4,STR_TO_DATE('30-06-2016', '%d-%m-%Y'),6);
 
 INSERT INTO Teacher(modulePerAction, teacher) VALUES (3,1);
 INSERT INTO Teacher(modulePerAction, teacher) VALUES (4,1);
@@ -53,3 +56,4 @@ INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,2,0,60,Date(no
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,3,0,60,Date(now()));
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,4,0,60,Date(now()));
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,1,0,60,Date(now()));
+INSERT INTO Student(action, user,finalGrade,price,date) VALUES (6,1,72,60,Date(now()));

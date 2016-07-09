@@ -222,6 +222,7 @@
                             </a>
                             <ul class="sub">
                                 <li><a class="" href="<c:url value="/admin/userManagement" />">User Management</a></li>
+                                <li><a class="" href="<c:url value="/admin/certificateRequestsManagement" />">Cert Requests</a></li>
                             </ul>
                         </li>
                     </sec:authorize>

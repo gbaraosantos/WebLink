@@ -41,21 +41,22 @@ public class Student {
     public int getId() { return id; }
     public User getUser() { return user; }
     public int getFinalGrade() {
-        finalGrade = 0;
+        return finalGrade;
+        /*finalGrade = 0;
 
         for(StudentMPA s: studentMPAs){
             finalGrade += s.getModuleGrade() * (s.getModulePerAction().getModule().getPercentage() / 100);
         }
 
-        return finalGrade;
+        return finalGrade;*/
     }
 
     public Action getAction() { return action; }
     public Date getBuyDate() { return buyDate; }
+
     public int getBuyPrice() { return buyPrice; }
     public Set<StudentMPA> getStudentMPAs() { return studentMPAs; }
     public Set<PostWall> getPostList() { return postList; }
-
     public Student setUser(User user) { this.user = user; return this; }
     public Student setFinalGrade(int finalGrade) { this.finalGrade = finalGrade; return this; }
     public Student setAction(Action action) { this.action = action; return this; }

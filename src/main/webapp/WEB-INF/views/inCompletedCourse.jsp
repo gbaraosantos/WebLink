@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,6 @@
     <link href="<c:url value="/resources/css/Input/component.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Input/normalize.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Loader/loader.css" />" rel="stylesheet">
-
     <!-- JS -->
     <script src="<c:url value="/resources/js/main/jquery.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery-ui-1.10.4.min.js" />" type="text/javascript"></script>
@@ -34,11 +33,16 @@
     <script src="<c:url value="/resources/js/main/jquery.scrollTo.min.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.nicescroll.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/main/jquery.knob.js" />" type="text/javascript"></script>
-    <script src="<c:url value="/resources/js/main/scripts.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/materialType.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/scripts.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/course/inCourse.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/social/friendRequest.js" />" type="text/javascript"></script>
 
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
+
+
+    <script>(function(e,t,n){var r=e.querySelectorAll("html")[0];r.className=r.className.replace(/(^|\s)no-js(\s|$)/,"$1js$2")})(document,window,0);</script>
 
 </head>
 
@@ -204,7 +208,6 @@
                             <span>&nbsp; Cursos Completos</span>
                         </a>
                     </li>
-
                 </sec:authorize>
 
 
@@ -231,132 +234,127 @@
     <!-- Center Content -->
     <section id="main-content">
         <section class="wrapper">
+
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><i class="fa fa-laptop"></i> My Courses </h3>
+
+                    <div class="col-lg-12">
+                        <div style="float:left">
+                            <h3 class="page-header"><i class="fa fa-laptop"></i>${action.getCourse().getName()} </h3>
+                        </div>
+
+                        <div style="float: clear"></div>
+
+                    </div>
+
                     <ol class="breadcrumb">
                         <li><i class="fa fa-home"></i><a href="<c:url value="/" />">Home</a></li>
                         <li><i class="fa fa-laptop"></i><a href="<c:url value="/weblink" />">Dashboard</a></li>
-                        <li><i class="fa fa-unlock-alt"></i>My Courses</li>
+                        <li><i class="fa fa-unlock-alt"></i><a href="<c:url value="/weblink/completedCourses" />">My Courses</a></li>
+                        <li><i class="fa fa-bookmark-o"></i>${action.getCourse().getName()}</li>
                     </ol>
                 </div>
             </div>
 
-            <div style="height: auto; text-align: center; margin-top: 30px">
-                <h3 style="color: #d16826"><b>${NoActionsSubbed}</b></h3>
+
+            <div class="panel">
+                <div class = "panel-body" >
+                    <div class="col-lg-4">
+                        <span><h4><b>Obteve: </b> ${student.getFinalGrade()}%</h4></span>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <span><h4><b>Data Fim: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getEndDate()}"/></h4></span>
+                    </div>
+
+                    <d:choose>
+                        <d:when test="${(student.getFinalGrade() >= 50)}">
+                            <div class="col-lg-4">
+                                <span><h4><b>Resultado: </b> Passado</h4></span>
+                            </div>
+                        </d:when>
+                        <d:otherwise>
+                            <div class="col-lg-4">
+                                <span><h4><b>Resultado: </b> Chumbado</h4></span>
+                            </div>
+                        </d:otherwise>
+                    </d:choose>
+
+                </div>
             </div>
 
-            <d:choose>
-                <d:when test="${teaching != null}">
-                    <center><h2>Formador</h2></center>
-                    <div class="devider"></div>
+            <div class="row">
+                <d:choose>
+                    <d:when test="${(student.getFinalGrade() < 50)}">
+                        <center>
+                            <img src="<c:url value="/resources/images/successCourse/fail.png" />" alt="title"/>
 
-                    <d:forEach var="action" items="${teaching}">
+                        </center>
+                    </d:when>
 
-                        <div style="width:90%; margin: 0 auto;">
-                            <div class="panel">
-                                <div class = "panel-body" >
-                                    <div class="col-lg-1" >
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 14px; margin-bottom: 0">
-                                            <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Nome Curso: </b>${action.getCourse().getName()}</h4></span>
-                                        <span><h4><b>Area: </b>${action.getCourse().getArea()}</h4></span>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Data Inicio: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h4></span>
-                                        <span><h4><b>Data Fim: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getEndDate()}"/></h4></span>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="progress" style="height: 45px; margin-top: 14px">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="${action.percentageComplete()}" aria-valuemin="0" aria-valuemax="100" style="width:${action.percentageComplete()}% ">
-                                                    ${action.percentageComplete()}% do curso completado
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" style="float:right; margin-top: 12px"> <i class="fa fa-arrow-right fa-3x"></i></a>
-                                    </div>
-
-                                </div>
-
+                    <d:otherwise>
+                            <div class="col-lg-12">
+                                <center>
+                                    <img src="<c:url value="/resources/images/successCourse/pass.png" />" alt="title"/>
+                                </center>
                             </div>
+
+                        <div class="col-lg-12">
+                            <center>
+                                <a href="<c:url value="/getCertificate?student=${student.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i>Pedir Diploma </a>
+                                <a href="<c:url value="/getCertificate?student=${student.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i>Share </a>
+                            </center>
                         </div>
 
-                    </d:forEach>
-                </d:when>
-            </d:choose>
 
-            <d:choose>
-                <d:when test="${attending != null}">
-                    <center><h2>Estudante</h2></center>
-                    <div class="devider"></div>
-
-                    <d:forEach var="action" items="${attending}">
-
-                        <div style="width:90%; margin: 0 auto;">
-                            <div class="panel">
-                                <div class = "panel-body" >
-                                    <div class="col-lg-1" >
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" class="rotate-box-2 square-icon text-center wow zoomIn" data-wow-delay="0" style="margin-top: 14px; margin-bottom: 0">
-                                            <span class="rotate-box-icon"><i class="fa ${action.getCourse().getIcon()}"></i></span>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Nome Curso: </b>${action.getCourse().getName()}</h4></span>
-                                        <span><h4><b>Area: </b>${action.getCourse().getArea()}</h4></span>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <span><h4><b>Data Inicio: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getStartDate()}"/></h4></span>
-                                        <span><h4><b>Data Fim: </b><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${action.getEndDate()}"/></h4></span>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="progress" style="height: 45px; margin-top: 14px">
-                                            <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="${action.percentageComplete()}" aria-valuemin="0" aria-valuemax="100" style="width:${action.percentageComplete()}% ">
-                                                    ${action.percentageComplete()}% do curso completado
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1">
-                                        <a href="<c:url value="/weblink/inCourse?action=${action.getId()}" />" style="float:right; margin-top: 12px"> <i class="fa fa-arrow-right fa-3x"></i></a>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </d:forEach>
-
-                </d:when>
-            </d:choose>
+                    </d:otherwise>
+                </d:choose>
 
 
 
+            </div>
 
-
+            <button onclick="funcao()"></button>
 
         </section>
     </section>
 </section>
 
+
+<script src="<c:url value="/resources/js/Input/custom-file-input.js"/>" type="text/javascript"></script>
 <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId      : '1236025403088867',
+            xfbml      : true,
+            version    : 'v2.6'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function funcao(){
+        FB.ui(
+                {
+                    method: 'share',
+                    href: 'https://developers.facebook.com/docs/'
+                }, function(response){});
+    }
+</script>
+
+<script>
+
+
+    session.publish('myPublisherDiv', {width: 320, height: 240});
     //knob
-    $(function() {
-        $(".knob").knob({
-            'draw' : function () {
-                $(this.i).val(this.cv + '%')
-            }
-        })
-    });
-
-
+    $(".knob").knob();
 
 </script>
 </body>
 </html>
-

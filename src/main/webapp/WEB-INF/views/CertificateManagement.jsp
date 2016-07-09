@@ -1,4 +1,4 @@
-<%--@elvariable id="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
+d="_csrf" type="org.springframework.security.web.csrf.CsrfAuthenticationStrategy.SaveOnAccessCsrfToken"--%>
 <%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
@@ -277,118 +277,32 @@
 
                         <table class="table table-striped table-advance table-hover">
                             <tbody>
+                            <tr>
+                                <th><i class="icon_key"></i>Id</th>
+                                <th><i class="icon_profile"></i> Nome Curso </th>
+                                <th><i class="icon_calendar"></i> Data da request</th>
+                                <th><i class="icon_mail_alt"></i> Email</th>
+                                <th><i class="icon_pin_alt"></i> Morada</th>
+                                <th><i class="icon_pin_alt"></i> Nota final</th>
+                                <th><i class="icon_pin_alt"></i> Apagar </th>
+                            </tr>
+
+                            <d:forEach var="cert" items="${certList}">
                                 <tr>
-                                    <th>&nbsp;</th>
-                                    <th><i class="icon_key"></i>Id</th>
-                                    <th><i class="icon_profile"></i> Nome Completo </th>
-                                    <th><i class="icon_calendar"></i> Data de Nascimento</th>
-                                    <th><i class="icon_mail_alt"></i> Email</th>
-                                    <th><i class="icon_pin_alt"></i> Morada</th>
-                                    <th><i class="icon_pin_alt"></i> Nacionalidade</th>
+                                    <td>${cert.id}</td>
+                                    <td>${cert.getStudent().getAction().getCourse().getName()}</td>
+                                    <td><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${cert.getCreationDate()}"/></td>
+                                    <td>${cert.getStudent().getUser().getEmail()}</td>
+                                    <td>${cert.getStudent().getUser().getAddress()}</td>
+                                    <td>${cert.getStudent().getFinalGrade()}%</td>
+                                    <td>
+                                        <a href="<c:url value="/deleteCert?certId=${cert.id}" />"  style="color: #901b0b; " >
+                                            <i class="fa fa-times fa-fw"></i>
+                                        </a>
 
+                                    </td>
                                 </tr>
-
-                                <d:forEach var="user" items="${userList}">
-                                    <tr data-toggle="collapse" data-target="#demo${user.id}" class="accordion-toggle" aria-expanded="true" aria-controls="demo${user.id}">
-                                        <td><button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button></td>
-                                        <td>${user.id}</td>
-                                        <td>${user.name}</td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${user.dateBirth}"/></td>
-                                        <td>${user.email}</td>
-                                        <td>${user.address}</td>
-                                        <td>${user.nationality}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="12" style="padding: 0; background-color:rgba(75, 75, 100, 0.14);" >
-                                            <div class="accordian-body collapse" id="demo${user.id}" style="background-color:rgba(0, 0, 0, 0);">
-                                                <table class="table" style="background-color:rgba(0, 0, 0, 0);">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Imagem de Perfil</th>
-                                                        <th>Data de Registo</th>
-                                                        <th>Estado</th>
-                                                        <th>Data da Última Alteração</th>
-                                                        <th>Acções</th>
-                                                        <th>Permissões</th>
-
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td> <img alt="" style= "height:100px; width: 100px; " src = "<c:url value="${pageContext.request.contextPath}/customImgLoader?dir=${user.avatarLocation}" />"></td>
-                                                        <td><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${user.regDate}"/></td>
-                                                        <td>${user.state}</td>
-                                                        <td><fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${user.lastChangeDate}"/></td>
-                                                        <td>
-                                                            <a class="btn btn-danger" href="<c:url value="/admin/ban?user_id=${user.id}" />"><i class="fa fa-trash-o fa-lg"></i> Ban</a>
-                                                            <a class="btn btn-success" href="<c:url value="/admin/unban?user_id=${user.id}" />"><i class="icon_check_alt2"></i> Set Active</a>
-                                                        </td>
-                                                        <td>
-                                                            <table class="table" style="background-color:rgba(0, 0, 0, 0);">
-                                                                <tr>
-                                                                    <td>Administrador</td>
-                                                                    <td>${user.hasPermission('Admin')}</td>
-
-                                                                    <d:choose>
-                                                                        <d:when test="${user.hasPermission('Admin')}">
-                                                                            <td><a class="btn btn-danger" href="<c:url value="/admin/remPermission?user_id=${user.id}&perm=Admin" />"><i class="icon_close_alt2"></i></a></td>
-                                                                        </d:when>
-                                                                        <d:otherwise>
-                                                                            <td><a class="btn btn-primary" href="<c:url value="/admin/addPermission?user_id=${user.id}&perm=Admin" />"><i class="icon_plus_alt2"></i></a></td>
-                                                                        </d:otherwise>
-                                                                    </d:choose>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Coordenador</td>
-                                                                    <td>${user.hasPermission('Coordinator')}</td>
-
-                                                                    <d:choose>
-                                                                        <d:when test="${user.hasPermission('Coordinator')}">
-                                                                            <td><a class="btn btn-danger" href="<c:url value="/admin/remPermission?user_id=${user.id}&perm=Coordinator" />"><i class="icon_close_alt2"></i></a></td>
-                                                                        </d:when>
-                                                                        <d:otherwise>
-                                                                            <td><a class="btn btn-primary" href="<c:url value="/admin/addPermission?user_id=${user.id}&perm=Coordinator" />"><i class="icon_plus_alt2"></i></a></td>
-                                                                        </d:otherwise>
-                                                                    </d:choose>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Professor</td>
-                                                                    <td>${user.hasPermission('Teacher')}</td>
-
-                                                                    <d:choose>
-                                                                        <d:when test="${user.hasPermission('Teacher')}">
-                                                                            <td><a class="btn btn-danger" href="<c:url value="/admin/remPermission?user_id=${user.id}&perm=Teacher" />"><i class="icon_close_alt2"></i></a></td>
-                                                                        </d:when>
-                                                                        <d:otherwise>
-                                                                            <td><a class="btn btn-primary" href="<c:url value="/admin/addPermission?user_id=${user.id}&perm=Teacher" />"><i class="icon_plus_alt2"></i></a></td>
-                                                                        </d:otherwise>
-                                                                    </d:choose>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Utilizador</td>
-                                                                    <td>${user.hasPermission('User')}</td>
-
-                                                                    <d:choose>
-                                                                        <d:when test="${user.hasPermission('User')}">
-                                                                            <td><a class="btn btn-danger" href="<c:url value="/admin/remPermission?user_id=${user.id}&perm=User" />"><i class="icon_close_alt2"></i></a></td>
-                                                                        </d:when>
-                                                                        <d:otherwise>
-                                                                            <td><a class="btn btn-primary" href="<c:url value="/admin/addPermission?user_id=${user.id}&perm=User" />"><i class="icon_plus_alt2"></i></a></td>
-                                                                        </d:otherwise>
-                                                                    </d:choose>
-                                                                </tr>
-
-                                                            </table>
-                                                        </td>
-
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </d:forEach>
+                            </d:forEach>
 
 
                             </tbody>
@@ -417,5 +331,5 @@
 
     </script>
 </section>
-    </body>
+</body>
 </html>

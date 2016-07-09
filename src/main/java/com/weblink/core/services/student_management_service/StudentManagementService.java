@@ -17,4 +17,5 @@ public interface StudentManagementService {
     Student getStudent(Action action, User user);
     List<Action> getAttending(User user);
     List<Action> getAttendingPending(User user);
+    List<Action> getCompleted(User user);
 }
