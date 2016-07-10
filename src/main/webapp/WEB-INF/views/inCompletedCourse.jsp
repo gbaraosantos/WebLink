@@ -11,6 +11,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta property="fb:app_id" content="1236025403088867">
+    <meta property="og:url" content="https://elearning.konkrets.pt/">
+    <meta property="og:title" content="Awesome, Inc. â€“ We're even more awesome.">
+    <meta property="og:description" content="Awesome's mission is to take cool to a whole new level.">
+    <meta property="og:image" content="http://elearning.konkrets.pt/resources/images/successCourse/pass.png">
+    <meta property="og:image:secure_url" content="https://elearning.konkrets.pt/resources/images/successCourse/pass.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="256">
+    <meta property="og:image:height" content="256">
+
     <title>Weblink :: eLearning</title>
 
     <!-- CSS -->

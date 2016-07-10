@@ -8,7 +8,22 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>WebLink -- Konkrets, Lda</title>
 
-		<!-- Mobile Metas -->
+
+        <meta property="fb:app_id" content="1236025403088867">
+        <meta property="og:url" content="https://elearning.konkrets.pt/">
+        <meta property="og:title" content="Awesome, Inc. â€“ We're even more awesome.">
+        <meta property="og:description" content="Awesome's mission is to take cool to a whole new level.">
+        <meta property="og:image" content="http://elearning.konkrets.pt/resources/images/successCourse/pass.png">
+        <meta property="og:image:secure_url" content="https://elearning.konkrets.pt/resources/images/successCourse/pass.png">
+        <meta property="og:image:type" content="image/png">
+        <meta property="og:image:width" content="256">
+        <meta property="og:image:height" content="256">
+
+
+
+
+
+        <!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
         
         <!-- Google Fonts  -->
@@ -30,13 +45,6 @@
 		<!-- Skin CSS -->
         <link href="<c:url value="/resources/css/Homepage/cool-gray.css" />" rel="stylesheet">
 
-        <meta property="og:title" content="Awesome, Inc. â€“ We're even more awesome.">
-        <meta property="og:description" content="Awesome's mission is to take cool to a whole new level.">
-        <meta property="og:image" content="http://elearning.konkrets.pt/resources/images/successCourse/pass.png">
-        <meta property="og:image:secure_url" content="https://elearning.konkrets.pt/resources/images/successCourse/pass.png">
-        <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="1500">
-        <meta property="og:image:height" content="1500">
 
 
 
