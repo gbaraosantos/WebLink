@@ -32,11 +32,11 @@
 
         <meta property="og:title" content="Awesome, Inc. â€“ We're even more awesome.">
         <meta property="og:description" content="Awesome's mission is to take cool to a whole new level.">
-        <meta property="og:image" content="<c:url value="/resources/images/successCourse/pass.png" />">
-        <meta property="og:image:secure_url" content="<c:url value="/resources/images/successCourse/pass.png" />">
+        <meta property="og:image" content="http://elearning.konkrets.pt/resources/images/successCourse/pass.png">
+        <meta property="og:image:secure_url" content="https://elearning.konkrets.pt/resources/images/successCourse/pass.png">
         <meta property="og:image:type" content="image/png">
-        <meta property="og:image:width" content="256">
-        <meta property="og:image:height" content="256">
+        <meta property="og:image:width" content="1500">
+        <meta property="og:image:height" content="1500">
 
 
 
