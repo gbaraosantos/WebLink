@@ -568,21 +568,6 @@
                         </div>
                     </div>
 
-
-
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3 social-login">
-                        	<h3>Ou faça Login com:</h3>
-                        	<div class="social-login-buttons">
-	                        	<a class="btn btn-link-2" href="#">
-	                        		<span class="fa fa-facebook" style="font-style: italic;"></span> Facebook
-	                        	</a>
-	                        	<a class="btn btn-link-2" href="#">
-	                        		<span class="fa fa-google-plus" style="font-style: italic;"></span> Google Plus
-	                        	</a>
-                        	</div>
-                        </div>
-                    </div>
                 </div>
             </div>
             

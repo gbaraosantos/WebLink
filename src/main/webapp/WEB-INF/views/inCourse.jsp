@@ -268,7 +268,7 @@
             </div>
 
 
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="margin-bottom: 20px">
                 <div class="col-lg-4"></div>
                 <div class="col-lg-1">
                     <a href="<c:url value="/weblink/classroom?mpa=${mpa.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i> Sala de Aula</a>
@@ -296,19 +296,12 @@
                         <div class="panel">
                             <div class="panel-heading" style="height: 45px; padding: 0; margin-top: 0">
                                 <ul class="nav nav-tabs nav-justified" style="margin: 0">
-                                    <li class="active"><a href="#Informacao" aria-controls="Informacao" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Informacao</b> </h5></a></li>
                                     <li><a href="#Materiais" aria-controls="Materiais" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Materiais</b></h5></a></li>
                                     <li><a href="#Avaliacoes" aria-controls="Avaliacoes" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Avaliacoes</b> </h5></a></li>
-                                    <li><a href="#Social" aria-controls="Social" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Social</b> </h5></a></li>
-                                </ul>
                             </div>
 
                             <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="Informacao">
-                                    <div class="panel-body">
-                                        aslhdaikshd
-                                    </div>
-                                </div>
+
 
                                 <div role="tabpanel" class="tab-pane" id="Materiais">
                                     <div class="panel-body" style="padding: 0">
@@ -482,35 +475,6 @@
 
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="Avaliacoes">
-                                </div>
-
-
-                                <div role="tabpanel" class="tab-pane" id="Social">
-                                    <div class="panel-body">
-                                        <div class="col-lg-12">
-                                            <div class="col-lg-12">
-                                                <div class="col-lg-12" style="height: 350px; overflow-y: auto; border: solid 3px #ababab; background-color: #f4f4f4; margin-bottom: 5px" >
-                                                    <div id='myPublisherDiv'></div>
-                                                    <div id='subscribersDiv'></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <form>
-                                                    <div class="col-lg-11">
-                                                        <div class="form-group">
-                                                            <div class="col-lg-12">
-                                                                <input type="text" class="form-control" name="message" id="message" autocomplete="off" placeholder="Write your message here!">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-1">
-                                                        <button class="btn btn-info">Send!</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
