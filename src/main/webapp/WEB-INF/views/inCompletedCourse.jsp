@@ -302,7 +302,7 @@
                         <div class="col-lg-12">
                             <center>
                                 <a href="<c:url value="/getCertificate?student=${student.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i>Pedir Diploma </a>
-                                <a href="<c:url value="/getCertificate?student=${student.getId()}" />" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i>Share </a>
+                                <a onclick="funcao()" class="btn btn-info btn-large"><i class = "fa fa-graduation-cap"></i>Share the platform </a>
                             </center>
                         </div>
 
@@ -343,7 +343,7 @@
         FB.ui(
                 {
                     method: 'share',
-                    href: 'https://developers.facebook.com/docs/'
+                    href: 'https://elearning.konkrets.pt'
                 }, function(response){});
     }
 </script>

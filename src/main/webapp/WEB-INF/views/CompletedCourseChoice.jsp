@@ -294,6 +294,9 @@
 </section>
 
 <script>
+
+
+
     //knob
     $(function() {
         $(".knob").knob({
