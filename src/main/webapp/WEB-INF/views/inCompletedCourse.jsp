@@ -14,7 +14,7 @@
     <meta property="fb:app_id" content="1236025403088867">
     <meta property="og:url" content="https://elearning.konkrets.pt/">
     <meta property="og:title" content="Melhor plataforma de elearning do mercado.">
-    <meta property="og:description" content="Plataforma de elearning com os melhores precos">
+    <meta property="og:description" content="Plataforma de elearning com os melhores precos. Vem ver.">
     <meta property="og:image" content="http://elearning.konkrets.pt/resources/images/successCourse/pass.png">
     <meta property="og:image:secure_url" content="https://elearning.konkrets.pt/resources/images/successCourse/pass.png">
     <meta property="og:image:type" content="image/png">
