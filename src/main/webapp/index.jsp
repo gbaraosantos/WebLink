@@ -30,6 +30,8 @@
 		<!-- Skin CSS -->
         <link href="<c:url value="/resources/css/Homepage/cool-gray.css" />" rel="stylesheet">
 
+        <meta property="og:image" content="<c:url value="/resources/images/Logo/logo.png" />" />
+
 
 
 
