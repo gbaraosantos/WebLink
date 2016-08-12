@@ -27,6 +27,9 @@ public class ModulePerAction {
     @JoinColumn(nullable = false, name = "module")
     private Module module;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "modulePerAction",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Evaluation> evaluationList = new HashSet<>();
+
     @ManyToOne(targetEntity = Action.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "action")
     private Action action;
@@ -40,6 +43,12 @@ public class ModulePerAction {
     public Module getModule() { return module; }
     public Action getAction() { return action; }
     public Set<Teacher> getTeacherList() { return teacherList; }
+
+    public Set<Evaluation> getEvaluationList() {
+        return evaluationList;
+    }
+
+
 
     public ModulePerAction setStartDate(Date startDate) { this.startDate = startDate; return this; }
     public ModulePerAction setEndDate(Date endDate) { this.endDate = endDate; return this; }

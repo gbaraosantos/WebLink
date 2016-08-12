@@ -9,6 +9,7 @@ import com.weblink.core.services.course_management_service.ModuleManagementServi
 import com.weblink.core.services.logger_service.LoggerService;
 import com.weblink.core.services.messaging_service.MessageService;
 import com.weblink.core.services.module_action_management_service.ModuleActionManagementService;
+import com.weblink.core.services.student_management_service.StudentMPAService;
 import com.weblink.core.services.student_management_service.StudentManagementService;
 import com.weblink.core.services.teacher_management_service.TeacherManagementService;
 import com.weblink.core.services.user_service.FriendService;
@@ -42,6 +43,7 @@ public class CourseDetailsController {
     @Autowired  StudentManagementService studentManagementService;
     @Autowired  MessageService messageService;
     @Autowired  FriendService friendService;
+    @Autowired  StudentMPAService studentMPAService;
 
     private volatile User user;
 
@@ -186,7 +188,7 @@ public class CourseDetailsController {
 
     }
 
-    @RequestMapping(value = "/weblink/addStudent", method = RequestMethod.POST, params = {"action"})
+    @RequestMapping(value = "/weblink/addStudent", method = RequestMethod.GET, params = {"action"})
     public String addStudent(@RequestParam("action") int actionId, Model model) {
         prepareModel(model, actionId);
         Action a = actionManagementService.getAction(actionId);
@@ -202,6 +204,17 @@ public class CourseDetailsController {
                 .setUser(user);
 
         studentManagementService.addStudent(temp);
+
+        for (ModulePerAction mpa: a.getActionList()){
+            studentMPAService.createStudentMPA(
+                    new StudentMPA()
+                                .setStudent(studentManagementService.getStudent(a, user))
+                                .setModuleGrade(0)
+                                .setModulePerAction(mpa)
+
+
+            );
+        }
 
 
         return "CourseDetails";

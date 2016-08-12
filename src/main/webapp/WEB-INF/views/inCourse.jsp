@@ -19,6 +19,8 @@
     <link href="<c:url value="/resources/css/Icons/elegant-icons-style.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/fontAwesome/Fontcss/font-awesome.min.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/style.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/callendar/fullcalendar.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/callendar/bootstrap-fullcalendar.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/main/style-responsive.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/course_icons/icont2.css" />" rel="stylesheet">
     <link href="<c:url value="/resources/css/Input/component.css" />" rel="stylesheet">
@@ -38,6 +40,10 @@
     <script src="<c:url value="/resources/js/course/inCourse.js" />" type="text/javascript"></script>
     <script src="<c:url value="/resources/js/social/friendRequest.js" />" type="text/javascript"></script>
 
+    <script src="<c:url value="/resources/js/callendar/fullcalendar.js" />" type="text/javascript"></script>
+    <script src="<c:url value="/resources/js/callendar/fullcalendar.min.js" />" type="text/javascript"></script>
+
+
     <script src="<c:url value="/resources/js/SweetAlerts/sweetalert-dev.js" />" type="text/javascript"></script>
     <link href="<c:url value="/resources/css/SweetAlerts/sweetalert.css" />" rel="stylesheet">
 
@@ -49,6 +55,69 @@
 </head>
 
 <body>
+
+
+<div aria-hidden="true" aria-labelledby="myModelLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+    <div class="modal-dialog" style = "width: 800px; margin:0 -400px; height: auto; position: absolute; overflow: visible;" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">Adicao de avaliacao</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="panel-body bio-graph-info">
+                    <form class="form-horizontal" role="form" action="<c:url value="/teacher/addevaluation?actionId=${action.getId()}"/>" method="post">
+
+                        <div class="form-group">
+                            <div class = "col-lg-12">
+                                <div class="col-lg-6" style="padding-left: 0">
+                                    <label class="col-lg-5 control-label" style="text-align: left">Data: </label>
+                                    <div class="col-lg-7">
+                                        <input type="date" class="form-control" name="date" id="date" autocomplete="off" placeholder="mm/dd/yyyy">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6" style="padding-left: 0">
+                                    <label class="col-lg-5 control-label" style="text-align: left" >Tipo:</label>
+                                    <div class="col-lg-7">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="class" value="1" checked>
+                                                Class
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="optionsRadios" id="notclass" value="0">
+                                                Quiz
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class = "col-lg-12">
+                                <div class="col-lg-6" style="padding-left: 0">
+                                    <label class="col-lg-5 control-label" style="text-align: left">Hora de inicio: </label>
+                                    <div class="col-lg-7">
+                                        <input type="time" class="form-control" name="time" id="time" autocomplete="off" placeholder="hh/mm">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <center>
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <button type="submit" onclick="return verify_newCourse();" class="btn btn-primary">Save</button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section id="container" class="">
     <header class="header dark-bg">
         <div class="toggle-nav">
@@ -257,6 +326,11 @@
                 </div>
             </div>
 
+            <div class="col-lg-12">
+                <h3>Proxima aula: ${nClass}</h3>
+
+            </div>
+
 
             <div class="col-lg-12" style="margin-bottom: 20px">
                 <div class="col-lg-4"></div>
@@ -273,9 +347,6 @@
 
             </div>
 
-
-
-
             <div style="height: auto; text-align: center; margin-top: 30px">
                 <h3 style="color: #d16826"><b>${someError}</b></h3>
             </div>
@@ -288,6 +359,7 @@
                                 <ul class="nav nav-tabs nav-justified" style="margin: 0">
                                     <li><a href="#Materiais" aria-controls="Materiais" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Materiais</b></h5></a></li>
                                     <li><a href="#Avaliacoes" aria-controls="Avaliacoes" role="tab" data-toggle="tab"><h5 style="color: #3870bc" class="modal-title"><b>Avaliacoes</b> </h5></a></li>
+                                </ul>
                             </div>
 
                             <div class="tab-content">
@@ -465,17 +537,77 @@
 
                                 </div>
                                 <div role="tabpanel" class="tab-pane" id="Avaliacoes">
+                                    <div class="panel-body" style="padding: 0">
+
+
+
+
+                                        <center>
+                                            <d:choose>
+                                                <d:when test="${(running == 'true') && (isTeacher == 'true')}">
+                                                    <a data-toggle="modal" href="<c:url value="#myModal" />" style="text-align: center; color: #384dd1; margin-right: 20px; ">
+                                                        <i style="color: green;" class="fa fa-plus-circle fa-4x"></i>
+                                                    </a>
+                                                </d:when>
+                                            </d:choose>
+                                        </center>
+
+                                        <d:set var="now" value="<%=new java.util.Date()%>" />
+
+
+                                        <d:forEach var="eval" items="${evals}">
+
+                                            <d:choose>
+                                                <d:when test="${eval.isEvaluated() == 'true'}">
+                                                    <div class="col-lg-11" style=" margin: 5px;">
+                                                        <div class="col-lg-2">
+                                                            <h4><b>Id: </b> ${eval.getId()}</h4>
+                                                        </div>
+
+                                                        <div class="col-lg-3">
+                                                            <h4><b>Data de Criacao: </b> <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${eval.getCreationDate()}"/></h4>
+                                                        </div>
+
+                                                        <div class="col-lg-4">
+                                                            <h4><b>Data de Preenchimento: </b> <fmt:formatDate pattern="yyyy-MM-dd" type="DATE" value="${eval.getDueDate()}"/></h4>
+                                                        </div>
+                                                        <d:choose>
+                                                            <d:when test="${(isTeacher == 'true')}">
+                                                                <div class="col-lg-1" style="margin-top: 5px">
+                                                                    <a style="color: #91280c" onclick="return deleteEvaluation(${eval.getId()},${mpa.getAction().getId()})"><i class="fa fa-times-circle-o fa-3x"></i></a>
+                                                                </div>
+
+                                                                <div class="col-lg-2" style="margin-top: 5px">
+                                                                    <a style="color: #214e91" href="<c:url value="/weblink/inEval?evalId=${eval.getId()}" />"><i class="fa fa-arrow-circle-right fa-3x"></i></a>
+                                                                </div>
+                                                            </d:when>
+                                                            <d:when test="${eval.getDueDate() <= now}">
+                                                                <div class="col-lg-2" style="margin-top: 5px">
+                                                                    <a style="color: #214e91" href="<c:url value="/weblink/inEval?evalId=${eval.getId()}" />"><i class="fa fa-arrow-circle-right fa-3x"></i></a>
+                                                                </div>
+                                                            </d:when>
+                                                        </d:choose>
+
+
+
+                                                    </div>
+                                                </d:when>
+                                            </d:choose>
+                                        </d:forEach>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </d:when>
             </d:choose>
+
+
         </section>
     </section>
 </section>
 
-
+<script src="<c:url value="/resources/js/callendar/calendar-custom.js" />" type="text/javascript"></script>
 <script src="<c:url value="/resources/js/Input/custom-file-input.js"/>" type="text/javascript"></script>
 <script>
 

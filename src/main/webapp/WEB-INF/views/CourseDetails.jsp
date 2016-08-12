@@ -487,14 +487,7 @@
 
 
 
-                        <form name="_xclick" action="https://www.paypal.com/uk/cgi-bin/webscr" method="post">
-                            <input type="hidden" name="cmd" value="_xclick">
-                            <input type="hidden" name="business" value="elearning.weblink@gmail.com">
-                            <input type="hidden" name="currency_code" value="EUR">
-                            <input type="hidden" name="item_name" value="${action.getCourse().getName()}">
-                            <input type="hidden" name="amount" value="${action.getFinalPrice()}">
-                            <input type="image" src="http://www.paypal.com/en_GB/i/btn/x-click-but01.gif" border="0" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
-                        </form>
+                        <a  class="btn btn-primary" href="<c:url value="/weblink/addStudent?action=${action.getId()}"/>"></a>
 
 
                     </div>

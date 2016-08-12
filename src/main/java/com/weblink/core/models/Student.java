@@ -41,14 +41,13 @@ public class Student {
     public int getId() { return id; }
     public User getUser() { return user; }
     public int getFinalGrade() {
-        return finalGrade;
-        /*finalGrade = 0;
+        float finalGrade = 0;
 
         for(StudentMPA s: studentMPAs){
-            finalGrade += s.getModuleGrade() * (s.getModulePerAction().getModule().getPercentage() / 100);
+            finalGrade += s.getModuleGrade() * ((float)s.getModulePerAction().getModule().getPercentage() / 100);
         }
 
-        return finalGrade;*/
+        return (int) Math.ceil((double) finalGrade);
     }
 
     public Action getAction() { return action; }

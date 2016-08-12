@@ -1,3 +1,40 @@
+function deleteEvaluation(id, actionId){
+    swal({
+            title: "Remover Avaliacao",
+            text: "Tem a certeza que quer remover esta avaliacao?",
+            confirmButtonColor: "#DD6B55",
+            type: "warning",
+            confirmButtonText: "Sim, remover!",
+            cancelButtonText: "Não, cancelar!",
+            showCancelButton: true,
+            closeOnConfirm: false
+        },
+        function(){
+            $.ajax({
+                type : "GET",
+                url : "/teacher/deleteEval?evalId=" + id + "&&actionId=" + actionId,
+                dataType: "text",
+
+                error:function(){
+                    alert("Ajax Error Ocurred");
+                },
+
+                success:function(data) {
+                }
+
+            });
+
+            swal({
+                title: "Sucesso",
+                text: "Avaliacao Apagada",
+                type: "success"
+
+            },function(isConfirm){
+                if (isConfirm) document.location.reload();
+            })
+        });
+}
+
 function deleteMaterial(id, actionId){
     swal({
             title: "Remover Material",

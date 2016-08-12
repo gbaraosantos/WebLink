@@ -57,3 +57,7 @@ INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,3,0,60,Date(no
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,4,0,60,Date(now()));
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (5,1,0,60,Date(now()));
 INSERT INTO Student(action, user,finalGrade,price,date) VALUES (6,1,72,60,Date(now()));
+
+INSERT INTO StudentMPA(moduleGrade, modulePerAction, student) VALUES (0,4,2);
+INSERT INTO StudentMPA(moduleGrade, modulePerAction, student) VALUES (0,5,2);
+INSERT INTO StudentMPA(moduleGrade, modulePerAction, student) VALUES (0,6,2);
