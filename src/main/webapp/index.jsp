@@ -112,19 +112,13 @@
 								<h1>Plataforma n.º 1 de ensino do mercado</h1>
 								<p>Veja os nossos cursos</p>
                                 <div class="extra-space-l"></div>
-								<a class="btn btn-blank" href="https://creativemarket.com/Themetorium" target="_blank" role="button">Aceda!</a>
-							</div>
-							<div class="item">
-								<h1> Página de Login </h1>
-								<p>Para acesso a todas as funcionalidades registe-se</p>
-								<div class="extra-space-l"></div>
 								<a class="btn btn-blank" href="<c:url value="/loginMenu" />" target="_blank" role="button">Aceda!</a>
 							</div>
 							<div class="item">
 								<h1> Konkrets </h1>
 								<p>Veja o nosso site e que mais podemos oferecer</p>
 								<div class="extra-space-l"></div>
-								<a class="btn btn-blank" href="http://www.konkrets.com/" target="_blank" role="button">Aceda!</a>
+								<a class="btn btn-blank" href="<c:url value="www.konkrets.com" />" target="_blank" role="button">Aceda!</a>
 							</div>
 						</div>
 
